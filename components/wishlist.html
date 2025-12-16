@@ -1,0 +1,90 @@
+<!-- ================= WISHLIST POPUP ================= -->
+<div id="wishlistOverlay" class="fixed inset-0 z-[999] hidden flex items-center justify-center">
+
+    <!-- BACKDROP -->
+    <div class="absolute inset-0 bg-black/40" onclick="closeWishlist()"></div>
+
+    <!-- MODAL -->
+    <div class="relative bg-white w-[95%] max-w-6xl max-h-[90vh] rounded-2xl shadow-xl flex flex-col overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-6 py-4 border-b">
+            <div>
+                <h2 class="text-xl font-semibold">Wishlist</h2>
+                <p class="text-sm text-gray-500">You have 3 item in your wishlist</p>
+            </div>
+
+            <button onclick="closeWishlist()" class="text-2xl text-gray-500 hover:text-black">
+                ✕
+            </button>
+        </div>
+
+        <!-- BODY -->
+        <div class="flex-1 overflow-y-auto p-6">
+
+            <!-- GRID -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- WISHLIST CARD -->
+                <div class="border rounded-xl p-4 relative">
+                    <button class="absolute top-3 right-3 text-orange-700">♥</button>
+
+                    <img src="https://placehold.co/120x120" class="mx-auto mb-3" />
+
+                    <h4 class="font-medium">Malai Thean</h4>
+
+                    <div class="text-sm mt-1">
+                        <span class="font-semibold">Rs : 325.00</span>
+                        <span class="line-through text-gray-400 ml-2">Rs : 450.00</span>
+                    </div>
+
+                    <p class="text-xs text-gray-500 mt-1">1/2 Kg</p>
+
+                    <!-- QTY -->
+                    <div class="flex items-center gap-2 mt-3">
+                        <button class="px-2 py-1 bg-gray-200 rounded">−</button>
+                        <span class="w-6 text-center">1</span>
+                        <button class="px-2 py-1 bg-black text-white rounded">+</button>
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div class="flex gap-2 mt-4">
+                        <button class="flex-1 border border-orange-700 text-orange-700 py-2 rounded-lg text-sm">
+                            Add to cart
+                        </button>
+
+                        <button class="flex-1 bg-orange-700 text-white py-2 rounded-lg text-sm">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DUPLICATE CARD (sample) -->
+                <div class="border rounded-xl p-4 relative">
+                    <button class="absolute top-3 right-3 text-orange-700">♥</button>
+                    <img src="https://placehold.co/120x120" class="mx-auto mb-3" />
+                    <h4 class="font-medium">Malai Thean</h4>
+                    <div class="text-sm mt-1">
+                        <span class="font-semibold">Rs : 325.00</span>
+                        <span class="line-through text-gray-400 ml-2">Rs : 450.00</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">1/2 Kg</p>
+                    <div class="flex items-center gap-2 mt-3">
+                        <button class="px-2 py-1 bg-gray-200 rounded">−</button>
+                        <span class="w-6 text-center">1</span>
+                        <button class="px-2 py-1 bg-black text-white rounded">+</button>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button class="flex-1 border border-orange-700 text-orange-700 py-2 rounded-lg text-sm">
+                            Add to cart
+                        </button>
+                        <button class="flex-1 bg-orange-700 text-white py-2 rounded-lg text-sm">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

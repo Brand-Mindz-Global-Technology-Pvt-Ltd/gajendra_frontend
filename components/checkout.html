@@ -1,0 +1,164 @@
+<!-- ================= CHECKOUT POPUP ================= -->
+<div id="checkoutOverlay" class="fixed inset-0 z-[999] hidden flex items-center justify-center p-4">
+
+    <!-- BACKDROP -->
+    <div class="absolute inset-0 bg-black/40" onclick="closeCheckout()"></div>
+
+    <!-- MODAL -->
+    <div
+        class="relative bg-white w-full max-w-6xl max-h-[90vh] rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+
+        <!-- CLOSE BUTTON (Absolute) -->
+        <button onclick="closeCheckout()" class="absolute top-4 right-4 z-10 text-xl font-bold hover:text-red-500">
+            ✕
+        </button>
+
+        <!-- LEFT COLUMN (Scrollable) -->
+        <div class="w-full md:w-[60%] p-8 overflow-y-auto max-h-[90vh]">
+
+            <!-- SUB HEADER -->
+            <h2 class="text-xl font-bold mb-6">Product Details</h2>
+
+            <!-- PRODUCT CARD -->
+            <div class="border rounded-2xl p-4 shadow-sm mb-8 flex items-start gap-4 bg-white">
+                <img src="https://placehold.co/80x80" class="w-20 h-20 rounded-md object-cover" />
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-bold text-lg text-orange-900">Murukai Honey</h3>
+                        <span class="text-xs text-slate-500 bg-gray-100 px-2 py-1 rounded">Qty: 1</span>
+                    </div>
+                    <div class="text-yellow-500 text-sm my-1">★★★★★</div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="font-bold text-orange-900">Rs : 325.00</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500">Quality</span>
+                            <div class="flex items-center border rounded">
+                                <button class="px-2 py-0.5 text-gray-500">-</button>
+                                <span class="text-xs px-1">1</span>
+                                <button class="px-2 py-0.5 text-white bg-black rounded-r">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DELIVERY ADDRESS FORM -->
+            <h2 class="text-lg font-bold mb-4">Delivery Address</h2>
+            <div class="space-y-5 mb-8">
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <span class="text-gray-400 mr-3">👤</span>
+                    <input type="text" placeholder="Name" class="w-full outline-none text-sm" />
+                </div>
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <span class="text-gray-400 mr-3">📞</span>
+                    <input type="text" placeholder="Contact Number" class="w-full outline-none text-sm" />
+                </div>
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <span class="text-gray-400 mr-3">🏠</span>
+                    <input type="text" placeholder="House no / Building no" class="w-full outline-none text-sm" />
+                </div>
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <span class="text-gray-400 mr-3">🛣️</span>
+                    <input type="text" placeholder="Road name / Area / Colony" class="w-full outline-none text-sm" />
+                </div>
+                <div class="flex items-center border-b border-gray-300 py-2">
+                    <span class="text-gray-400 mr-3">📌</span>
+                    <input type="text" placeholder="Pincode" class="w-full outline-none text-sm" />
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex-1 flex items-center border-b border-gray-300 py-2">
+                        <span class="text-gray-400 mr-3">🏙️</span>
+                        <input type="text" placeholder="City" class="w-full outline-none text-sm" />
+                    </div>
+                    <div class="flex-1 flex items-center border-b border-gray-300 py-2">
+                        <span class="text-gray-400 mr-3">🏢</span>
+                        <input type="text" placeholder="State" class="w-full outline-none text-sm" />
+                    </div>
+                </div>
+            </div>
+
+            <button class="w-full bg-[#A0522D] text-white py-3 rounded-md font-bold hover:bg-[#8B4513] transition mb-8">
+                Save
+            </button>
+
+            <!-- PAYMENT METHOD SELECTION -->
+            <h2 class="text-lg font-bold mb-4">Select Payment Method</h2>
+            <div class="space-y-4">
+                <!-- Option 1 -->
+                <label
+                    class="flex items-center justify-between p-4 bg-[#3B82F6] text-white rounded-xl cursor-pointer shadow-md">
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-bold">Cash on Delivery</span>
+                        <span class="text-2xl">🚛</span>
+                    </div>
+                    <div class="bg-white text-blue-500 rounded-full p-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7">
+                            </path>
+                        </svg>
+                    </div>
+                </label>
+
+                <!-- Option 2 -->
+                <label class="flex items-center justify-between p-4 border rounded-xl cursor-pointer hover:bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-bold">Online Payment</span>
+                        <div class="flex gap-2 text-xs">
+                            <span class="bg-gray-200 px-1 rounded">Paytm</span>
+                            <span class="bg-gray-200 px-1 rounded">GPay</span>
+                        </div>
+                    </div>
+                    <div class="w-6 h-6 border-2 border-gray-300 rounded-full"></div>
+                </label>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN (Sticky/Fixed Visual) -->
+        <div class="w-full md:w-[40%] bg-gray-50 p-8 pt-16 border-l border-gray-200 overflow-y-auto max-h-[90vh]">
+
+            <!-- ADDRESS SUMMARY -->
+            <h3 class="font-bold mb-3">Delivery Address</h3>
+            <div class="bg-white p-5 rounded-xl shadow-sm mb-6 text-sm relative">
+                <div class="flex items-center gap-2 font-bold mb-2">
+                    <span>📅</span> Maheshwari
+                </div>
+                <p class="text-gray-500 leading-relaxed mb-2">
+                    Sri Vignesh cooler No,1 shopping complex Sivan Kovil eastcar street, Perumal Kovil back side,
+                </p>
+                <p class="text-gray-500 mb-2">
+                    Thirunelveli, Tamil Nadu, 626203,
+                </p>
+                <p class="font-bold">7339523241.</p>
+                <button class="absolute bottom-4 right-4 bg-[#A0522D] text-white text-[10px] px-2 py-1 rounded">
+                    CHANGE
+                </button>
+            </div>
+
+            <!-- PAYMENT METHOD SUMMARY -->
+            <h3 class="font-bold mb-3">Payment Method</h3>
+            <div class="bg-white p-4 rounded-xl shadow-sm border mb-6 flex justify-between items-center text-sm">
+                <span class="font-bold">Cash on Delivery</span>
+                <button class="bg-[#A0522D] text-white text-[10px] px-2 py-1 rounded">EDIT</button>
+            </div>
+
+            <!-- PRODUCT DETAILS SUMMARY -->
+            <h3 class="font-bold mb-3">Product Details (1 Items)</h3>
+            <div class="flex justify-between text-sm text-gray-500 mb-2">
+                <span>Total Product Price</span>
+                <span>Rs: 325.00</span>
+            </div>
+            <div class="flex justify-between font-bold text-lg mb-8">
+                <span>Order Price</span>
+                <span>Rs: 325.00</span>
+            </div>
+
+            <button onclick="closeCheckout(); openOrderConfirmed()"
+                class="w-full bg-[#A0522D] text-white py-3 rounded-md font-bold hover:bg-[#8B4513] transition shadow-lg">
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<!-- ================= ORDER CONFIRMED POPUP ================= -->
+<div id="orderConfirmedOverlay" class="fixed inset-0 z-[999] hidden flex items-center justify-center p-4">
+
+    <!-- BACKDROP -->
+    <div class="absolute inset-0 bg-black/40" onclick="closeOrderConfirmed()"></div>
+
+    <!-- MODAL -->
+    <div
+        class="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl p-8 text-center flex flex-col items-center animate-fade-in-up">
+
+        <!-- SUCCESS ICON inside a circle -->
+        <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+            <svg class="w-10 h-10 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+
+        <!-- TEXT -->
+        <h2 class="text-xl font-bold text-gray-900 mb-2">ORDER CONFIRMED</h2>
+        <p class="text-gray-500 text-sm mb-8">Thank you for Shopping</p>
+
+        <!-- BUTTON -->
+        <button onclick="closeOrderConfirmed()"
+            class="w-full bg-[#A0522D] hover:bg-[#8B4513] text-white font-semibold py-3 rounded-lg transition-colors shadow-lg">
+            Back To Home
+        </button>
+
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<!-- CART MODAL OVERLAY -->
+<div id="cartOverlay" class="fixed inset-0 z-[999] hidden flex items-center justify-center">
+
+    <!-- BACKDROP -->
+    <div class="absolute inset-0 bg-black/40" onclick="closeCart()"></div>
+
+    <!-- CART MODAL -->
+    <div class="relative bg-white w-[95%] max-w-5xl
+           max-h-[90vh] rounded-2xl shadow-xl
+           flex flex-col overflow-hidden">
+
+        <!-- HEADER -->
+        <div class="flex items-center justify-between px-6 py-4 border-b">
+            <div>
+                <h2 class="text-xl font-semibold">Shopping Cart</h2>
+                <p class="text-sm text-gray-500">You have 3 item in your cart</p>
+            </div>
+
+            <!-- CLOSE BUTTON -->
+            <button onclick="closeCart()" class="text-2xl text-gray-500 hover:text-black">
+                ✕
+            </button>
+        </div>
+
+        <!-- BODY -->
+        <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+
+            <!-- LEFT: CART ITEMS -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-4">
+
+                <!-- ITEM -->
+                <div class="flex items-center gap-4 p-4 border rounded-xl">
+                    <img src="https://placehold.co/80x80" class="w-20 h-20 rounded" />
+
+                    <div class="flex-1">
+                        <h4 class="font-medium">Murukai Honey</h4>
+                        <p class="text-sm text-gray-500">Rs : 325.00</p>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button class="px-2 py-1 bg-gray-200 rounded">−</button>
+                        <span class="w-6 text-center">1</span>
+                        <button class="px-2 py-1 bg-black text-white rounded">+</button>
+                    </div>
+
+                    <button class="text-orange-700 ml-2">🗑️</button>
+                </div>
+
+                <!-- DUPLICATE FOR SCROLL -->
+                <div class="flex items-center gap-4 p-4 border rounded-xl">
+                    <img src="https://placehold.co/80x80" class="w-20 h-20 rounded" />
+                    <div class="flex-1">
+                        <h4 class="font-medium">Murukai Honey</h4>
+                        <p class="text-sm text-gray-500">Rs : 325.00</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="px-2 py-1 bg-gray-200 rounded">−</button>
+                        <span class="w-6 text-center">1</span>
+                        <button class="px-2 py-1 bg-black text-white rounded">+</button>
+                    </div>
+                    <button class="text-orange-700 ml-2">🗑️</button>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: ORDER SUMMARY -->
+            <div class="w-full md:w-80 border-t md:border-t-0 md:border-l p-6 bg-white">
+                <h3 class="font-semibold mb-4">Order Summary</h3>
+
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between">
+                        <span>Order</span>
+                        <span>Rs : 1000</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Delivery</span>
+                        <span>Rs : 60</span>
+                    </div>
+                    <hr />
+                    <div class="flex justify-between font-semibold">
+                        <span>Total</span>
+                        <span>Rs : 1060</span>
+                    </div>
+                </div>
+
+                <button onclick="closeCart(); openCheckout()" class="mt-6 w-full bg-orange-700 hover:bg-orange-800
+                 text-white py-3 rounded-lg">
+                    Check Out
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
