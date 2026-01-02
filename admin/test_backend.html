@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Connection Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .status-badge {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+        }
+        .test-result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        .test-success {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        .test-error {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        .test-info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="mb-4">🔧 Backend Connection Test</h1>
+        
+        <div id="testResults">
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Testing...</span>
+                </div>
+                <p class="mt-3">Testing backend connection...</p>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <button class="btn btn-primary" onclick="runTest()">
+                <i class="bi bi-arrow-clockwise"></i> Run Test Again
+            </button>
+            <a href="register.html" class="btn btn-success">
+                Go to Registration
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function runTest() {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = `
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Testing...</span>
+                    </div>
+                    <p class="mt-3">Testing backend connection...</p>
+                </div>
+            `;
+
+            const tests = [
+                {
+                    name: 'Backend Connection Test',
+                    url: 'https://gajendhrademo.brandmindz.com/routes/auth/admin/test_connection.php'
+                },
+                {
+                    name: 'Registration Endpoint Test',
+                    url: 'https://gajendhrademo.brandmindz.com/routes/auth/admin/register_admin.php',
+                    method: 'GET' // Will return method error but confirms endpoint is accessible
+                }
+            ];
+
+            let html = '<h3 class="mb-3">Test Results:</h3>';
+
+            for (const test of tests) {
+                try {
+                    const response = await fetch(test.url, {
+                        method: test.method || 'GET'
+                    });
+                    
+                    const text = await response.text();
+                    let data;
+                    
+                    try {
+                        data = JSON.parse(text);
+                    } catch (e) {
+                        data = { raw: text };
+                    }
+
+                    if (response.ok || response.status === 200) {
+                        html += `
+                            <div class="test-result test-success">
+                                <h5>✅ ${test.name}</h5>
+                                <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                                <details>
+                                    <summary>View Response</summary>
+                                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                                </details>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="test-result test-error">
+                                <h5>⚠️ ${test.name}</h5>
+                                <p><strong>Status:</strong> ${response.status} ${response.statusText}</p>
+                                <details>
+                                    <summary>View Response</summary>
+                                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                                </details>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    html += `
+                        <div class="test-result test-error">
+                            <h5>❌ ${test.name}</h5>
+                            <p><strong>Error:</strong> ${error.message}</p>
+                            <div class="alert alert-danger mt-2">
+                                <strong>Possible Issues:</strong>
+                                <ul class="mb-0 mt-2">
+                                    <li>XAMPP/WAMP is not running</li>
+                                    <li>Apache service is not started</li>
+                                    <li>MySQL service is not started</li>
+                                    <li>Backend path is incorrect</li>
+                                    <li>CORS is blocking the request</li>
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Add system info
+            html += `
+                <div class="test-result test-info">
+                    <h5>ℹ️ System Information</h5>
+                    <p><strong>Current URL:</strong> ${window.location.href}</p>
+                    <p><strong>Origin:</strong> ${window.location.origin}</p>
+                    <p><strong>User Agent:</strong> ${navigator.userAgent}</p>
+                </div>
+            `;
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Run test on page load
+        document.addEventListener('DOMContentLoaded', runTest);
+    </script>
+</body>
+</html>

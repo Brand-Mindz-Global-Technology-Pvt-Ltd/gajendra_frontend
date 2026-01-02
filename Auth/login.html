@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+          },
+          colors: {
+            brownDark: '#642E13',
+            pageBg: '#F8E2D0',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="font-poppins bg-pageBg text-gray-800">
+
+  <header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-14 md:h-16">
+
+        <!-- Logo -->
+        <a href="../Home/Home.html" class="flex-shrink-0">
+          <img src="../Assets/Logo/logo.png" onerror="this.src='https://placehold.co/50x50/FDF5ED/5D3420?text=GV'"
+            alt="Gajendra Vilas" class="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-white/20">
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-6 lg:gap-8">
+          <a href="../Home/Home.html"
+            class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
+            HOME
+          </a>
+
+          <!-- Sweet Menu -->
+          <div class="relative group">
+            <a href="../Shop/Shop.html?category=sweet"
+              class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors py-4 flex items-center gap-1 cursor-pointer">
+              SWEET
+              <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+            <!-- Mega Menu -->
+            <div
+              class="absolute top-full left-1/2 -translate-x-1/2 w-[600px] lg:w-[800px] bg-white rounded-lg shadow-xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-0 border-t-4 border-[#C4703C]">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-poppins font-bold text-[#3E1C00] text-lg mb-4 border-b border-[#E8D1BB] pb-2">Top
+                    Sweets</h3>
+                  <ul class="space-y-2">
+                    <li><a href="../Shop/Shop.html?search=Laddu"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Laddu</a></li>
+                    <li><a href="../Shop/Shop.html?search=Mysore Pak"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Mysore Pak</a></li>
+                    <li><a href="../Shop/Shop.html?search=Halwa"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Halwa</a></li>
+                    <li><a href="../Shop/Shop.html?search=Jilabi"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Jilabi</a></li>
+                  </ul>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <a href="../Shop/Shop.html?search=Laddu" class="group/item block">
+                    <div class="w-32 h-24 rounded-md overflow-hidden mb-2 border border-gray-100">
+                      <img src="../Assets/Products/laddu.png"
+                        onerror="this.src='https://placehold.co/150x150/FDF5ED/DAA520?text=Laddu'" alt="Laddu"
+                        class="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="text-center text-xs font-bold text-[#3E1C00] group-hover/item:text-[#C4703C]">Laddu</p>
+                  </a>
+                  <a href="../Shop/Shop.html?search=Soan Papdi" class="group/item block">
+                    <div class="w-32 h-24 rounded-md overflow-hidden mb-2 border border-gray-100">
+                      <img src="../Assets/Products/soan-papdi.png"
+                        onerror="this.src='https://placehold.co/150x150/FDF5ED/DAA520?text=Soan+Papdi'" alt="Soan Papdi"
+                        class="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="text-center text-xs font-bold text-[#3E1C00] group-hover/item:text-[#C4703C]">Soan Papdi
+                    </p>
+                  </a>
+                </div>
+                <div class="w-48 bg-[#FDF5ED] p-4 rounded-lg text-center">
+                  <h4 class="font-poppins font-bold text-[#B06D36] mb-2">Special Offer</h4>
+                  <p class="text-xs text-[#3E1C00] mb-3">Get 10% off on all Traditional Sweets</p>
+                  <a href="../Shop/Shop.html?category=sweet"
+                    class="inline-block bg-[#B06D36] text-white text-xs font-bold px-4 py-2 roundedHover:bg-[#8f5424] transition-colors rounded-full">View
+                    All</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Savouries Menu -->
+          <div class="relative group">
+            <a href="../Shop/Shop.html?category=savouries"
+              class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors py-4 flex items-center gap-1 cursor-pointer">
+              SAVOURIES
+              <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
+            <!-- Mega Menu -->
+            <div
+              class="absolute top-full left-1/2 -translate-x-1/2 w-[600px] lg:w-[800px] bg-white rounded-lg shadow-xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-0 border-t-4 border-[#C4703C]">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-poppins font-bold text-[#3E1C00] text-lg mb-4 border-b border-[#E8D1BB] pb-2">Popular
+                    Snacks</h3>
+                  <ul class="space-y-2">
+                    <li><a href="../Shop/Shop.html?search=Sev"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Sev</a></li>
+                    <li><a href="../Shop/Shop.html?search=Murukku"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Murukku</a></li>
+                    <li><a href="../Shop/Shop.html?search=Mixture"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Mixture</a></li>
+                    <li><a href="../Shop/Shop.html?search=Chips"
+                        class="text-[#3E1C00] hover:text-[#C4703C] text-sm flex items-center gap-2"><span
+                          class="w-1.5 h-1.5 rounded-full bg-[#C4703C]"></span> Corn Chips</a></li>
+                  </ul>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <a href="../Shop/Shop.html?search=Sev" class="group/item block">
+                    <div class="w-32 h-24 rounded-md overflow-hidden mb-2 border border-gray-100">
+                      <img src="../Assets/Products/sev.png"
+                        onerror="this.src='https://placehold.co/150x150/FDF5ED/DAA520?text=Sev'" alt="Sev"
+                        class="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="text-center text-xs font-bold text-[#3E1C00] group-hover/item:text-[#C4703C]">Sev</p>
+                  </a>
+                  <a href="../Shop/Shop.html?search=Mixture" class="group/item block">
+                    <div class="w-32 h-24 rounded-md overflow-hidden mb-2 border border-gray-100">
+                      <img src="../Assets/Products/mixture.png"
+                        onerror="this.src='https://placehold.co/150x150/FDF5ED/DAA520?text=Mixture'" alt="Mixture"
+                        class="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-500">
+                    </div>
+                    <p class="text-center text-xs font-bold text-[#3E1C00] group-hover/item:text-[#C4703C]">Mixture</p>
+                  </a>
+                </div>
+                <div class="w-48 bg-[#FDF5ED] p-4 rounded-lg text-center">
+                  <h4 class="font-poppins font-bold text-[#B06D36] mb-2">Crunchy Deal</h4>
+                  <p class="text-xs text-[#3E1C00] mb-3">Buy 1kg Mixture Get 200g Sev Free</p>
+                  <a href="../Shop/Shop.html?category=savouries"
+                    class="inline-block bg-[#B06D36] text-white text-xs font-bold px-4 py-2 roundedHover:bg-[#8f5424] transition-colors rounded-full">View
+                    All</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="../Shop/Shop.html?category=bakery"
+            class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
+            BAKERY
+          </a>
+          <a href="../About/About.html"
+            class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
+            ABOUT US
+          </a>
+          <a href="../Contact/Contact.html"
+            class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
+            CONTACT US
+          </a>
+        </nav>
+
+        <!-- Right Icons -->
+        <div class="flex items-center gap-3 md:gap-4">
+          <!-- Wishlist -->
+          <button onclick="openWishlist()" class="text-white hover:opacity-80 transition-opacity p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+          <!-- Cart -->
+          <button onclick="openCart()" class="text-white hover:opacity-80 transition-opacity p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </button>
+          <!-- User Dropdown -->
+          <div class="relative">
+            <button id="user-menu-btn" onclick="toggleUserMenu()"
+              class="text-white hover:opacity-80 transition-opacity p-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+              <a href="./login.html"
+                class="block px-4 py-2 text-sm text-[#3E1C00] hover:bg-[#FDF5ED] transition-colors">Login</a>
+              <a href="./register.html"
+                class="block px-4 py-2 text-sm text-[#3E1C00] hover:bg-[#FDF5ED] transition-colors">Register</a>
+              <a href="./my-account.html"
+                class="block px-4 py-2 text-sm text-[#3E1C00] hover:bg-[#FDF5ED] transition-colors">My Account</a>
+            </div>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden text-white p-1" onclick="toggleMobileMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation -->
+      <nav id="mobile-menu" class="md:hidden hidden pb-4">
+        <div class="flex flex-col gap-3 pt-2 border-t border-white/20">
+          <a href="../Home/Home.html"
+            class="text-white text-sm font-medium py-2 hover:text-[#C4703C] inline-block w-fit">HOME</a>
+
+          <!-- Mobile Sweet -->
+          <div>
+            <a href="../Shop/Shop.html?category=sweet"
+              class="text-white text-sm font-medium py-2 hover:text-[#C4703C] flex items-center justify-between group">
+              SWEET
+            </a>
+          </div>
+
+          <!-- Mobile Savouries -->
+          <div>
+            <a href="../Shop/Shop.html?category=savouries"
+              class="text-white text-sm font-medium py-2 hover:text-[#C4703C] flex items-center justify-between group">
+              SAVOURIES
+            </a>
+          </div>
+
+          <a href="../Shop/Shop.html?category=bakery"
+            class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">BAKERY</a>
+          <a href="../About/About.html" class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">ABOUT
+            US</a>
+          <a href="../Contact/Contact.html" class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">CONTACT
+            US</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="h-[300px] flex items-center justify-center text-center text-white
+           bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('Images/login.jpg')]
+           bg-center bg-cover">
+    <div>
+      <h1 class="text-4xl md:text-[36px] font-semibold mb-3">Login</h1>
+      <p class="text-sm uppercase">Homepage › Login</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTAINER -->
+  <section class="max-w-[1000px] mx-auto my-12 px-4">
+    <div class="flex flex-col lg:flex-row gap-12">
+
+      <!-- LEFT FORM -->
+      <div class="flex-1 border-b lg:border-b-0 lg:border-r border-brownDark pr-0 lg:pr-12">
+
+        <h2 class="text-2xl font-semibold mb-6">Login</h2>
+
+        <form id="loginForm" class="space-y-4">
+
+          <div>
+            <label class="block text-sm font-medium mb-1">Email Address *</label>
+            <input type="email" name="email" placeholder="Enter your email" required
+              class="w-full px-4 py-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brownDark">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1">Password *</label>
+            <div class="relative">
+              <input type="password" name="password" placeholder="Enter your password" required
+                class="w-full px-4 py-3 text-sm border border-gray-300 rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-brownDark">
+              <i class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"></i>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="accent-brownDark">
+              Remember me
+            </label>
+            <a href="#" class="text-brownDark hover:underline">Forgot Password?</a>
+          </div>
+
+          <button type="submit" class="w-full bg-brownDark text-white py-3 rounded-md border-2 border-transparent
+                   transition-all duration-300 hover:bg-white hover:text-brownDark
+                   hover:border-brownDark hover:shadow-xl hover:-translate-y-0.5">
+            Login
+          </button>
+
+        </form>
+      </div>
+
+      <!-- RIGHT BOX -->
+      <div class="flex-1 mt-0 lg:mt-12">
+        <h2 class="text-2xl font-semibold mb-3">New Customer?</h2>
+        <p class="mb-5">Join us today for exclusive benefits and offers.</p>
+
+        <button onclick="location.href='register.html'" class="bg-brownDark text-white px-8 py-3 rounded-md border-2 border-transparent
+                 transition-all duration-300 hover:bg-white hover:text-brownDark
+                 hover:border-brownDark hover:shadow-xl hover:-translate-y-0.5">
+          Sign Up
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER SECTION -->
+  <footer class="w-full bg-white font-poppins pt-0">
+
+    <!-- TOP DECORATIVE BORDER -->
+    <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
+
+    <!-- MAIN FOOTER CONTENT -->
+    <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-12">
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
+
+        <!-- Menus -->
+        <div>
+          <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Menus</h3>
+          <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+            <li>Home</li>
+            <li>About us</li>
+            <li>Shop</li>
+            <li>Contact us</li>
+          </ul>
+        </div>
+
+        <!-- Savouries -->
+        <div>
+          <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Savouries</h3>
+          <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+            <li>Sev</li>
+            <li>Murugu</li>
+            <li>Mixture</li>
+            <li>Masala Kaju Mathri</li>
+            <li>Chips</li>
+          </ul>
+        </div>
+
+        <!-- Sweets -->
+        <div>
+          <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Sweets</h3>
+          <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+            <li>Soan papdi</li>
+            <li>Laddu</li>
+            <li>Kaaju Sweets</li>
+            <li>Jilabi</li>
+            <li>Halwa</li>
+            <li>General Sweets</li>
+            <li>Bengali Sweets</li>
+            <li>Barfi</li>
+            <li>Badusha</li>
+          </ul>
+        </div>
+
+        <!-- My Account -->
+        <div>
+          <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">My Account</h3>
+          <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+            <li>Wishlist</li>
+            <li>My Order</li>
+            <li>Profile</li>
+          </ul>
+        </div>
+
+        <!-- Contact Us -->
+        <div>
+          <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Contact Us</h3>
+
+          <div class="flex items-start space-x-3 mb-3">
+            <span class="text-[#B06D36] text-lg">📍</span>
+            <p class="text-[#3E1C00]/90 text-sm">
+              11/200 xxx, yy, Thirunelveli,<br>Tamilnadu
+            </p>
+          </div>
+
+          <div class="flex items-center space-x-3 mb-4">
+            <span class="text-[#B06D36] text-lg">📞</span>
+            <p class="text-[#3E1C00]/90 text-sm">1234567890</p>
+          </div>
+
+          <!-- Social Icons -->
+          <div class="flex items-center space-x-4 text-[#3E1C00] text-xl">
+            <a href="#"><i class="fa-brands fa-instagram text-pink-600"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook text-blue-700"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube text-red-600"></i></a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LINE DIVIDER -->
+      <div class="w-full h-px bg-[#9a7a5a]/40 mt-10"></div>
+
+      <!-- COPYRIGHT -->
+      <p class="text-center text-[#3E1C00]/80 text-sm mt-4">
+        Copyright © 2025 Gajendra vilas. All rights reserved.
+      </p>
+
+    </div>
+
+  </footer>
+
+  <script src="../components/popups.js"></script>
+
+</body>
+
+</html>

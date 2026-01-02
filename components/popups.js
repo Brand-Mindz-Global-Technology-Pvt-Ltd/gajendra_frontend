@@ -35,6 +35,12 @@ function openWishlist() {
     }
 }
 
+function openWishlist() {
+    document.getElementById("wishlistOverlay").classList.remove("hidden");
+    loadWishlist();
+}
+
+
 function closeWishlist() {
     const overlay = document.getElementById("wishlistOverlay");
     if (overlay) {
@@ -94,3 +100,22 @@ function closeOrderConfirmed() {
     }
 }
 // Order Confirmed End
+
+// User Dropdown Start
+function toggleUserMenu() {
+    const dropdown = document.getElementById('user-dropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('hidden');
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function (event) {
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    const dropdown = document.getElementById('user-dropdown');
+
+    if (userMenuBtn && dropdown && !userMenuBtn.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.add('hidden');
+    }
+});
+// User Dropdown End

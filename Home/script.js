@@ -1,8 +1,8 @@
 // Header start
 function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+}
 // Header End
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -107,139 +107,219 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Testimonial Carousel Logic - 3 Cards Display with Infinite Loop
-document.addEventListener('DOMContentLoaded', () => {
-    const track = document.getElementById('testimonial-track');
-    const container = document.getElementById('testimonial-container');
-    const originalCards = Array.from(document.querySelectorAll('.testimonial-card'));
-    const progressBars = document.querySelectorAll('.testimonial-progress');
+// Testimonial Carousel - Infinite/Circular Auto-scroll with progress bars
+document.addEventListener('DOMContentLoaded', function () {
+    const carouselContainer = document.getElementById('testimonial-carousel');
+    const originalCards = document.querySelectorAll('.testimonial-card');
+    const progressBars = document.querySelectorAll('.progress-bar-item');
 
-    if (!track || !container || originalCards.length === 0) return;
+    if (!carouselContainer || originalCards.length === 0) return;
 
-    const totalOriginalCards = originalCards.length;
+    const totalCards = originalCards.length;
     let currentIndex = 0;
-    let autoScrollInterval;
-    let isTransitioning = false;
+    const autoScrollDuration = 4000; // 4 seconds per card
+    const progressInterval = 50; // Update progress every 50ms
+    let progressTimer = null;
+    let scrollTimer = null;
+    let currentProgress = 0;
 
-    // Clone first 3 cards and append to end for seamless infinite loop
-    originalCards.slice(0, 3).forEach(card => {
-        const clone = card.cloneNode(true);
-        clone.classList.add('testimonial-clone');
-        track.appendChild(clone);
-    });
+    // Tailwind classes for different card positions
+    const cardClasses = {
+        center: {
+            add: ['scale-100', 'opacity-100', 'blur-none', 'z-10'],
+            remove: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', 'translate-x-[70%]', '-translate-x-[70%]']
+        },
+        left: {
+            add: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', 'translate-x-[70%]'],
+            remove: ['scale-100', 'opacity-100', 'blur-none', 'z-10', '-translate-x-[70%]']
+        },
+        right: {
+            add: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', '-translate-x-[70%]'],
+            remove: ['scale-100', 'opacity-100', 'blur-none', 'z-10', 'translate-x-[70%]']
+        }
+    };
 
-    const allCards = Array.from(document.querySelectorAll('.testimonial-card'));
-
-    function getCardsPerView() {
-        // Mobile: 1 card, Tablet: 2 cards, Desktop: 3 cards
-        if (window.innerWidth >= 1024) return 3;
-        if (window.innerWidth >= 768) return 3;
-        return 1;
+    // Get card index with wrapping (circular)
+    function getWrappedIndex(index) {
+        return ((index % totalCards) + totalCards) % totalCards;
     }
 
-    function updateCarousel(instant = false) {
-        const cardsPerView = getCardsPerView();
-        const cardWidth = 100 / cardsPerView; // Percentage width per card
+    // Update which cards are visible and their positions
+    function updateVisibleCards() {
+        carouselContainer.innerHTML = '';
 
-        // Calculate translation
-        const translatePercent = -(currentIndex * cardWidth);
+        // We only show 3 cards: previous, current, next (with wrapping for infinite loop)
+        const prevIndex = getWrappedIndex(currentIndex - 1);
+        const nextIndex = getWrappedIndex(currentIndex + 1);
 
-        if (instant) {
-            track.style.transition = 'none';
-        } else {
-            track.style.transition = 'transform 700ms ease-in-out';
-        }
+        // Create card elements
+        const positions = [
+            { index: prevIndex, position: 'left' },
+            { index: currentIndex, position: 'center' },
+            { index: nextIndex, position: 'right' }
+        ];
 
-        track.style.transform = `translateX(${translatePercent}%)`;
+        positions.forEach(({ index, position }) => {
+            const cardClone = originalCards[index].cloneNode(true);
+            cardClone.setAttribute('data-position', position);
+            cardClone.setAttribute('data-original-index', index);
 
-        // Update card styles - center card(s) prominent, others faded
-        allCards.forEach((card, index) => {
-            const isVisible = index >= currentIndex && index < currentIndex + cardsPerView;
-            const isCenterCard = cardsPerView === 3 ? index === currentIndex + 1 : index === currentIndex;
+            // Remove all position classes first
+            cardClone.classList.remove(
+                'scale-100', 'scale-[0.9]',
+                'opacity-100', 'opacity-60',
+                'blur-none', 'blur-[3px]',
+                'z-10', 'z-[5]',
+                'translate-x-[70%]', '-translate-x-[70%]'
+            );
 
-            if (isCenterCard) {
-                // Center/active card
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1)';
-                card.style.filter = 'none';
-            } else if (isVisible) {
-                // Side visible cards
-                card.style.opacity = '0.6';
-                card.style.transform = 'scale(0.95)';
-                card.style.filter = 'blur(1px)';
-            } else {
-                // Hidden cards
-                card.style.opacity = '0.3';
-                card.style.transform = 'scale(0.9)';
-                card.style.filter = 'blur(2px)';
-            }
+            // Add base transition classes
+            cardClone.classList.add('transition-all', 'duration-500', 'ease-out', 'flex-shrink-0');
+
+            // Apply position-based Tailwind classes
+            const classes = cardClasses[position];
+            classes.add.forEach(cls => cardClone.classList.add(cls));
+
+            carouselContainer.appendChild(cardClone);
         });
 
-        // Update progress bars
-        const progressIndex = currentIndex % totalOriginalCards;
+        // Update progress bar states
+        updateProgressBars();
+    }
 
+    // Update progress bar indicators
+    function updateProgressBars() {
         progressBars.forEach((bar, index) => {
-            bar.style.transition = 'none';
-            if (index < progressIndex) {
-                bar.style.width = '100%';
-            } else if (index > progressIndex) {
-                bar.style.width = '0%';
+            const fill = bar.querySelector('.progress-fill');
+            if (index < currentIndex) {
+                fill.style.width = '100%';
+            } else if (index === currentIndex) {
+                // Current - will be animated
+                fill.style.width = '0%';
             } else {
-                bar.style.width = '0%';
+                fill.style.width = '0%';
             }
         });
+    }
 
-        // Start progress animation for current card
-        setTimeout(() => {
-            const currentBar = progressBars[progressIndex];
-            if (currentBar) {
-                currentBar.style.transition = 'width 5000ms linear';
-                currentBar.style.width = '100%';
+    // Animate progress bar
+    function animateProgress() {
+        currentProgress = 0;
+        const fill = progressBars[currentIndex].querySelector('.progress-fill');
+
+        clearInterval(progressTimer);
+
+        progressTimer = setInterval(() => {
+            currentProgress += (progressInterval / autoScrollDuration) * 100;
+            if (fill) fill.style.width = `${Math.min(currentProgress, 100)}%`;
+
+            if (currentProgress >= 100) {
+                clearInterval(progressTimer);
             }
-        }, 50);
+        }, progressInterval);
     }
 
-    function nextSlide() {
-        if (isTransitioning) return;
-        isTransitioning = true;
+    // Go to specific card
+    function goToCard(index) {
+        clearInterval(progressTimer);
+        clearTimeout(scrollTimer);
 
-        currentIndex++;
+        // Handle wrapping for infinite loop
+        currentIndex = getWrappedIndex(index);
 
-        updateCarousel(false);
-
-        // Check if we've reached the cloned cards
-        if (currentIndex >= totalOriginalCards) {
-            // Wait for transition to complete, then reset to start
-            setTimeout(() => {
-                currentIndex = 0;
-                updateCarousel(true); // Instant jump back to start
-                isTransitioning = false;
-            }, 700);
-        } else {
-            setTimeout(() => {
-                isTransitioning = false;
-            }, 700);
+        // If we've completed a full loop, reset progress bars
+        if (index >= totalCards) {
+            progressBars.forEach(bar => {
+                const fill = bar.querySelector('.progress-fill');
+                if (fill) fill.style.width = '0%';
+            });
         }
+
+        updateVisibleCards();
+        animateProgress();
+        startAutoScroll();
     }
 
-    // Initialize
-    setTimeout(() => {
-        updateCarousel(true);
-    }, 100);
+    // Next card
+    function nextCard() {
+        goToCard(currentIndex + 1);
+    }
 
-    // Auto-scroll every 5 seconds
-    autoScrollInterval = setInterval(nextSlide, 5000);
+    // Previous card
+    function prevCard() {
+        goToCard(currentIndex - 1);
+    }
 
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        updateCarousel(true);
+    // Start auto-scroll
+    function startAutoScroll() {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+            nextCard();
+        }, autoScrollDuration);
+    }
+
+    // Handle progress bar clicks
+    progressBars.forEach((bar, index) => {
+        bar.addEventListener('click', () => {
+            goToCard(index);
+        });
     });
 
     // Pause on hover
-    container.addEventListener('mouseenter', () => {
-        clearInterval(autoScrollInterval);
+    carouselContainer.addEventListener('mouseenter', () => {
+        clearInterval(progressTimer);
+        clearTimeout(scrollTimer);
     });
 
-    container.addEventListener('mouseleave', () => {
-        autoScrollInterval = setInterval(nextSlide, 5000);
+    carouselContainer.addEventListener('mouseleave', () => {
+        animateProgress();
+        startAutoScroll();
     });
+
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    carouselContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        clearInterval(progressTimer);
+        clearTimeout(scrollTimer);
+    }, { passive: true });
+
+    carouselContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - next card
+                nextCard();
+            } else {
+                // Swipe right - previous card
+                prevCard();
+            }
+        } else {
+            animateProgress();
+            startAutoScroll();
+        }
+    }
+
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            updateVisibleCards();
+        }, 100);
+    });
+
+    // Initialize
+    updateVisibleCards();
+    animateProgress();
+    startAutoScroll();
 });
