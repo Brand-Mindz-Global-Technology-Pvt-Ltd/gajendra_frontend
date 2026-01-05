@@ -1,0 +1,13 @@
+{
+    "name": "indian-tribe/backend",
+    "description": "Indian Tribe Backend with Gmail SMTP Integration",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+} 

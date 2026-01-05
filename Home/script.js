@@ -53,35 +53,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Best Seller Carousel Logic
 document.addEventListener('DOMContentLoaded', () => {
+    loadBestSellers();
+});
+
+async function loadBestSellers() {
     const track = document.getElementById('bestseller-track');
-    // Ensure track exists to avoid errors on other pages if script is shared
     if (!track) return;
 
-    const items = track.children;
-    const totalItems = items.length;
-    let currentIndex = 0;
+    try {
+        const res = await fetch('https://gajendhrademo.brandmindz.com/routes/auth/shop/get_products.php?is_best_seller=1');
+        const data = await res.json();
 
-    window.moveBestSellerX = function (direction) {
-        // Determine items visible based on screen size
-        let itemsVisible = 1;
-        if (window.innerWidth >= 1024) { // lg
-            itemsVisible = 3;
-        } else if (window.innerWidth >= 640) { // sm
-            itemsVisible = 2;
+        if (!data.success || !data.products || data.products.length === 0) {
+            track.innerHTML = '<p class="text-white text-center w-full">No best selling products at the moment.</p>';
+            return;
         }
 
-        const maxIndex = totalItems - itemsVisible;
+        renderBestSellers(data.products);
+    } catch (err) {
+        console.error("Error loading best sellers:", err);
+    }
+}
 
-        currentIndex += direction;
+function renderBestSellers(products) {
+    const track = document.getElementById('bestseller-track');
+    track.innerHTML = products.map(p => `
+        <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
+            <div class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
+                <!-- Best Seller Tag (Gradient) -->
+                <div class="absolute top-4 left-0 bg-gradient-to-r from-[#eaa956] to-[#ad632a] text-white text-xs font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
+                    style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); box-shadow: 2px 2px 5px rgba(0,0,0,0.3);">
+                    <i class="fas fa-star mr-1"></i> Best Seller
+                </div>
 
-        // Loop logic or Bound logic?
-        // User said "manual scrolling". Usually infinite loop or stop at end.
-        // Let's implement infinite loop behavior for better UX.
+                <!-- Image -->
+                <div class="relative h-56 overflow-hidden shadow-xl">
+                    <img src="${p.images[0] || 'https://placehold.co/400x300'}" alt="${p.name}"
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
+                </div>
 
-        if (currentIndex < 0) {
-            currentIndex = maxIndex;
-        } else if (currentIndex > maxIndex) {
-            currentIndex = 0;
+                <!-- Content -->
+                <div class="pt-5 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-poppins font-semibold text-2xl text-white mb-1">${p.name}</h3>
+                        <div class="flex text-[#F59E0B] text-base mb-2">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : ${p.price}</p>
+                    </div>
+                    <button onclick="window.location.href='/shop/singleproduct.html?product_id=${p.id}'"
+                        class="w-full bg-[#B06D36] hover:bg-[#8f5424] text-white font-poppins font-medium py-3 rounded transition-colors uppercase text-sm tracking-wider shadow-lg">Buy
+                        Now</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Re-initialize carousel variables if needed
+    initializeBestSellerCarousel();
+}
+
+let bestSellerIndex = 0;
+function initializeBestSellerCarousel() {
+    const track = document.getElementById('bestseller-track');
+    if (!track) return;
+
+    window.moveBestSellerX = function (direction) {
+        const items = track.children;
+        const totalItems = items.length;
+        let itemsVisible = getItemsVisible();
+        const maxIndex = Math.max(0, totalItems - itemsVisible);
+
+        bestSellerIndex += direction;
+
+        if (bestSellerIndex < 0) {
+            bestSellerIndex = maxIndex;
+        } else if (bestSellerIndex > maxIndex) {
+            bestSellerIndex = 0;
         }
 
         updateBestSellerCarousel();
@@ -89,22 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateBestSellerCarousel() {
         const itemWidthPercent = 100 / getItemsVisible();
-        const translateX = -(currentIndex * itemWidthPercent);
+        const translateX = -(bestSellerIndex * itemWidthPercent);
         track.style.transform = `translateX(${translateX}%)`;
     }
 
     function getItemsVisible() {
-        if (window.innerWidth >= 1024) return 3; // 3 items on Desktop
-        if (window.innerWidth >= 640) return 2; // 2 items on Tablet
-        return 1; // 1 item on Mobile
+        if (window.innerWidth >= 1024) return 3;
+        if (window.innerWidth >= 640) return 2;
+        return 1;
     }
 
     // Reset on resize
     window.addEventListener('resize', () => {
-        currentIndex = 0;
+        bestSellerIndex = 0;
         updateBestSellerCarousel();
     });
-});
+}
 
 // Testimonial Carousel Logic - 3 Cards Display with Infinite Loop
 // Testimonial Carousel - Infinite/Circular Auto-scroll with progress bars

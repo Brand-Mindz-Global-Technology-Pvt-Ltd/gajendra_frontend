@@ -178,6 +178,12 @@ async function loadProducts() {
           </button>
 
           <button
+            onclick="addToCart({
+                id: ${p.id},
+                name: '${p.name.replace(/'/g, "\\'")}', 
+                price: ${p.price},
+                image: '${p.images[0] || 'https://placehold.co/300x300'}'
+            })"
             class="flex-1 border border-[#B06D36]
                    text-[#B06D36] py-2 rounded
                    font-medium text-sm
