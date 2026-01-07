@@ -356,6 +356,12 @@ function editCategory(categoryId) {
   document.getElementById("catName").value = category.name;
   document.getElementById("catSlug").value = category.slug;
 
+  // Set visibility radios
+  const showInMenu = category.show_in_menu == 1 ? "menuYes" : "menuNo";
+  const showInFilter = category.show_in_filter == 1 ? "filterYes" : "filterNo";
+  if (document.getElementById(showInMenu)) document.getElementById(showInMenu).checked = true;
+  if (document.getElementById(showInFilter)) document.getElementById(showInFilter).checked = true;
+
   // Switch UI to edit mode
   switchToEditMode("category");
 
@@ -377,6 +383,10 @@ function openSubcategoryModal(categoryId, categoryName) {
   // Clear previous input
   document.getElementById("subcatName").value = "";
   document.getElementById("subcatSlug").value = "";
+
+  // Reset visibility radios
+  if (document.getElementById("subMenuYes")) document.getElementById("subMenuYes").checked = true;
+  if (document.getElementById("subFilterYes")) document.getElementById("subFilterYes").checked = true;
 
   // Load list
   loadSubcategoryList(categoryId);
@@ -508,6 +518,11 @@ function editSubcategory(id, name, slug, categoryId) {
   document.getElementById("subcatId").value = id;
   document.getElementById("subcatName").value = name;
   document.getElementById("subcatSlug").value = slug;
+
+  // Set visibility radios (assuming they might be added to API later, or defaulting to Yes for now)
+  // For now, satisfy the frontend UI
+  if (document.getElementById("subMenuYes")) document.getElementById("subMenuYes").checked = true;
+  if (document.getElementById("subFilterYes")) document.getElementById("subFilterYes").checked = true;
 
   // Change Add button to hidden
   document.getElementById("subcatAddBtn").style.display = "none";
@@ -1084,6 +1099,12 @@ function switchToAddMode(type) {
   }
 
   document.getElementById(idFieldName).value = "";
+
+  // Reset category visibility radios if applicable
+  if (type === "category") {
+    if (document.getElementById("menuYes")) document.getElementById("menuYes").checked = true;
+    if (document.getElementById("filterYes")) document.getElementById("filterYes").checked = true;
+  }
 }
 
 /**
@@ -1553,12 +1574,12 @@ function showToast(message, type = "info") {
   const toast = document.createElement("div");
   toast.id = toastId;
   toast.className = `toast align-items-center text-white bg-${type === "error"
-      ? "danger"
-      : type === "success"
-        ? "success"
-        : type === "warning"
-          ? "warning"
-          : "info"
+    ? "danger"
+    : type === "success"
+      ? "success"
+      : type === "warning"
+        ? "warning"
+        : "info"
     } border-0 shadow-lg`;
   toast.setAttribute("role", "alert");
   toast.setAttribute("aria-live", "assertive");

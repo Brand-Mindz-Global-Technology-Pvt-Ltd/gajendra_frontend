@@ -200,6 +200,31 @@
                             <input type="text" id="catSlug" name="slug" class="form-control" placeholder="category-slug"
                                 required>
                         </div>
+                        <div class="col-md-3">
+                            <label class="form-label d-block">Show in Nav Menu?</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="show_in_menu" id="menuYes" value="1"
+                                    checked>
+                                <label class="form-check-label" for="menuYes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="show_in_menu" id="menuNo" value="0">
+                                <label class="form-check-label" for="menuNo">No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label d-block">Show in Shop Filter?</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="show_in_filter" id="filterYes"
+                                    value="1" checked>
+                                <label class="form-check-label" for="filterYes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="show_in_filter" id="filterNo"
+                                    value="0">
+                                <label class="form-check-label" for="filterNo">No</label>
+                            </div>
+                        </div>
                         <div class="col-md-2 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100" id="categorySubmitBtn">
                                 <i class="fas fa-plus me-2"></i>
@@ -273,6 +298,34 @@
                                 <div class="col-md-5">
                                     <label class="form-label">Slug *</label>
                                     <input type="text" id="subcatSlug" class="form-control" required>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label class="form-label d-block">Show in Nav Menu?</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sub_show_in_menu"
+                                            id="subMenuYes" value="1" checked>
+                                        <label class="form-check-label" for="subMenuYes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sub_show_in_menu"
+                                            id="subMenuNo" value="0">
+                                        <label class="form-check-label" for="subMenuNo">No</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                    <label class="form-label d-block">Show in Shop Filter?</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sub_show_in_filter"
+                                            id="subFilterYes" value="1" checked>
+                                        <label class="form-check-label" for="subFilterYes">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sub_show_in_filter"
+                                            id="subFilterNo" value="0">
+                                        <label class="form-check-label" for="subFilterNo">No</label>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-2 d-flex align-items-end">
@@ -868,6 +921,12 @@
                                 placeholder="Search by name, email, phone or message" />
                         </div>
 
+                        <select id="enquiryTypeFilter" class="form-select form-select-sm" style="max-width: 140px;">
+                            <option value="all">All Types</option>
+                            <option value="contact">Contact Only</option>
+                            <option value="bulk">Bulk Only</option>
+                        </select>
+
                         <select id="enquiryDateFilter" class="form-select form-select-sm" style="max-width: 180px;">
                             <option value="all">All Time</option>
                             <option value="today">Today</option>
@@ -944,111 +1003,145 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-6 mb-2">
-                            <strong>Name:</strong> <span id="modalName"></span>
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <strong>Type:</strong> <span id="modalType" class="badge bg-secondary"></span>
+                                </div>
+                                <div class="col-md-6 mb-2 text-md-end">
+                                    <strong>Date:</strong> <span id="modalDate"></span>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <strong>Name:</strong> <span id="modalName"></span>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <strong>Email:</strong> <span id="modalEmail"></span>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <strong>Phone:</strong> <span id="modalPhone"></span>
+                                </div>
+                            </div>
+
+                            <hr class="my-3">
+
+                            <!-- Contact Message Section -->
+                            <div id="contactSection">
+                                <p class="mb-1 text-primary fw-bold">Message:</p>
+                                <div id="modalMessage"
+                                    style="white-space: pre-wrap; border-radius: 8px; background:#f8fafc; padding:12px; border: 1px solid #e2e8f0; min-height: 100px;">
+                                </div>
+                            </div>
+
+                            <!-- Bulk Details Section -->
+                            <div id="bulkSection" class="d-none">
+                                <p class="mb-3 text-primary fw-bold">Bulk Enquiry Details:</p>
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <label class="small text-muted d-block">Preferred Delivery Date</label>
+                                        <div id="modalDeliveryDate" class="fw-semibold"></div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="small text-muted d-block">Category / Product</label>
+                                        <div class="fw-semibold">
+                                            <span id="modalCategory"></span> / <span id="modalProduct"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="small text-muted d-block">Delivery Address</label>
+                                        <div id="modalAddress" class="fw-semibold"></div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="small text-muted d-block">Additional Remarks</label>
+                                        <div id="modalRemarks" class="p-2 rounded bg-light border fst-italic"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Email:</strong> <span id="modalEmail"></span>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Phone:</strong> <span id="modalPhone"></span>
-                        </div>
-                        <div class="col-md-6 mb-2">
-                            <strong>Date:</strong> <span id="modalDate"></span>
-                        </div>
+
                     </div>
-
-                    <hr>
-
-                    <p class="mb-1"><strong>Full Message:</strong></p>
-                    <div id="modalMessage"
-                        style="white-space: pre-wrap; border-radius: 8px; background:#f7f7f7; padding:10px 12px;"></div>
                 </div>
-
             </div>
-        </div>
-    </div>
 
 
 
-    <!-- Popup Modal System -->
-    <div id="popupModal" class="popup-modal">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h5 class="popup-title" id="popupTitle">Notification</h5>
-                <button class="popup-close" id="popupClose">&times;</button>
-            </div>
-            <div class="popup-body">
-                <div class="popup-icon" id="popupIcon">
-                    <i class="fas fa-info-circle"></i>
+            <!-- Popup Modal System -->
+            <div id="popupModal" class="popup-modal">
+                <div class="popup-content">
+                    <div class="popup-header">
+                        <h5 class="popup-title" id="popupTitle">Notification</h5>
+                        <button class="popup-close" id="popupClose">&times;</button>
+                    </div>
+                    <div class="popup-body">
+                        <div class="popup-icon" id="popupIcon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <p class="popup-message" id="popupMessage">Message content</p>
+                    </div>
+                    <div class="popup-footer">
+                        <button class="btn btn-primary" id="popupOk">OK</button>
+                    </div>
                 </div>
-                <p class="popup-message" id="popupMessage">Message content</p>
             </div>
-            <div class="popup-footer">
-                <button class="btn btn-primary" id="popupOk">OK</button>
+
+            <!-- Toast Container -->
+            <div id="toastContainer" class="toast-container"></div>
+
+            <!-- Image Modal -->
+            <div id="imageModal" class="image-modal">
+                <div class="image-modal-content">
+                    <button class="image-modal-close" id="imageModalClose">&times;</button>
+                    <button class="image-modal-nav image-modal-prev" id="imageModalPrev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="image-modal-nav image-modal-next" id="imageModalNext">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <img id="imageModalImg" src="" alt="Product Image">
+                    <div class="image-modal-counter" id="imageModalCounter">1 / 4</div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Toast Container -->
-    <div id="toastContainer" class="toast-container"></div>
+            <!-- Scripts -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="script.js"></script>
+            <script>
+                // Mobile sidebar toggle
+                document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+                    document.getElementById('adminSidebar').classList.toggle('show');
+                });
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="image-modal">
-        <div class="image-modal-content">
-            <button class="image-modal-close" id="imageModalClose">&times;</button>
-            <button class="image-modal-nav image-modal-prev" id="imageModalPrev">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="image-modal-nav image-modal-next" id="imageModalNext">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <img id="imageModalImg" src="" alt="Product Image">
-            <div class="image-modal-counter" id="imageModalCounter">1 / 4</div>
-        </div>
-    </div>
+                // Profile and logout handling
+                document.addEventListener("DOMContentLoaded", () => {
+                    const admin = localStorage.getItem("admin");
+                    if (!admin) {
+                        window.location.href = "login.html";
+                    } else {
+                        const user = JSON.parse(admin);
+                        document.getElementById("profileLink")?.classList.remove("d-none");
+                        document.getElementById("profileName").textContent = user.name;
+                        document.getElementById("loginBtn")?.classList.add("d-none");
+                        document.getElementById("logoutBtn")?.classList.remove("d-none");
+                    }
+                });
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
-    <script>
-        // Mobile sidebar toggle
-        document.getElementById('sidebarToggle')?.addEventListener('click', function () {
-            document.getElementById('adminSidebar').classList.toggle('show');
-        });
+                document.getElementById("logoutBtn")?.addEventListener("click", () => {
+                    if (window.sessionManager) {
+                        window.sessionManager.clearSession();
+                    }
+                    showPopup('Logout Successful', 'You have been logged out successfully', 'success', () => {
+                        window.location.href = "login.html";
+                    });
+                });
+            </script>
 
-        // Profile and logout handling
-        document.addEventListener("DOMContentLoaded", () => {
-            const admin = localStorage.getItem("admin");
-            if (!admin) {
-                window.location.href = "login.html";
-            } else {
-                const user = JSON.parse(admin);
-                document.getElementById("profileLink")?.classList.remove("d-none");
-                document.getElementById("profileName").textContent = user.name;
-                document.getElementById("loginBtn")?.classList.add("d-none");
-                document.getElementById("logoutBtn")?.classList.remove("d-none");
-            }
-        });
-
-        document.getElementById("logoutBtn")?.addEventListener("click", () => {
-            if (window.sessionManager) {
-                window.sessionManager.clearSession();
-            }
-            showPopup('Logout Successful', 'You have been logged out successfully', 'success', () => {
-                window.location.href = "login.html";
-            });
-        });
-    </script>
-
-    <script src="../admin/js/product/config.js"></script>
-    <script src="../admin/js/product/utils.js"></script>
-    <script src="../admin/js/product/list.js"></script>
-    <script src="../admin/js/product/add.js"></script>
-    <script src="../admin/js/product/edit.js"></script>
-    <script src="../admin/js/product/delete.js"></script>
-    <script src="../admin/js/admin-blog.js"></script>
-    <script src="../admin/js/admin-enquiriy.js"></script>
-    <script src="../admin/js/tasteSegment.js"></script>
+            <script src="../admin/js/product/config.js"></script>
+            <script src="../admin/js/product/utils.js"></script>
+            <script src="../admin/js/product/list.js"></script>
+            <script src="../admin/js/product/add.js"></script>
+            <script src="../admin/js/product/edit.js"></script>
+            <script src="../admin/js/product/delete.js"></script>
+            <script src="../admin/js/admin-blog.js"></script>
+            <script src="../admin/js/admin-enquiriy.js"></script>
+            <script src="../admin/js/tasteSegment.js"></script>
 </body>
 
 </html>
