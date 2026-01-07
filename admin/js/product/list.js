@@ -83,7 +83,9 @@ async function loadProducts() {
                     <small class="product-category">Category: ${product.category_name || "Uncategorized"}</small>
                   </div>
                   <div class="col-md-2 text-center">
-                    <h6 class="product-price">₹${product.price}</h6>
+                    <h6 class="product-price">
+                        ₹${product.price || (product.variations && product.variations.length > 0 ? product.variations[0].amount : '0')}
+                    </h6>
                     <small class="product-stock">Stock: ${product.stock}</small>
                   </div>
                   <div class="col-md-2">
