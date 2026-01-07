@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+  <meta charset="UTF-8">
+  <title>Why Every Household Should Have Pure Honey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Outfit', sans-serif;
-        }
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        .font-poppins {
-            font-family: 'Poppins', sans-serif !important;
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif']
+          },
+          colors: {
+            brown: '#5b2e08',
+            pageBg: '#F8E2D0'
+          }
         }
-    </style>
+      }
+    }
+  </script>
 </head>
 
-<body>
+<body class="bg-pageBg font-poppins text-gray-800">
 
-    <!-- RESPONSIVE HEADER -->
-    <header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
+<!-- RESPONSIVE HEADER -->
+<header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14 md:h-16">
 
@@ -36,7 +48,7 @@
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex items-center gap-6 lg:gap-8">
                     <a href="../Home/Home.html"
-                        class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
+                        class="text-white text-sm lg:text-base font-medium border-b-2 border-[#C4703C] pb-1">
                         HOME
                     </a>
 
@@ -134,7 +146,7 @@
                         </a>
                         <!-- Mega Menu -->
                         <div
-                            class="absolute top-full left-1/2 -translate-x-1/2 w-[700px] lg:w-[800px] bg-white rounded-lg shadow-xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-0 border-t-4 border-[#C4703C]">
+                            class="absolute top-full left-1/2 -translate-x-1/2 w-[700px] bg-white rounded-lg shadow-xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-0 border-t-4 border-[#C4703C]">
                             <div class="grid grid-cols-3 gap-8 text-left">
                                 <!-- MURUKKU -->
                                 <div>
@@ -279,13 +291,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <a href="../About/About.html"
                         class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
                         ABOUT US
                     </a>
                     <a href="../Contact/Contact.html"
-                        class="text-white text-sm lg:text-base font-medium border-b-2 border-[#C4703C] pb-1">
+                        class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
                         CONTACT US
                     </a>
                 </nav>
@@ -345,7 +357,7 @@
             <nav id="mobile-menu" class="md:hidden hidden pb-4">
                 <div class="flex flex-col gap-3 pt-2 border-t border-white/20">
                     <a href="../Home/Home.html"
-                        class="text-white text-sm font-medium py-2 hover:text-[#C4703C] inline-block w-fit">HOME</a>
+                        class="text-white text-sm font-medium py-2 border-b-2 border-[#C4703C] inline-block w-fit">HOME</a>
 
                     <!-- Mobile Sweet -->
                     <div>
@@ -368,277 +380,134 @@
                     <a href="../About/About.html" class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">ABOUT
                         US</a>
                     <a href="../Contact/Contact.html"
-                        class="text-white text-sm font-medium py-2 border-b-2 border-[#C4703C] w-fit">CONTACT US</a>
+                        class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">CONTACT US</a>
                 </div>
             </nav>
         </div>
-    </header>
+</header>
 
-    <!-- CONTACT US HERO SECTION -->
-    <section class="relative w-full h-[420px] md:h-[500px] lg:h-[560px] overflow-hidden">
+<!-- HERO IMAGE -->
+<section>
+  <img 
+    src="Images/sweetsblog.jpg" 
+    alt="Pure Honey"
+    class="w-full h-[260px] md:h-[420px] object-cover"
+  >
+</section>
 
-        <!-- Background Image -->
-        <img src="https://placehold.co/1600x900" alt="Contact Us Banner"
-            class="absolute inset-0 w-full h-full object-cover object-center">
+<!-- BLOG CONTENT -->
+<article class="max-w-[900px] mx-auto px-5 py-14">
 
-        <!-- Bottom Left Gradient Overlay (same design style as home page) -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+  <!-- TAG -->
+  <span class="inline-block bg-brown text-white text-sm px-4 py-1 rounded mb-5">
+    Sweets
+  </span>
 
-        <!-- Content -->
-        <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-10 lg:px-20 pb-10">
-            <h1 class="font-poppins text-white text-3xl md:text-4xl lg:text-[42px] font-semibold mb-2">
-                Contact Us
-            </h1>
+  <!-- TITLE -->
+  <h1 class="text-3xl md:text-4xl font-semibold mb-3">
+    Why Traditional Indian Sweets Still Hold a Special Place in Every Home
+  </h1>
 
-            <p class="font-poppins text-white text-sm md:text-base max-w-xl opacity-90 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            </p>
-        </div>
-    </section>
+  <!-- DATE -->
+  <p class="text-sm text-[#8a6b4f] mb-8">
+    Published on 28 November 2025
+  </p>
 
-    <!-- CONTACT FORM SECTION -->
-    <section class="relative w-full py-16 md:py-20 lg:py-24 bg-[#FDF5ED] font-poppins overflow-hidden">
+  <!-- CONTENT -->
+  <p class="text-[17px] mb-5 leading-relaxed">
+    Indian sweets have been an essential part of our culture for centuries.
+    From festivals and weddings to everyday moments of joy, sweets symbolize
+    happiness, togetherness, and celebration.
+  </p>
 
-        <!-- Top Right Decorative Pattern -->
-        <div class="absolute top-0 right-0 w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/About/pattern-right.png"
-                onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
-                class="w-full h-full object-contain opacity-60">
-        </div>
+  <h2 class="text-[26px] font-semibold mt-10 mb-4">
+    The Cultural Significance of Indian Sweets
+  </h2>
 
-        <!-- Bottom Left Decorative Pattern -->
-        <div class="absolute bottom-0 left-0 w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/About/pattern-left.png"
-                onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
-                class="w-full h-full object-contain opacity-60">
-        </div>
+  <p class="text-[17px] mb-5 leading-relaxed">
+    Across India, every region has its own unique sweets made using traditional
+    recipes passed down through generations. These sweets are not just desserts;
+    they carry emotions, memories, and cultural values.
+  </p>
 
-        <div class="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
+  <p class="text-[17px] mb-5 leading-relaxed">
+    Whether it’s laddoos during festivals, halwa for special occasions, or
+    payasam served after meals, sweets connect families and traditions.
+  </p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+  <h2 class="text-[26px] font-semibold mt-10 mb-4">
+    What Makes Traditional Sweets Special?
+  </h2>
 
-                <!-- LEFT COLUMN - Content (Vertically Centered) -->
-                <div class="flex flex-col justify-center space-y-12">
-                    <!-- Heading -->
-                    <div>
-                        <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-[#8B4513] mb-8"
-                            style="line-height: 52px;">
-                            We are always ready to<br>help you and answer your<br>question
-                        </h2>
-                        <p class="text-[#3E1C00]/70 text-sm md:text-base max-w-md mb-8" style="line-height: 32px;">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor
-                        </p>
-                    </div>
+  <h3 class="text-xl font-semibold mt-6 mb-2">
+    1. Made with Natural Ingredients
+  </h3>
 
-                    <!-- Contact Info Grid -->
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-6 mb-8">
-                        <!-- Call us -->
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-8 h-8 rounded-full bg-[#5D3420] flex items-center justify-center flex-shrink-0 mt-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-1">Call us</h4>
-                                <p class="text-[#3E1C00]/70 text-sm">1234567890</p>
-                            </div>
-                        </div>
+  <p class="text-[17px] mb-5 leading-relaxed">
+    Traditional sweets are prepared using natural ingredients like jaggery,
+    ghee, milk, nuts, and grains. Unlike heavily processed desserts, homemade
+    sweets focus on purity and authentic taste.
+  </p>
 
-                        <!-- Address -->
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-8 h-8 rounded-full bg-[#5D3420] flex items-center justify-center flex-shrink-0 mt-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-1">Address</h4>
-                                <p class="text-[#3E1C00]/70 text-sm">11/200 xxx, yy, Thirunelveli,<br>Tamilnadu</p>
-                            </div>
-                        </div>
+  <h3 class="text-xl font-semibold mt-6 mb-2">
+    2. Perfect Balance of Taste and Tradition
+  </h3>
 
-                        <!-- Email -->
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-8 h-8 rounded-full bg-[#5D3420] flex items-center justify-center flex-shrink-0 mt-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-1">Email</h4>
-                                <p class="text-[#3E1C00]/70 text-sm">gajendravela@gmail.com</p>
-                            </div>
-                        </div>
+  <ul class="list-disc ml-6 text-[16px] mb-6 space-y-2">
+    <li>Prepared using age-old family recipes</li>
+    <li>No artificial flavors or preservatives</li>
+    <li>Rich aroma from pure ghee and spices</li>
+    <li>Authentic texture and taste</li>
+    <li>Made fresh for every occasion</li>
+  </ul>
 
-                        <!-- Social Media -->
-                        <div class="flex items-start gap-3">
-                            <div
-                                class="w-8 h-8 rounded-full bg-[#5D3420] flex items-center justify-center flex-shrink-0 mt-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-2">Social media</h4>
-                                <div class="flex items-center gap-3">
-                                    <!-- Instagram -->
-                                    <a href="#"
-                                        class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                                        </svg>
-                                    </a>
-                                    <!-- Facebook -->
-                                    <a href="#"
-                                        class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-                                        </svg>
-                                    </a>
-                                    <!-- YouTube -->
-                                    <a href="#"
-                                        class="w-7 h-7 rounded-full bg-red-600 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path
-                                                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <h3 class="text-xl font-semibold mt-6 mb-2">
+    3. Healthier Than Store-Bought Desserts
+  </h3>
 
-                <!-- RIGHT COLUMN - Form -->
-                <div class="bg-white shadow-lg p-6 md:p-8 lg:p-10">
-                    <h3 class="text-xl md:text-2xl font-semibold text-[#3E1C00] mb-6">Send the message</h3>
+  <p class="text-[17px] mb-5 leading-relaxed">
+    When prepared in moderation using quality ingredients, traditional sweets
+    can be a healthier alternative to packaged desserts. Ingredients like nuts,
+    dry fruits, and jaggery provide energy and essential nutrients.
+  </p>
 
-                    <form id="contactForm" class="space-y-5">
-                        <!-- Name -->
-                        <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Name</label>
-                            <input id="contactName" type="text" placeholder="Enter your name"
-                                class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
-                        </div>
+  <h2 class="text-[26px] font-semibold mt-10 mb-4">
+    Popular Indian Sweets Loved by All
+  </h2>
 
-                        <!-- Phone Number -->
-                        <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Phone Number</label>
-                            <input id="contactPhone" type="tel" placeholder="Enter your phone number"
-                                class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
-                        </div>
+  <ul class="list-disc ml-6 text-[16px] mb-6 space-y-2">
+    <li>Laddoos – A festive favorite</li>
+    <li>Mysore Pak – Rich and ghee-filled delight</li>
+    <li>Halwa – Comfort dessert for every age</li>
+    <li>Payasam – A traditional South Indian classic</li>
+    <li>Burfi – Simple, sweet, and timeless</li>
+  </ul>
 
-                        <!-- Email -->
-                        <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Email</label>
-                            <input id="contactEmail" type="email" placeholder="Enter your Email"
-                                class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
-                        </div>
+  <h2 class="text-[26px] font-semibold mt-10 mb-4">
+    Why Homemade Sweets Are Always Better
+  </h2>
 
-                        <!-- City -->
-                        <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">City</label>
-                            <input id="contactCity" type="text" placeholder="Enter your city"
-                                class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
-                        </div>
+  <ol class="list-decimal ml-6 text-[16px] mb-6 space-y-2">
+    <li>Freshly prepared with care</li>
+    <li>Controlled sugar and ingredient quality</li>
+    <li>No harmful additives</li>
+    <li>Custom flavors based on family preference</li>
+  </ol>
 
-                        <!-- Message -->
-                        <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Message</label>
-                            <textarea id="contactMessage" rows="4" placeholder="Write your message here ...."
-                                class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors resize-none"></textarea>
-                        </div>
+  <p class="text-[17px] mb-5 leading-relaxed">
+    Homemade sweets bring warmth and trust to every bite. They remind us of
+    childhood, family gatherings, and festive celebrations.
+  </p>
 
-                        <!-- Submit Button -->
-                        <button type="submit"
-                            class="w-full bg-[#5D3420] text-white py-3 px-6 rounded-lg font-medium text-base hover:bg-[#4a2a1a] transition-colors shadow-md">
-                            SEND
-                        </button>
-                    </form>
-                </div>
+  <p class="mt-10 text-lg font-semibold">
+    Celebrate every moment with the sweetness of tradition. Choose authentic,
+    homemade sweets made with love and purity.
+  </p>
 
-            </div>
+</article>
 
-        </div>
-
-    </section>
-
-    <!-- MAP SECTION -->
-    <section class="relative w-full font-poppins">
-        <!-- Map Container - Full Width -->
-        <div class="relative w-full h-[350px] md:h-[400px] lg:h-[450px]">
-
-            <!-- Map Info Card Overlay - Positioned on Right -->
-            <div
-                class="absolute top-4 left-4 md:top-6 md:left-6 lg:top-8 lg:left-24 z-10 bg-white shadow-lg p-4 md:p-5 w-[300px] md:w-[340px] lg:w-[360px]">
-                <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <h3 class="text-[#3E1C00] font-semibold text-base md:text-lg">Gajendra vilas</h3>
-                        <p class="text-[#3E1C00]/70 text-xs md:text-sm mt-1">no 23 xyz , Thirunelveli</p>
-                    </div>
-                    <!-- Direction Button -->
-                    <a href="#"
-                        class="flex flex-col items-center text-[#5D3420] hover:text-[#4a2a1a] transition-colors flex-shrink-0">
-                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#5D3420] flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 text-white" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                        <span class="text-xs mt-1 font-medium">Direction</span>
-                    </a>
-                </div>
-
-                <!-- Rating and Reviews -->
-                <div class="flex items-center gap-2 mt-0">
-                    <span class="text-[#3E1C00] font-semibold text-sm">4.5</span>
-                    <div class="flex items-center">
-                        <span class="text-yellow-400 text-sm">★★★★</span>
-                        <span class="text-yellow-400 text-sm">★</span>
-                    </div>
-                    <span class="text-[#3E1C00]/70 text-xs md:text-sm">10,000 Reviews</span>
-                </div>
-
-                <!-- View Large Map Link -->
-                <a href="#" class="text-blue-600 hover:text-blue-800 text-xs md:text-sm font-medium mt-0 inline-block">
-                    View large map
-                </a>
-            </div>
-
-            <!-- Map iframe placeholder - User will add their iframe here -->
-            <div class="w-full h-full bg-gray-200">
-                <!-- ADD YOUR GOOGLE MAPS IFRAME CODE HERE -->
-                <iframe src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade" class="w-full h-full">
-                </iframe>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- FOOTER SECTION -->
-    <footer class="w-full bg-white font-poppins pt-0">
+<!-- FOOTER SECTION -->
+<footer class="w-full bg-white font-poppins pt-0">
 
         <!-- TOP DECORATIVE BORDER -->
         <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
@@ -733,11 +602,10 @@
 
         </div>
 
-    </footer>
+</footer>
 
-    <script src="Contact.js"></script>
-    <script src="../components/popups.js"></script>
+<!-- JS -->
+<script src="script.js"></script>
 
 </body>
-
 </html>
