@@ -16,6 +16,96 @@
         .font-poppins {
             font-family: 'Poppins', sans-serif !important;
         }
+
+        /* Dual Range Slider Styles */
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 40px;
+        }
+
+        .container-slider {
+            position: relative;
+            width: 100%;
+            height: 5px;
+            background-color: #D4B896;
+            margin-top: 10px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 100%;
+            outline: none;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            background-color: transparent;
+            pointer-events: none;
+        }
+
+        .slider-track {
+            width: 100%;
+            height: 5px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            -webkit-appearance: none;
+            height: 5px;
+        }
+
+        input[type="range"]::-moz-range-track {
+            -moz-appearance: none;
+            height: 5px;
+        }
+
+        input[type="range"]::-ms-track {
+            appearance: none;
+            height: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 1.2rem;
+            width: 1.2rem;
+            background-color: #8B4513;
+            cursor: pointer;
+            margin-top: -7px;
+            pointer-events: auto;
+            border-radius: 50%;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            -webkit-appearance: none;
+            height: 1.2rem;
+            width: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: #8B4513;
+            pointer-events: auto;
+        }
+
+        input[type="range"]::-ms-thumb {
+            appearance: none;
+            height: 1.2rem;
+            width: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            background-color: #8B4513;
+            pointer-events: auto;
+        }
+
+        input[type="range"]:active::-webkit-slider-thumb {
+            background-color: #ffffff;
+            border: 3px solid #8B4513;
+        }
     </style>
 
 </head>
@@ -105,8 +195,8 @@
                                 <div class="w-48 bg-[#FDF5ED] p-4 rounded-lg text-center">
                                     <h4 class="font-poppins font-bold text-[#B06D36] mb-2">Special Offer</h4>
                                     <p class="text-xs text-[#3E1C00] mb-3">Get 10% off on all Traditional Sweets</p>
-                                    <a href="../Shop/Shop.html?category=sweet"
-                                        class="inline-block bg-[#B06D36] text-white text-xs font-bold px-4 py-2 roundedHover:bg-[#8f5424] transition-colors rounded-full">View
+                                    <a href="../Shop/Shop.html?category_id=126"
+                                        class="inline-block bg-[#B06D36] text-white text-xs font-bold px-4 py-2 hover:bg-[#8f5424] transition-colors rounded-full">View
                                         All</a>
                                 </div>
                             </div>
@@ -178,8 +268,8 @@
                                 <div class="w-48 bg-[#FDF5ED] p-4 rounded-lg text-center">
                                     <h4 class="font-poppins font-bold text-[#B06D36] mb-2">Crunchy Deal</h4>
                                     <p class="text-xs text-[#3E1C00] mb-3">Buy 1kg Mixture Get 200g Sev Free</p>
-                                    <a href="../Shop/Shop.html?category=savouries"
-                                        class="inline-block bg-[#B06D36] text-white text-xs font-bold px-4 py-2 roundedHover:bg-[#8f5424] transition-colors rounded-full">View
+                                    <a href="../Shop/Shop.html?category_id=127"
+                                        class="inline-block bg-[#B06D36] text-white text-xs font-bold px-4 py-2 hover:bg-[#8f5424] transition-colors rounded-full">View
                                         All</a>
                                 </div>
                             </div>
@@ -333,18 +423,21 @@
                     <!-- Price Filter -->
                     <div>
                         <h3 class="text-xl font-bold text-[#3E1C00] mb-4">Price</h3>
-                        <p class="text-[#3E1C00] font-medium mb-4">₹ 300.00 To ₹ 1,000.00</p>
+                        <div class="flex items-center justify-between mb-2">
+                             <input type="number" id="minPriceInput" class="w-20 bg-transparent border border-[#D4B896] text-xs p-1 rounded focus:outline-none" value="0" onchange="updateSliderFromInputs()">
+                             <span class="text-[#3E1C00] text-xs">to</span>
+                             <input type="number" id="maxPriceInput" class="w-20 bg-transparent border border-[#D4B896] text-xs p-1 rounded focus:outline-none" value="5000" onchange="updateSliderFromInputs()">
+                        </div>
 
-                        <!-- Range Slider Simulation -->
-                        <div class="relative w-full h-1 bg-[#D4B896] rounded-full mt-2">
-                            <div class="absolute left-[20%] right-[20%] h-full bg-[#8B4513] rounded-full"></div>
-                            <div
-                                class="absolute left-[20%] top-1/2 -translate-y-1/2 w-4 h-4 bg-[#8B4513] rounded-full cursor-pointer shadow">
-                            </div>
-                            <div
-                                class="absolute right-[20%] top-1/2 -translate-y-1/2 w-4 h-4 bg-[#8B4513] rounded-full cursor-pointer shadow">
+                        <div class="wrapper">
+                            <div class="container-slider">
+                                <div class="slider-track" id="sliderTrack"></div>
+                                <input type="range" min="0" max="5000" value="0" id="slider-1" oninput="slideOne()">
+                                <input type="range" min="0" max="5000" value="5000" id="slider-2" oninput="slideTwo()">
                             </div>
                         </div>
+                        
+                        <button onclick="applyManualPrice()" class="mt-2 w-full text-xs bg-[#8B4513] text-white py-2 rounded font-medium hover:bg-[#3E1C00] transition-colors">Apply Price Filter</button>
                     </div>
 
                     <div class="border-t border-[#D4B896] pt-6"></div>
@@ -429,9 +522,10 @@
 
                             <!-- Search -->
                             <div class="relative flex-grow md:flex-grow-0">
-                                <input type="text" placeholder="Search"
-                                    class="w-full md:w-48 border border-[#3E1C00] rounded-full py-1.5 pl-4 pr-10 bg-transparent text-sm focus:outline-none placeholder-[#3E1C00]/60">
-                                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-[#3E1C00]">
+                                <input type="text" id="shopSearchInput" placeholder="Search"
+                                    class="w-full md:w-48 border border-[#3E1C00] rounded-full py-1.5 pl-4 pr-10 bg-transparent text-sm focus:outline-none placeholder-[#3E1C00]/60"
+                                    onkeypress="if(event.key === 'Enter') filterBySearch(this.value)">
+                                <button onclick="filterBySearch(document.getElementById('shopSearchInput').value)" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#3E1C00]">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -455,256 +549,11 @@
 
                     <!-- Product Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="productGrid">
-
-                        <!-- Product Card 1: Sev -->
-                        <div
-                            class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-2 transition-all duration-300">
-                            <!-- Image Container -->
-                            <div
-                                class="relative h-64 w-full mb-4 bg-[#F9F9F9] rounded-lg overflow-hidden flex items-center justify-center">
-                                <div
-                                    class="absolute top-3 right-3 z-10 w-8 h-8 md:w-9 md:h-9 bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-50 text-[#8B4513]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
-                                    </svg>
-                                </div>
-                                <img src="../Assets/Products/sev.png"
-                                    onerror="this.src='https://placehold.co/300x300/FDF5ED/DAA520?text=Sev'" alt="Sev"
-                                    class="h-full object-contain">
-                            </div>
-
-                            <!-- Content -->
-                            <div class="space-y-2">
-                                <h3 class="text-xl font-bold text-[#3E1C00]">Sev</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[#B06D36] font-bold text-lg">Rs. 120.00</span>
-                                    <!-- <span class="text-gray-400 text-sm line-through">Rs. 150.00</span> -->
-                                </div>
-                                <!-- Stars -->
-                                <div class="flex text-yellow-400 text-sm">
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star-half-alt">★</i>
-                                </div>
-                                <!-- Buttons -->
-                                <div class="flex gap-3 pt-2">
-                                    <button
-                                        class="flex-1 bg-[#B06D36] text-white py-2 rounded font-medium text-sm hover:bg-[#8B4513] transition-colors">Shop
-                                        Now</button>
-                                    <button
-                                        class="flex-1 border border-[#B06D36] text-[#B06D36] py-2 rounded font-medium text-sm hover:bg-[#FFF8F0] transition-colors">Add
-                                        to cart</button>
-                                </div>
-                            </div>
+                        <!-- Dynamic content will be loaded here via shop.js -->
+                        <div class="col-span-full text-center py-20">
+                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#B06D36]"></div>
+                            <p class="mt-4 text-[#3E1C00] font-medium">Loading products...</p>
                         </div>
-
-                        <!-- Product Card 2: Murukku -->
-                        <div
-                            class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-2 transition-all duration-300">
-                            <div
-                                class="relative h-64 w-full mb-4 bg-[#F9F9F9] rounded-lg overflow-hidden flex items-center justify-center">
-                                <div
-                                    class="absolute top-3 right-3 z-10 w-8 h-8 md:w-9 md:h-9 bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-50 text-[#8B4513]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
-                                    </svg>
-                                </div>
-                                <img src="../Assets/Products/murukku.png"
-                                    onerror="this.src='https://placehold.co/300x300/FDF5ED/DAA520?text=Murukku'"
-                                    alt="Murukku" class="h-full object-contain">
-                            </div>
-                            <div class="space-y-2">
-                                <h3 class="text-xl font-bold text-[#3E1C00]">Murukku</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[#B06D36] font-bold text-lg">Rs. 150.00</span>
-                                    <span class="text-gray-400 text-sm line-through">Rs. 180.00</span>
-                                </div>
-                                <div class="flex text-yellow-400 text-sm">
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                </div>
-                                <div class="flex gap-3 pt-2">
-                                    <button
-                                        class="flex-1 bg-[#B06D36] text-white py-2 rounded font-medium text-sm hover:bg-[#8B4513] transition-colors">Shop
-                                        Now</button>
-                                    <button
-                                        class="flex-1 border border-[#B06D36] text-[#B06D36] py-2 rounded font-medium text-sm hover:bg-[#FFF8F0] transition-colors">Add
-                                        to cart</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Card 3: Mixture -->
-                        <div
-                            class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-2 transition-all duration-300">
-                            <div
-                                class="relative h-64 w-full mb-4 bg-[#F9F9F9] rounded-lg overflow-hidden flex items-center justify-center">
-                                <div
-                                    class="absolute top-3 right-3 z-10 w-8 h-8 md:w-9 md:h-9 bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-50 text-[#8B4513]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
-                                    </svg>
-                                </div>
-                                <img src="../Assets/Products/mixture.png"
-                                    onerror="this.src='https://placehold.co/300x300/FDF5ED/DAA520?text=Mixture'"
-                                    alt="Mixture" class="h-full object-contain">
-                            </div>
-                            <div class="space-y-2">
-                                <h3 class="text-xl font-bold text-[#3E1C00]">Mixture</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[#B06D36] font-bold text-lg">Rs. 180.00</span>
-                                </div>
-                                <div class="flex text-yellow-400 text-sm">
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star-half-alt">★</i>
-                                </div>
-                                <div class="flex gap-3 pt-2">
-                                    <button
-                                        class="flex-1 bg-[#B06D36] text-white py-2 rounded font-medium text-sm hover:bg-[#8B4513] transition-colors">Shop
-                                        Now</button>
-                                    <button
-                                        class="flex-1 border border-[#B06D36] text-[#B06D36] py-2 rounded font-medium text-sm hover:bg-[#FFF8F0] transition-colors">Add
-                                        to cart</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Card 4: Laddu -->
-                        <div
-                            class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-2 transition-all duration-300">
-                            <div
-                                class="relative h-64 w-full mb-4 bg-[#F9F9F9] rounded-lg overflow-hidden flex items-center justify-center">
-                                <div
-                                    class="absolute top-3 right-3 z-10 w-8 h-8 md:w-9 md:h-9 bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-50 text-[#8B4513]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
-                                    </svg>
-                                </div>
-                                <img src="../Assets/Products/laddu.png"
-                                    onerror="this.src='https://placehold.co/300x300/FDF5ED/DAA520?text=Laddu'"
-                                    alt="Laddu" class="h-full object-contain">
-                            </div>
-                            <div class="space-y-2">
-                                <h3 class="text-xl font-bold text-[#3E1C00]">Laddu</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[#B06D36] font-bold text-lg">Rs. 200.00</span>
-                                    <span class="text-gray-400 text-sm line-through">Rs. 220.00</span>
-                                </div>
-                                <div class="flex text-yellow-400 text-sm">
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                </div>
-                                <div class="flex gap-3 pt-2">
-                                    <button
-                                        class="flex-1 bg-[#B06D36] text-white py-2 rounded font-medium text-sm hover:bg-[#8B4513] transition-colors">Shop
-                                        Now</button>
-                                    <button
-                                        class="flex-1 border border-[#B06D36] text-[#B06D36] py-2 rounded font-medium text-sm hover:bg-[#FFF8F0] transition-colors">Add
-                                        to cart</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Card 5: Soan Papdi -->
-                        <div
-                            class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-2 transition-all duration-300">
-                            <div
-                                class="relative h-64 w-full mb-4 bg-[#F9F9F9] rounded-lg overflow-hidden flex items-center justify-center">
-                                <div
-                                    class="absolute top-3 right-3 z-10 w-8 h-8 md:w-9 md:h-9 bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-50 text-[#8B4513]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
-                                    </svg>
-                                </div>
-                                <img src="../Assets/Products/soan-papdi.png"
-                                    onerror="this.src='https://placehold.co/300x300/FDF5ED/DAA520?text=Soan+Papdi'"
-                                    alt="Soan Papdi" class="h-full object-contain">
-                            </div>
-                            <div class="space-y-2">
-                                <h3 class="text-xl font-bold text-[#3E1C00]">Soan Papdi</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[#B06D36] font-bold text-lg">Rs. 250.00</span>
-                                </div>
-                                <div class="flex text-yellow-400 text-sm">
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star-half-alt">★</i>
-                                </div>
-                                <div class="flex gap-3 pt-2">
-                                    <button
-                                        class="flex-1 bg-[#B06D36] text-white py-2 rounded font-medium text-sm hover:bg-[#8B4513] transition-colors">Shop
-                                        Now</button>
-                                    <button
-                                        class="flex-1 border border-[#B06D36] text-[#B06D36] py-2 rounded font-medium text-sm hover:bg-[#FFF8F0] transition-colors">Add
-                                        to cart</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Card 6: Halwa -->
-                        <div
-                            class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-2 transition-all duration-300">
-                            <div
-                                class="relative h-64 w-full mb-4 bg-[#F9F9F9] rounded-lg overflow-hidden flex items-center justify-center">
-                                <div
-                                    class="absolute top-3 right-3 z-10 w-8 h-8 md:w-9 md:h-9 bg-white rounded-full flex items-center justify-center shadow-md cursor-pointer hover:bg-gray-50 text-[#8B4513]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
-                                    </svg>
-                                </div>
-                                <img src="../Assets/Products/halwa.png"
-                                    onerror="this.src='https://placehold.co/300x300/FDF5ED/DAA520?text=Halwa'"
-                                    alt="Halwa" class="h-full object-contain">
-                            </div>
-                            <div class="space-y-2">
-                                <h3 class="text-xl font-bold text-[#3E1C00]">Halwa</h3>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-[#B06D36] font-bold text-lg">Rs. 300.00</span>
-                                    <span class="text-gray-400 text-sm line-through">Rs. 350.00</span>
-                                </div>
-                                <div class="flex text-yellow-400 text-sm">
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star">★</i>
-                                    <i class="fas fa-star-half-alt">★</i>
-                                </div>
-                                <div class="flex gap-3 pt-2">
-                                    <button
-                                        class="flex-1 bg-[#B06D36] text-white py-2 rounded font-medium text-sm hover:bg-[#8B4513] transition-colors">Shop
-                                        Now</button>
-                                    <button
-                                        class="flex-1 border border-[#B06D36] text-[#B06D36] py-2 rounded font-medium text-sm hover:bg-[#FFF8F0] transition-colors">Add
-                                        to cart</button>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                     <!-- Pagination -->

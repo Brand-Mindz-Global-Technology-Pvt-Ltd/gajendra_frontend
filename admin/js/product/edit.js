@@ -6,129 +6,153 @@
  * Edit product
  */
 async function editProduct(productId) {
+    console.log("🔍 Edit button clicked for ID:", productId);
+    
     // Scroll first for immediate feedback
     document.getElementById("productFormCard").scrollIntoView({ behavior: "smooth" });
   
-    const product = products.find((p) => p.id == productId);
-    if (!product) {
-      showToast("❌ Product not found", "error");
-      return;
-    }
-  
-    console.log("🔍 Editing product:", product);
-  
-    // STEP 1: Load categories (async)
-    const categoriesLoaded = await loadCategoriesForDropdown();
-    if (!categoriesLoaded) {
-      showToast("❌ Failed to load categories", "error");
-      return;
-    }
-  
-    // STEP 2: Fill basic fields
-    document.getElementById("prodId").value = product.id;
-    document.getElementById("prodName").value = product.name;
-    document.getElementById("prodSlug").value = product.slug;
-    document.getElementById("prodDesc").value = product.description || "";
-    document.getElementById("prodProductDesc").value = product.product_description || "";
-    document.getElementById("prodBenefits").value = product.benefits || "";
-    document.getElementById("prodHowToUse").value = product.how_to_use || "";
-    document.getElementById("prodPrice").value = product.price;
-    document.getElementById("prodStock").value = product.stock;
-  
-    // Detect correct category ID
-    let categoryId =
-      product.category_id ||
-      product.categoryId ||
-      product.cat_id ||
-      product.catId ||
-      null;
-  
-    console.log("📦 Product category ID:", categoryId);
-  
-    // STEP 3: Set CATEGORY DROPDOWN correctly
-    if (categoryId) {
-      const categorySelect = document.getElementById("prodCategory");
-      const targetValue = String(categoryId);
-  
-      console.log("🔍 Waiting for category option:", targetValue);
-      await waitForOption(categorySelect, targetValue);
-  
-      categorySelect.value = targetValue;
-      console.log("✅ Category selected:", targetValue);
-  
-      // STEP 4: Load subcategories for selected category
-      // Note: loadSubcategoriesForProduct is in utils.js
-      await loadSubcategoriesForProduct(categoryId);
-  
-      // STEP 5: Set SUBCATEGORY DROPDOWN
-      if (product.subcategory_id) {
-        const subcatSelect = document.getElementById("prodSubcategory");
-        const subVal = String(product.subcategory_id);
-  
-        console.log("🔍 Waiting for subcategory option:", subVal);
-        await waitForOption(subcatSelect, subVal);
-  
-        subcatSelect.value = subVal;
-        console.log("✅ Subcategory selected:", subVal);
-      }
-    } else {
-      console.warn("⚠️ No category ID in product");
-    }
-  
-    // STEP 6: Status, New Arrival, Best Seller & 4th Section
-    document.getElementById("prodStatus").value = product.status || "active";
+    // Show loading state
+    showLoading('products');
     
-    // Handle new arrival (check multiple field names)
-    document.getElementById("prodNew").checked = 
-      product.is_new_arrival == 1 || product.is_new_arrival == "1" || product.isNewArrival == 1;
-    
-    // Handle best seller (check multiple field names)
-    document.getElementById("prodBestSeller").checked = 
-      product.is_best_seller == 1 || product.is_best_seller == "1" || product.isBestSeller == 1;
-    
-    // Handle 4th section (check multiple field names)
-    document.getElementById("prodFourthSection").checked = 
-      product.is_fourth_section == 1 || product.is_fourth_section == "1" || product.isFourthSection == 1;
-  
-    // STEP 9: Price variations
-    loadPriceVariations(product.variations || []);
-  
-    // STEP 10: Load images into upload slots
-    if (product.images && product.images.length > 0) {
-        if (typeof loadImagesForEdit === 'function') {
-            loadImagesForEdit(product.images);
+    try {
+        // STEP 1: Fetch fresh product data from server
+        // This ensures we have all details including variations and segments
+        console.log(`📡 Fetching full details for product ${productId}...`);
+        const response = await fetch(`${API_BASE}/get_product.php?product_id=${productId}&shop_id=${currentShop.id}`);
+        const data = await response.json();
+        
+        if (!data.success) {
+            showToast("❌ " + (data.message || "Product not found"), "error");
+            hideLoading('products');
+            return;
         }
-    } else {
-        if (typeof initializeImageUploadSlots === 'function') {
-            initializeImageUploadSlots();
+        
+        const product = data.product;
+        console.log("✅ Received product data:", product);
+  
+        // STEP 2: Load categories (async)
+        const categoriesLoaded = await loadCategoriesForDropdown();
+        if (!categoriesLoaded) {
+            showToast("❌ Failed to load categories", "error");
+            hideLoading('products');
+            return;
         }
+  
+        // STEP 3: Fill basic fields
+        document.getElementById("prodId").value = product.id;
+        document.getElementById("prodName").value = product.name;
+        document.getElementById("prodSlug").value = product.slug;
+        document.getElementById("prodDesc").value = product.description || "";
+        document.getElementById("prodProductDesc").value = product.product_description || "";
+        document.getElementById("prodBenefits").value = product.benefits || "";
+        document.getElementById("prodHowToUse").value = product.how_to_use || "";
+        
+        // Set price and stock
+        const priceField = document.getElementById("prodPrice");
+        if (priceField) {
+            priceField.value = product.price || 0;
+        }
+        
+        const stockField = document.getElementById("prodStock");
+        if (stockField) {
+            stockField.value = product.stock || 0;
+        }
+  
+        // Detect correct category ID
+        let categoryId =
+            product.category_id ||
+            product.categoryId ||
+            product.cat_id ||
+            product.catId ||
+            null;
+  
+        console.log("📦 Product category ID:", categoryId);
+  
+        // STEP 4: Set CATEGORY DROPDOWN
+        if (categoryId) {
+            const categorySelect = document.getElementById("prodCategory");
+            const targetValue = String(categoryId);
+  
+            console.log("🔍 Waiting for category option:", targetValue);
+            await waitForOption(categorySelect, targetValue);
+  
+            categorySelect.value = targetValue;
+            console.log("✅ Category selected:", targetValue);
+  
+            // STEP 5: Load subcategories for selected category
+            await loadSubcategoriesForProduct(categoryId);
+  
+            // STEP 6: Set SUBCATEGORY DROPDOWN
+            const subcategoryId = product.subcategory_id || product.sub_category_id;
+            if (subcategoryId) {
+                const subcatSelect = document.getElementById("prodSubcategory");
+                const subVal = String(subcategoryId);
+  
+                console.log("🔍 Waiting for subcategory option:", subVal);
+                await waitForOption(subcatSelect, subVal);
+  
+                subcatSelect.value = subVal;
+                console.log("✅ Subcategory selected:", subVal);
+            }
+        }
+  
+        // STEP 7: Status, New Arrival, Best Seller & 4th Section
+        document.getElementById("prodStatus").value = product.status || "active";
+        
+        document.getElementById("prodNew").checked = 
+            product.is_new_arrival == 1 || product.is_new_arrival == "1" || product.isNewArrival == 1;
+        
+        document.getElementById("prodBestSeller").checked = 
+            product.is_best_seller == 1 || product.is_best_seller == "1" || product.isBestSeller == 1;
+        
+        document.getElementById("prodFourthSection").checked = 
+            product.is_fourth_section == 1 || product.is_fourth_section == "1" || product.isFourthSection == 1;
+  
+        // STEP 8: Price variations
+        if (typeof loadPriceVariations === 'function') {
+            loadPriceVariations(product.variations || []);
+        }
+  
+        // STEP 9: Load images into upload slots
+        if (product.images && product.images.length > 0) {
+            if (typeof loadImagesForEdit === 'function') {
+                loadImagesForEdit(product.images);
+            }
+        } else {
+            if (typeof initializeImageUploadSlots === 'function') {
+                initializeImageUploadSlots();
+            }
+        }
+  
+        // STEP 10: Load Taste Segments
+        window.deletedTasteSegments = new Set();
+        if (typeof loadTasteSegments === 'function') {
+            loadTasteSegments(product.taste_segments || []);
+        }
+  
+        // STEP 11: Clear file inputs
+        document.querySelectorAll(".image-upload-slot").forEach((slot) => {
+            const input = slot.querySelector(".image-input");
+            if (input) input.value = "";
+        });
+  
+        // STEP 12: Switch UI to Edit Mode
+        if (typeof switchToEditMode === 'function') {
+            switchToEditMode("product");
+        }
+  
+        showToast("📝 Product data loaded for editing", "info");
+        
+    } catch (error) {
+        console.error("❌ Error in editProduct:", error);
+        showToast("❌ Error loading product details: " + error.message, "error");
+    } finally {
+        hideLoading('products');
+        // Final scroll to ensure we are at the form
+        document.getElementById("products").scrollIntoView({ behavior: "smooth" });
     }
-
-    // STEP 11: Load Taste Segments
-    // Reset deleted segments set
-    window.deletedTasteSegments = new Set();
-    
-    if (typeof loadTasteSegments === 'function') {
-        // Assuming product.taste_segments exists from backend
-        loadTasteSegments(product.taste_segments || []);
-    }
-  
-    // STEP 12: Clear file inputs (new upload prepared)
-    document.querySelectorAll(".image-upload-slot").forEach((slot) => {
-      const input = slot.querySelector(".image-input");
-      if (input) input.value = "";
-    });
-  
-    // STEP 13: Switch UI to Edit Mode
-    if (typeof switchToEditMode === 'function') {
-        switchToEditMode("product");
-    }
-  
-    // Scroll smoothly to form
-    document.getElementById("products").scrollIntoView({ behavior: "smooth" });
-  
-    showToast("📝 Product data loaded for editing", "info");
 }
+
 
 /**
  * Handle product save (edit mode)
@@ -150,20 +174,20 @@ async function handleProductSave() {
     try {
         const formData = new FormData();
         formData.append('id', productId);
-        formData.append('name', document.getElementById('prodName').value);
-        formData.append('slug', document.getElementById('prodSlug').value);
-        formData.append('description', document.getElementById('prodDesc').value);
-        formData.append('product_description', document.getElementById('prodProductDesc').value);
-        formData.append('benefits', document.getElementById('prodBenefits').value);
-        formData.append('how_to_use', document.getElementById('prodHowToUse').value);
-        formData.append('price', document.getElementById('prodPrice').value);
-        formData.append('stock', document.getElementById('prodStock').value);
-        formData.append('category_id', document.getElementById('prodCategory').value);
-        formData.append('subcategory_id', document.getElementById('prodSubcategory').value);
-        formData.append('status', document.getElementById('prodStatus').value);
-        formData.append('is_new_arrival', document.getElementById('prodNew').checked ? '1' : '0');
-        formData.append('is_best_seller', document.getElementById('prodBestSeller').checked ? '1' : '0');
-        formData.append('is_fourth_section', document.getElementById('prodFourthSection').checked ? '1' : '0');
+        formData.append('name', document.getElementById('prodName')?.value || '');
+        formData.append('slug', document.getElementById('prodSlug')?.value || '');
+        formData.append('description', document.getElementById('prodDesc')?.value || '');
+        formData.append('product_description', document.getElementById('prodProductDesc')?.value || '');
+        formData.append('benefits', document.getElementById('prodBenefits')?.value || '');
+        formData.append('how_to_use', document.getElementById('prodHowToUse')?.value || '');
+        formData.append('price', document.getElementById('prodPrice')?.value || '0');
+        formData.append('stock', document.getElementById('prodStock')?.value || '0');
+        formData.append('category_id', document.getElementById('prodCategory')?.value || '');
+        formData.append('subcategory_id', document.getElementById('prodSubcategory')?.value || '');
+        formData.append('status', document.getElementById('prodStatus')?.value || 'active');
+        formData.append('is_new_arrival', document.getElementById('prodNew')?.checked ? '1' : '0');
+        formData.append('is_best_seller', document.getElementById('prodBestSeller')?.checked ? '1' : '0');
+        formData.append('is_fourth_section', document.getElementById('prodFourthSection')?.checked ? '1' : '0');
       
         // Collect price variations
         const variations = collectPriceVariations();
