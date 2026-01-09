@@ -1,16 +1,41 @@
 <?php
-require_once '../../config/db.php';
-header('Content-Type: application/json');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-    exit;
+/* ===============================
+   CORS (SESSION SAFE)
+================================ */
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin) {
+    header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Credentials: true");
+}
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
 }
 
-$user_id = $_POST['user_id'] ?? '';
+require_once '../../config/db.php';
+
+/* ===============================
+   SESSION AUTH
+================================ */
+$lifetime = 2592000; // 30 days
+ini_set('session.gc_maxlifetime', $lifetime);
+ini_set('session.cookie_lifetime', $lifetime);
+ini_set('session.cookie_secure', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'None');
+
+session_start();
+
+$user_id = $_SESSION['user_id'] ?? 0;
 
 if (!$user_id) {
-    echo json_encode(['status' => 'error', 'message' => 'User ID missing']);
+    echo json_encode(['status' => 'error', 'message' => 'Unauthorized: Please login']);
     exit;
 }
 
@@ -27,25 +52,20 @@ if ($result->num_rows == 0) {
 
 $current = $result->fetch_assoc();
 
-// Safe updates (do not overwrite with empty values)
-$name = !empty($_POST['name']) ? $_POST['name'] : $current['name'];
-$email = !empty($_POST['email']) ? $_POST['email'] : $current['email'];
+// Map POST fields (Frontend uses full_name, DB uses name)
+$name = !empty($_POST['full_name']) ? $_POST['full_name'] : $current['name'];
+$email = !empty($_POST['email']) ? $_POST['email'] : $current['email']; // Usually immutable, but keeping logic
 $phone = !empty($_POST['phone']) ? $_POST['phone'] : $current['phone'];
-$dob = !empty($_POST['dob']) ? $_POST['dob'] : $current['dob'];
+$dob = !empty($_POST['dob']) ? $_POST['dob'] : $current['dob']; // If sent
 $gender = !empty($_POST['gender']) ? $_POST['gender'] : $current['gender'];
-$profile_image = !empty($_POST['profile_image']) ? $_POST['profile_image'] : $current['profile_image'];
 
 // Update only changed fields
-$update = $conn->prepare("
-    UPDATE users 
-    SET name = ?, email = ?, phone = ?, dob = ?, gender = ?, profile_image = ?
-    WHERE id = ?
-");
-$update->bind_param("ssssssi", $name, $email, $phone, $dob, $gender, $profile_image, $user_id);
+$update = $conn->prepare("UPDATE users SET name = ?, email = ?, phone = ?, dob = ?, gender = ? WHERE id = ?");
+$update->bind_param("sssssi", $name, $email, $phone, $dob, $gender, $user_id);
 
 if ($update->execute()) {
-    echo json_encode(['status' => 'success', 'message' => 'Profile updated']);
+    echo json_encode(['status' => 'success', 'message' => 'Profile updated successfully']);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to update']);
+    echo json_encode(['status' => 'error', 'message' => 'Failed to update profile']);
 }
 ?>

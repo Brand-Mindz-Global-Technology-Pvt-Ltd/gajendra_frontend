@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Blog | Narpavai Honey</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Blog | Narpavai Honey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            poppins: ['Poppins', 'sans-serif']
-          },
-          colors: {
-            brown: '#642E13',
-            pageBg: '#F8E2D0'
-          }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif']
+                    },
+                    colors: {
+                        brown: '#642E13',
+                        pageBg: '#F8E2D0'
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
+    </script>
 </head>
 
 <body class="bg-pageBg font-poppins text-gray-800">
 
-<!-- RESPONSIVE HEADER -->
-<header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
+    <!-- RESPONSIVE HEADER -->
+    <header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14 md:h-16">
 
@@ -384,74 +386,49 @@
                 </div>
             </nav>
         </div>
-</header>
+    </header>
 
-<!-- BANNER -->
-<section class="relative h-[350px] bg-[url('images/blogbanner.jpg')] bg-cover bg-center flex items-center justify-center">
-  <div class="absolute inset-0 bg-black/50"></div>
+    <!-- BANNER -->
+    <section
+        class="relative h-[350px] bg-[url('images/blogbanner.jpg')] bg-cover bg-center flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/50"></div>
 
-  <div class="relative text-center text-white px-4">
-    <h1 class="text-4xl md:text-5xl font-bold mb-3">Our Blog</h1>
-    <p class="text-base md:text-lg">
-      Insights, stories & natural goodness from Narpavai Honey
-    </p>
-  </div>
-</section>
+        <div class="relative text-center text-white px-4">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3">Our Blog</h1>
+            <p class="text-base md:text-lg">
+                Insights, stories & natural goodness from Narpavai Honey
+            </p>
+        </div>
+    </section>
 
-<!-- BLOG SECTION -->
-<section class="py-16 px-4">
-  <div class="max-w-[1200px] mx-auto">
+    <!-- BLOG SECTION -->
+    <section class="py-16 px-4">
+        <div class="max-w-[1200px] mx-auto">
 
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div id="blogGrid" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 
-      <!-- BLOG CARD -->
-      <article class="bg-white rounded-xl overflow-hidden shadow-md
-                      transition hover:-translate-y-1 hover:shadow-xl">
+                <!-- Loading State -->
+                <div id="blogLoading" class="col-span-full py-20 text-center">
+                    <div
+                        class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-brown border-t-transparent">
+                    </div>
+                    <p class="mt-4 text-gray-600 font-medium">Fetching the latest stories...</p>
+                </div>
 
-        <img src="images/sweetsblog.jpg"
-             alt="Honey Blog"
-             class="w-full h-[200px] object-cover">
+            </div>
 
-        <div class="p-5">
-
-          <!-- META -->
-          <div class="flex items-center text-sm text-gray-500 mb-3 gap-3">
-            <span class="bg-brown text-white px-3 py-1 rounded text-xs">
-              Sweets
-            </span>
-            <span>28 November 2025</span>
-          </div>
-
-          <!-- TITLE -->
-          <h3 class="text-lg font-semibold mb-3 leading-snug">
-            <a href="singleblog.html"
-               class="text-brown hover:text-orange-500 transition">
-              Why Every Household Should Have Pure Honey in Their Kitchen
-            </a>
-          </h3>
-
-          <!-- EXCERPT -->
-          <p class="text-sm text-gray-600 mb-4">
-            Narpavi Honey has been part of Indian homes for generations,
-            offering pure, naturally harvested sweetness that families trust...
-          </p>
-
-          <!-- CTA -->
-          <a href="singleblog.html"
-             class="inline-block text-brown font-medium hover:text-orange-500 transition">
-            Read More →
-          </a>
+            <!-- Empty State (Hidden) -->
+            <div id="blogEmpty" class="hidden py-20 text-center">
+                <i class="fas fa-blog fa-3x text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700">No blogs found</h3>
+                <p class="text-gray-500">Check back later for new updates!</p>
+            </div>
 
         </div>
-      </article>
+    </section>
 
-    </div>
-
-  </div>
-</section>
-
-<!-- FOOTER SECTION -->
-<footer class="w-full bg-white font-poppins pt-0">
+    <!-- FOOTER SECTION -->
+    <footer class="w-full bg-white font-poppins pt-0">
 
         <!-- TOP DECORATIVE BORDER -->
         <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
@@ -546,9 +523,10 @@
 
         </div>
 
-</footer>
+    </footer>
 
-<!-- JS -->
-
+    <!-- JS -->
+    <script src="blog.js"></script>
 </body>
+
 </html>

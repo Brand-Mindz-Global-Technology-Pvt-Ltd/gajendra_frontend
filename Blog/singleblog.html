@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Why Every Household Should Have Pure Honey</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Why Every Household Should Have Pure Honey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            poppins: ['Poppins', 'sans-serif']
-          },
-          colors: {
-            brown: '#5b2e08',
-            pageBg: '#F8E2D0'
-          }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif']
+                    },
+                    colors: {
+                        brown: '#5b2e08',
+                        pageBg: '#F8E2D0'
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
+    </script>
 </head>
 
 <body class="bg-pageBg font-poppins text-gray-800">
 
-<!-- RESPONSIVE HEADER -->
-<header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
+    <!-- RESPONSIVE HEADER -->
+    <header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
             <div class="flex items-center justify-between h-14 md:h-16">
 
@@ -384,130 +386,59 @@
                 </div>
             </nav>
         </div>
-</header>
+    </header>
 
-<!-- HERO IMAGE -->
-<section>
-  <img 
-    src="Images/sweetsblog.jpg" 
-    alt="Pure Honey"
-    class="w-full h-[260px] md:h-[420px] object-cover"
-  >
-</section>
+    <!-- HERO IMAGE -->
+    <section>
+        <img id="blogHeroImage" src="Images/sweetsblog.jpg" alt="Gajendra Vilas"
+            class="w-full h-[260px] md:h-[420px] object-cover">
+    </section>
 
-<!-- BLOG CONTENT -->
-<article class="max-w-[900px] mx-auto px-5 py-14">
+    <!-- BLOG CONTENT -->
+    <article class="max-w-[900px] mx-auto px-5 py-14">
 
-  <!-- TAG -->
-  <span class="inline-block bg-brown text-white text-sm px-4 py-1 rounded mb-5">
-    Sweets
-  </span>
+        <div id="blogLoading" class="py-20 text-center">
+            <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-brown border-t-transparent">
+            </div>
+            <p class="mt-4 text-gray-600 font-medium">Loading your story...</p>
+        </div>
 
-  <!-- TITLE -->
-  <h1 class="text-3xl md:text-4xl font-semibold mb-3">
-    Why Traditional Indian Sweets Still Hold a Special Place in Every Home
-  </h1>
+        <div id="blogContentWrapper" class="hidden">
+            <!-- TAG -->
+            <span id="blogCategory" class="inline-block bg-brown text-white text-sm px-4 py-1 rounded mb-5">
+                Category
+            </span>
 
-  <!-- DATE -->
-  <p class="text-sm text-[#8a6b4f] mb-8">
-    Published on 28 November 2025
-  </p>
+            <!-- TITLE -->
+            <h1 id="blogTitle" class="text-3xl md:text-4xl font-bold mb-3 text-brown">
+                Blog Title
+            </h1>
 
-  <!-- CONTENT -->
-  <p class="text-[17px] mb-5 leading-relaxed">
-    Indian sweets have been an essential part of our culture for centuries.
-    From festivals and weddings to everyday moments of joy, sweets symbolize
-    happiness, togetherness, and celebration.
-  </p>
+            <!-- DATE -->
+            <p id="blogDate" class="text-sm text-[#8a6b4f] mb-8 italic">
+                Published on
+            </p>
 
-  <h2 class="text-[26px] font-semibold mt-10 mb-4">
-    The Cultural Significance of Indian Sweets
-  </h2>
+            <!-- CONTENT -->
+            <div id="blogContent" class="text-[17px] mb-5 leading-relaxed text-gray-700">
+                <!-- Dynamic Content Injection -->
+            </div>
+        </div>
 
-  <p class="text-[17px] mb-5 leading-relaxed">
-    Across India, every region has its own unique sweets made using traditional
-    recipes passed down through generations. These sweets are not just desserts;
-    they carry emotions, memories, and cultural values.
-  </p>
+        <div id="blogError" class="hidden py-20 text-center">
+            <i class="fas fa-exclamation-circle fa-3x text-orange-400 mb-4"></i>
+            <h3 class="text-xl font-bold text-brown">Story Not Found</h3>
+            <p class="text-gray-500 mb-6">The blog post you're looking for might have been moved or doesn't exist.</p>
+            <a href="blog.html"
+                class="inline-block bg-brown text-white px-6 py-2 rounded font-medium transition hover:bg-orange-700">
+                Back to Blog Listing
+            </a>
+        </div>
 
-  <p class="text-[17px] mb-5 leading-relaxed">
-    Whether it’s laddoos during festivals, halwa for special occasions, or
-    payasam served after meals, sweets connect families and traditions.
-  </p>
+    </article>
 
-  <h2 class="text-[26px] font-semibold mt-10 mb-4">
-    What Makes Traditional Sweets Special?
-  </h2>
-
-  <h3 class="text-xl font-semibold mt-6 mb-2">
-    1. Made with Natural Ingredients
-  </h3>
-
-  <p class="text-[17px] mb-5 leading-relaxed">
-    Traditional sweets are prepared using natural ingredients like jaggery,
-    ghee, milk, nuts, and grains. Unlike heavily processed desserts, homemade
-    sweets focus on purity and authentic taste.
-  </p>
-
-  <h3 class="text-xl font-semibold mt-6 mb-2">
-    2. Perfect Balance of Taste and Tradition
-  </h3>
-
-  <ul class="list-disc ml-6 text-[16px] mb-6 space-y-2">
-    <li>Prepared using age-old family recipes</li>
-    <li>No artificial flavors or preservatives</li>
-    <li>Rich aroma from pure ghee and spices</li>
-    <li>Authentic texture and taste</li>
-    <li>Made fresh for every occasion</li>
-  </ul>
-
-  <h3 class="text-xl font-semibold mt-6 mb-2">
-    3. Healthier Than Store-Bought Desserts
-  </h3>
-
-  <p class="text-[17px] mb-5 leading-relaxed">
-    When prepared in moderation using quality ingredients, traditional sweets
-    can be a healthier alternative to packaged desserts. Ingredients like nuts,
-    dry fruits, and jaggery provide energy and essential nutrients.
-  </p>
-
-  <h2 class="text-[26px] font-semibold mt-10 mb-4">
-    Popular Indian Sweets Loved by All
-  </h2>
-
-  <ul class="list-disc ml-6 text-[16px] mb-6 space-y-2">
-    <li>Laddoos – A festive favorite</li>
-    <li>Mysore Pak – Rich and ghee-filled delight</li>
-    <li>Halwa – Comfort dessert for every age</li>
-    <li>Payasam – A traditional South Indian classic</li>
-    <li>Burfi – Simple, sweet, and timeless</li>
-  </ul>
-
-  <h2 class="text-[26px] font-semibold mt-10 mb-4">
-    Why Homemade Sweets Are Always Better
-  </h2>
-
-  <ol class="list-decimal ml-6 text-[16px] mb-6 space-y-2">
-    <li>Freshly prepared with care</li>
-    <li>Controlled sugar and ingredient quality</li>
-    <li>No harmful additives</li>
-    <li>Custom flavors based on family preference</li>
-  </ol>
-
-  <p class="text-[17px] mb-5 leading-relaxed">
-    Homemade sweets bring warmth and trust to every bite. They remind us of
-    childhood, family gatherings, and festive celebrations.
-  </p>
-
-  <p class="mt-10 text-lg font-semibold">
-    Celebrate every moment with the sweetness of tradition. Choose authentic,
-    homemade sweets made with love and purity.
-  </p>
-
-</article>
-
-<!-- FOOTER SECTION -->
-<footer class="w-full bg-white font-poppins pt-0">
+    <!-- FOOTER SECTION -->
+    <footer class="w-full bg-white font-poppins pt-0">
 
         <!-- TOP DECORATIVE BORDER -->
         <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
@@ -602,10 +533,82 @@
 
         </div>
 
-</footer>
+    </footer>
 
-<!-- JS -->
-<script src="script.js"></script>
+    <!-- JS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get("slug");
 
+            if (!slug) {
+                if (document.getElementById("blogLoading")) document.getElementById("blogLoading").classList.add("hidden");
+                if (document.getElementById("blogError")) document.getElementById("blogError").classList.remove("hidden");
+                return;
+            }
+
+            fetchBlog(slug);
+        });
+
+        async function fetchBlog(slug) {
+            const API_URL = "https://gajendhrademo.brandmindz.com/routes/blogs/user/get_blog.php";
+
+            try {
+                const fd = new FormData();
+                fd.append("slug", slug);
+
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    body: fd
+                });
+
+                if (!res.ok) throw new Error("Network response was not ok");
+
+                const data = await res.json();
+
+                if (data.status === "success" && data.data) {
+                    const blog = data.data;
+
+                    document.title = `${blog.title} | Gajendra Vilas`;
+                    document.getElementById("blogTitle").textContent = blog.title;
+                    document.getElementById("blogCategory").textContent = blog.category || 'General';
+
+                    const dateObj = new Date(blog.created_at);
+                    document.getElementById("blogDate").textContent = `Published on ${dateObj.toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    })}`;
+
+                    document.getElementById("blogContent").innerHTML = blog.content;
+
+                    if (blog.image) {
+                        document.getElementById("blogHeroImage").src = blog.image;
+                        document.getElementById("blogHeroImage").alt = blog.title;
+                    } else {
+                        document.getElementById("blogHeroImage").src = 'https://placehold.co/1200x600/5D3420/FFFFFF?text=Gajendra+Vilas';
+                    }
+
+                    document.getElementById("blogLoading").classList.add("hidden");
+                    document.getElementById("blogContentWrapper").classList.remove("hidden");
+
+                    // Increment views (optional)
+                    fetch("https://gajendhrademo.brandmindz.com/routes/blogs/user/increment_views.php", {
+                        method: "POST",
+                        body: fd
+                    }).catch(e => console.warn("View increment failed", e));
+
+                } else {
+                    document.getElementById("blogLoading").classList.add("hidden");
+                    document.getElementById("blogError").classList.remove("hidden");
+                }
+            } catch (err) {
+                console.error("Error fetching blog:", err);
+                if (document.getElementById("blogLoading")) document.getElementById("blogLoading").classList.add("hidden");
+                if (document.getElementById("blogError")) document.getElementById("blogError").classList.remove("hidden");
+            }
+        }
+    </script>
 </body>
+
 </html>

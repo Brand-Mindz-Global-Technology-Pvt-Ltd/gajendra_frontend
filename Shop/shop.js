@@ -45,7 +45,7 @@ async function loadCategories() {
             const urlParams = new URLSearchParams(window.location.search);
             const catId = urlParams.get('category_id');
             const catSlug = urlParams.get('category');
-            
+
             if ((catId && catId == cat.id) || (catSlug && catSlug === cat.slug)) {
                 currentCategory = cat.id; // Ensure we have the ID for following filters
                 const headerEl = catDiv.querySelector('.flex');
@@ -150,11 +150,11 @@ async function loadProducts() {
                 <p class="text-[#3E1C00] text-lg font-medium">No products found</p>
                 <p class="text-gray-500 text-sm mt-2">Try adjusting your filters or search criteria</p>
             </div>`;
-            
+
             // Update results count
             const resultText = document.querySelector('main p.text-sm');
             if (resultText) resultText.innerText = "Showing 0 results";
-            
+
             return;
         }
 
@@ -170,22 +170,22 @@ async function loadProducts() {
             // Determine display price: base price (which is unset in get_products.php) OR first variation amount
             const variations = typeof p.variations === 'string' ? JSON.parse(p.variations) : p.variations;
             const displayPrice = (variations && variations.length > 0) ? variations[0].amount : 'N/A';
-            
+
             // Handle images - check if images is a string or array
             let images = p.images;
             if (typeof images === 'string') {
                 try {
                     images = JSON.parse(images);
-                } catch(e) {
+                } catch (e) {
                     images = images.split(',').map(img => img.trim());
                 }
             }
-            
+
             const productImage = (images && images.length > 0 && images[0] !== '__EMPTY__') ? images[0] : null;
-            
+
             // Construct absolute image URL
             const imageBaseURL = "https://gajendhrademo.brandmindz.com/routes/uploads/products/";
-            const imageUrl = productImage 
+            const imageUrl = productImage
                 ? (productImage.startsWith('http') ? productImage : imageBaseURL + productImage)
                 : 'https://placehold.co/300x300/FDF5ED/DAA520?text=' + encodeURIComponent(p.name);
 
@@ -331,7 +331,7 @@ function filterByCategory(catId) {
 function filterBySubcategory(catId, subId) {
     currentCategory = catId;
     currentSubcategory = subId;
-    
+
     // UI Highlighting for subcategories
     const allLabels = document.querySelectorAll(`[id^="subcat-"] label`);
     allLabels.forEach(label => {
@@ -366,10 +366,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const search = urlParams.get('search');
     const min = urlParams.get('min_price');
     const max = urlParams.get('max_price');
-    
+
     // We'll set currentCategory later in loadCategories if it matches a slug
     if (catId) currentCategory = catId;
-    
+
     if (subId) {
         currentSubcategory = subId;
         console.log("📍 Subcategory ID from URL:", subId);
@@ -432,7 +432,7 @@ function fillColor() {
 function updateSliderFromInputs() {
     const minVal = parseInt(document.getElementById("minPriceInput").value);
     const maxValInput = parseInt(document.getElementById("maxPriceInput").value);
-    
+
     if (minVal >= 0 && maxValInput <= maxVal && minVal < maxValInput) {
         sliderOne.value = minVal;
         sliderTwo.value = maxValInput;
@@ -451,7 +451,7 @@ function applyManualPrice() {
 function filterByPrice(min, max) {
     minPrice = min;
     maxPrice = max;
-    
+
     if (sliderOne && sliderTwo) {
         sliderOne.value = min;
         sliderTwo.value = max;

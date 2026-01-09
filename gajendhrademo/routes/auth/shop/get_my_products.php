@@ -11,6 +11,7 @@ ini_set('display_errors', 0);
 $allowed_origins = [
     'http://localhost:5500',
     'http://127.0.0.1:5504',
+    'http://127.0.0.1:5506',
     'https://gajendhrademo.brandmindz.com'
 ];
 
