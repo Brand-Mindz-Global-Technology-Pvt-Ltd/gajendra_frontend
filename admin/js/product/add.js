@@ -87,11 +87,11 @@ async function handleProductSubmit(e) {
     const variations = collectPriceVariations();
     formData.append("variations", JSON.stringify(variations));
   
-    formData.append("subcategory_id", document.getElementById("prodSubcategory").value);
+    formData.append("subcategory_id", document.getElementById("prodSubcategory")?.value || "");
   
     // Add bestseller and 4th section flags
-    formData.append("is_best_seller", document.getElementById("prodBestSeller").checked ? "1" : "0");
-    formData.append("is_fourth_section", document.getElementById("prodFourthSection").checked ? "1" : "0");
+    formData.append("is_best_seller", document.getElementById("prodBestSeller")?.checked ? "1" : "0");
+    formData.append("is_fourth_section", document.getElementById("prodFourthSection")?.checked ? "1" : "0");
   
     // Collect image files from upload slots
     const imageFiles = getImageFiles();
