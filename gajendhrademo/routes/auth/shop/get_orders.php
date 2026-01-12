@@ -14,8 +14,13 @@ $allowed_origins = [
     'https://gajendhrademo.brandmindz.com'
 ];
 
-if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
-    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (
+    $origin === 'https://gajendhrademo.brandmindz.com' || 
+    preg_match('/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin)
+) {
+    header("Access-Control-Allow-Origin: $origin");
+    header('Access-Control-Allow-Credentials: true');
 }
 
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');

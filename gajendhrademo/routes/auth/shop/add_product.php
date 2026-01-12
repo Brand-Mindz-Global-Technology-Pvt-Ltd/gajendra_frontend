@@ -16,11 +16,13 @@ $allowed_origins = [
     'https://gajendhrademo.brandmindz.com'
 ];
 
-// Allow file:// testing
-if ($origin === 'null') {
-    header("Access-Control-Allow-Origin: *");
-} elseif (in_array($origin, $allowed_origins)) {
-    header("Access-Control-Allow-Origin: $origin");
+// Allow local file:// testing
+if (
+    $origin === 'null' || 
+    $origin === 'https://gajendhrademo.brandmindz.com' || 
+    preg_match('/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin)
+) {
+    header("Access-Control-Allow-Origin: " . ($origin === 'null' ? '*' : $origin));
     header("Access-Control-Allow-Credentials: true");
 }
 

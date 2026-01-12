@@ -341,6 +341,21 @@ async function loadCategories() {
     console.error("❌ Failed to load categories:", error);
     hideLoading("categories");
     showToast("❌ Failed to load categories", "error");
+
+    // Show error in list
+    const list = document.getElementById("categoryList");
+    if (list) {
+      list.innerHTML = `
+            <div class="text-center p-4">
+                <i class="fas fa-exclamation-circle fa-3x text-danger mb-3"></i>
+                <h5>Failed to load categories</h5>
+                <p class="text-danger">${error.message || 'Unknown error occurred'}</p>
+                <button class="btn btn-primary btn-sm mt-2" onclick="loadCategories()">
+                    <i class="fas fa-sync me-2"></i> Retry
+                </button>
+            </div>
+        `;
+    }
   }
 }
 
@@ -999,10 +1014,6 @@ function waitForOption(selectEl, value) {
  */
 // Product edit handler moved to admin/js/product/edit.js
 
-
-
-
-
 /**
  * Edit blog
  */
@@ -1114,7 +1125,12 @@ function setupEditControls(type) {
   const saveBtn = document.getElementById(`${type}SaveBtn`);
   const cancelBtn = document.getElementById(`${type}CancelBtn`);
 
-  // Remove existing event listeners
+  if (!saveBtn || !cancelBtn) {
+    console.warn(`Edit controls not found for type: ${type}`);
+    return;
+  }
+
+  // Remove existing event listeners by cloning
   const newSaveBtn = saveBtn.cloneNode(true);
   const newCancelBtn = cancelBtn.cloneNode(true);
 
@@ -1123,17 +1139,22 @@ function setupEditControls(type) {
 
   // Add new event listeners
   if (type === 'product') {
-    // Use specialized handler for products
-    if (typeof handleProductSave === 'function') {
-      newSaveBtn.addEventListener('click', handleProductSave);
+    // Look for handlers in local scope or window
+    const saveHandler = typeof handleProductSave === 'function' ? handleProductSave : window.handleProductSave;
+    const cancelHandler = typeof handleProductCancel === 'function' ? handleProductCancel : window.handleProductCancel;
+
+    if (typeof saveHandler === 'function') {
+      newSaveBtn.addEventListener('click', saveHandler);
+      console.log('✅ Attached handleProductSave to save button');
     } else {
-      console.error('handleProductSave not found');
+      console.error('❌ handleProductSave not found in scope or window');
     }
 
-    if (typeof handleProductCancel === 'function') {
-      newCancelBtn.addEventListener('click', handleProductCancel);
+    if (typeof cancelHandler === 'function') {
+      newCancelBtn.addEventListener('click', cancelHandler);
+      console.log('✅ Attached handleProductCancel to cancel button');
     } else {
-      console.error('handleProductCancel not found');
+      console.error('❌ handleProductCancel not found in scope or window');
     }
   } else {
     // Generic handler for others
@@ -1141,6 +1162,11 @@ function setupEditControls(type) {
     newCancelBtn.onclick = () => switchToAddMode(type);
   }
 }
+
+// Export functions to ensure global availability
+window.setupEditControls = setupEditControls;
+window.switchToEditMode = switchToEditMode;
+window.switchToAddMode = switchToAddMode;
 
 /**
  * Save edit

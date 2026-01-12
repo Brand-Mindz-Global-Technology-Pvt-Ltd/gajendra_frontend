@@ -2,7 +2,15 @@
 require_once '../../../config/db.php';
 
 // Set CORS headers
-header('Access-Control-Allow-Origin: http://127.0.0.1:5504');
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (
+    $origin === 'https://gajendhrademo.brandmindz.com' || 
+    preg_match('/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin)
+) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    header("Access-Control-Allow-Origin: *");
+}
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 header('Access-Control-Allow-Credentials: true');

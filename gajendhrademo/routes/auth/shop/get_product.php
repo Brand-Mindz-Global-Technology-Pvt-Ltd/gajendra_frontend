@@ -4,7 +4,17 @@ require_once '../../../config/db.php';
 // =======================================================
 // CORS HEADERS
 // =======================================================
-header('Access-Control-Allow-Origin: http://127.0.0.1:5504');
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (
+    $origin === 'https://gajendhrademo.brandmindz.com' || 
+    preg_match('/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin)
+) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    // Default safe fallback if needed, or just let strict be strict?
+    // User requested fix.
+    header("Access-Control-Allow-Origin: *"); 
+}
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
 header('Access-Control-Allow-Credentials: true');
