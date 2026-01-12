@@ -382,7 +382,7 @@
 
   <!-- HERO SECTION -->
   <section class="h-[300px] flex items-center justify-center text-center text-white
-           bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('Images/login.jpg')]
+           bg-gray-800 bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.org/photo-1558961312-3069c9b50669?q=80&w=1600&auto=format&fit=crop')]
            bg-center bg-cover">
     <div>
       <h1 class="text-4xl md:text-[36px] font-semibold mb-3">Login</h1>
@@ -546,8 +546,80 @@
 
   </footer>
 
+  <!-- FORGOT PASSWORD MODAL -->
+  <div id="forgotPasswordModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative overflow-hidden">
+          
+          <!-- Close Button -->
+          <button id="closeForgotModal" class="absolute top-4 right-4 text-gray-500 hover:text-brownDark transition">
+              <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+
+          <!-- STEP 1: Email Input -->
+          <div id="forgotStep1" class="text-center">
+              <div class="w-16 h-16 bg-[#FDF5ED] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fa-solid fa-envelope text-2xl text-brownDark"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Forgot Password?</h3>
+              <p class="text-sm text-gray-500 mb-6">Enter your email address to receive a recovery OTP.</p>
+              
+              <form id="forgotEmailForm" class="space-y-4">
+                  <input type="email" name="email" placeholder="Enter your email" required
+                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brownDark outline-none bg-gray-50">
+                  <button type="submit" class="w-full bg-brownDark text-white py-3 rounded-lg font-medium hover:bg-[#4a220e] transition">
+                      Send OTP
+                  </button>
+              </form>
+          </div>
+
+          <!-- STEP 2: OTP Verification -->
+          <div id="forgotStep2" class="hidden text-center">
+              <div class="w-16 h-16 bg-[#FDF5ED] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fa-solid fa-key text-2xl text-brownDark"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Verify OTP</h3>
+              <p class="text-sm text-gray-500 mb-6">Enter the 4-digit code sent to <span id="recoveryEmail" class="font-medium text-brownDark"></span></p>
+              
+              <form id="forgotOtpForm" class="space-y-4">
+                  <div class="flex justify-center gap-2 mb-2">
+                       <input type="text" maxlength="4" name="otp" placeholder="0000" required
+                              class="w-32 text-center text-2xl tracking-widest px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brownDark outline-none bg-gray-50">
+                  </div>
+                  <button type="submit" class="w-full bg-brownDark text-white py-3 rounded-lg font-medium hover:bg-[#4a220e] transition">
+                      Verify OTP
+                  </button>
+              </form>
+          </div>
+
+          <!-- STEP 3: Reset Password -->
+          <div id="forgotStep3" class="hidden text-center">
+              <div class="w-16 h-16 bg-[#FDF5ED] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fa-solid fa-lock text-2xl text-brownDark"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Reset Password</h3>
+              <p class="text-sm text-gray-500 mb-6">Create a strong new password for your account.</p>
+              
+              <form id="resetPasswordForm" class="space-y-4 text-left">
+                  <div>
+                      <label class="text-xs font-semibold text-gray-600 block mb-1">New Password</label>
+                      <input type="password" name="new_password" placeholder="Min 6 chars" required minlength="6"
+                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brownDark outline-none bg-gray-50">
+                  </div>
+                  <div>
+                      <label class="text-xs font-semibold text-gray-600 block mb-1">Confirm Password</label>
+                      <input type="password" name="confirm_password" placeholder="Confirm password" required minlength="6"
+                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brownDark outline-none bg-gray-50">
+                  </div>
+                  <button type="submit" class="w-full bg-brownDark text-white py-3 rounded-lg font-medium hover:bg-[#4a220e] transition">
+                      Reset Password
+                  </button>
+              </form>
+          </div>
+
+      </div>
+  </div>
+
   <script src="../components/popups.js"></script>
-
+  <script type="module" src="../Assets/js/loginUI.js"></script>
 </body>
-
 </html>
