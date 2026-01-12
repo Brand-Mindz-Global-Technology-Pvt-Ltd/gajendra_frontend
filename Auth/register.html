@@ -277,7 +277,7 @@
 
   <!-- HERO SECTION -->
   <section class="h-[300px] flex items-center justify-center text-center text-white
-           bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('Images/login.jpg')]
+           bg-gray-800 bg-[linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.org/photo-1558961312-3069c9b50669?q=80&w=1600&auto=format&fit=crop')]
            bg-center bg-cover">
     <div>
       <h1 class="text-4xl md:text-[36px] font-semibold mb-3">Register</h1>
@@ -360,6 +360,11 @@
         <button id="verifyOtpBtn" class="w-full bg-brownDark text-white py-3 rounded-md">
           Verify OTP
         </button>
+
+        <div class="text-center text-sm text-gray-600 mt-2">
+            <p id="otpTimerText">Resend OTP in <span id="otpTimer" class="font-bold text-brownDark">60</span>s</p>
+            <button id="resendOtpBtn" class="hidden text-brownDark font-semibold underline hover:text-[#C4703C]">Resend OTP</button>
+        </div>
       </div>
 
 
@@ -479,7 +484,6 @@
   </footer>
 
   <script src="../components/popups.js"></script>
-  <script src="../Auth/auth.js"></script>
+  <script type="module" src="../Assets/js/registerUI.js"></script>
 </body>
-
 </html>
