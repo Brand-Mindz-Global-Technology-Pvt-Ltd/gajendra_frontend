@@ -167,10 +167,7 @@ async function loadProducts() {
         }
 
         data.products.forEach(p => {
-            // Determine display price: base price (which is unset in get_products.php) OR first variation amount
-            const variations = typeof p.variations === 'string' ? JSON.parse(p.variations) : p.variations;
-            const displayPrice = (variations && variations.length > 0) ? variations[0].amount : 'N/A';
-
+            // Handle images - check if images is a string or array
             // Handle images - check if images is a string or array
             let images = p.images;
             if (typeof images === 'string') {
@@ -188,11 +185,28 @@ async function loadProducts() {
             const imageUrl = productImage
                 ? (productImage.startsWith('http') ? productImage : imageBaseURL + productImage)
                 : 'https://placehold.co/300x300/FDF5ED/DAA520?text=' + encodeURIComponent(p.name);
+            // Robust price handling matching Home script
+            let displayPrice = "0.00";
+            let variations = p.variations || [];
+            if (typeof variations === 'string') {
+                try { variations = JSON.parse(variations); } catch (e) { variations = []; }
+            }
+
+            if (variations && variations.length > 0) {
+                // Normalize and sort variations
+                const normalizedVariations = variations.map(v => ({
+                    price: v.price || v.amount || 0
+                }));
+                normalizedVariations.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                displayPrice = parseFloat(normalizedVariations[0].price).toFixed(2);
+            } else {
+                displayPrice = parseFloat(p.price || p.amount || 0).toFixed(2);
+            }
 
             grid.innerHTML += `
     <div
       class="bg-white rounded-lg p-4 shadow-sm hover:shadow-md
-             transition-shadow group hover:-translate-y-2 
+             transition-shadow group hover:-translate-y-2
              transition-all duration-300 flex flex-col h-full">
 
       <!-- Image Container -->
@@ -256,9 +270,9 @@ async function loadProducts() {
           <button
             onclick="addToCart({
                 id: ${p.id},
-                name: '${p.name.replace(/'/g, "\\'")}', 
-                price: ${p.price},
-                image: '${p.images[0] || 'https://placehold.co/300x300'}'
+                name: '${p.name.replace(/'/g, "\\'")}',
+                price: '${displayPrice}',
+                image: '${imageUrl}'
             })"
             class="flex-1 border border-[#B06D36]
                    text-[#B06D36] py-2 rounded
@@ -476,4 +490,3 @@ function filterBySearch(query) {
 function goToProduct(productId) {
     window.location.href = `/shop/singleproduct.html?product_id=${productId}`;
 }
-

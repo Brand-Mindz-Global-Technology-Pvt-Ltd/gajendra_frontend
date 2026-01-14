@@ -7,52 +7,121 @@ function toggleMobileMenu() {
 
 console.log("✅ Home script loaded and running");
 
+// Category Visuals Logic
 document.addEventListener('DOMContentLoaded', () => {
+    loadCategoriesVisuals();
+});
+
+async function loadCategoriesVisuals() {
     const container = document.getElementById('category-container');
-    if (container) {
-        const items = container.children;
-        const totalItems = items.length;
-        let currentIndex = 0;
+    if (!container) return;
 
-        window.moveCarousel = function (direction) {
-            // Only run on mobile
-            if (window.innerWidth >= 768) return;
+    try {
+        console.log("📡 Fetching categories for visuals...");
+        const res = await fetch('https://gajendhrademo.brandmindz.com/routes/auth/shop/get_categories.php');
+        const data = await res.json();
 
-            currentIndex += direction;
-
-            if (currentIndex < 0) {
-                currentIndex = totalItems - 1;
-            } else if (currentIndex >= totalItems) {
-                currentIndex = 0;
-            }
-
-            updateCarousel();
+        let categories = [];
+        if (data.success && data.categories) {
+            categories = data.categories;
+        } else if (Array.isArray(data)) {
+            categories = data;
         }
 
-        function updateCarousel() {
-            // Slide by 100% of the container width per item
-            const translateX = -(currentIndex * 100);
-
-            // Apply transform to each item to move them
-            Array.from(items).forEach(item => {
-                item.style.transform = `translateX(${translateX}%)`;
-            });
+        if (categories.length === 0) {
+            container.innerHTML = '<p class="col-span-full text-[#5c2a10] font-medium">No categories found.</p>';
+            return;
         }
 
-        // Optional: Reset carousel on resize to avoid stuck states
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                // Reset transforms for grid view
-                Array.from(items).forEach(item => {
-                    item.style.transform = 'none';
-                });
-                currentIndex = 0;
+        renderCategoryVisuals(categories, container);
+        initCategoryCarousel(); // Re-init carousel after rendering
+
+    } catch (error) {
+        console.error("❌ Error loading category visuals:", error);
+        container.innerHTML = '<p class="col-span-full text-red-500">Failed to load categories.</p>';
+    }
+}
+
+function renderCategoryVisuals(categories, container) {
+    container.innerHTML = categories.map(c => {
+        let imageUrl = 'https://placehold.co/140?text=' + c.name;
+        if (c.image) {
+            if (c.image.startsWith('http')) {
+                imageUrl = c.image;
             } else {
-                updateCarousel();
+                imageUrl = `https://gajendhrademo.brandmindz.com/uploads/categories/${c.image}`;
             }
+        }
+
+        return `
+            <div class="w-full md:w-auto flex-shrink-0 flex flex-col items-center group cursor-pointer transition-transform duration-500 ease-in-out"
+                onclick="window.location.href='/shop/shop.html?category=${c.id}'">
+                <div class="relative w-[280px] h-[320px] flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2">
+                    <!-- Frame Image -->
+                    <img src="../Assets/Home/Border-design.png" alt="Frame"
+                        class="absolute inset-0 w-full h-full object-contain drop-shadow-md">
+                    <!-- Product Container -->
+                    <div class="relative w-48 h-48 flex items-center justify-center">
+                        <!-- Plate Image (Bottom) -->
+                        <img src="../Assets/Home/Ellipse.png" alt="Plate"
+                            class="absolute bottom-8 w-40 h-16 object-contain opacity-90 drop-shadow-lg">
+                        <!-- Category Image (Top) -->
+                        <img src="${imageUrl}" alt="${c.name}"
+                            class="relative z-10 w-32 h-32 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+                    </div>
+                </div>
+                <h3 class="font-poppins font-semibold text-xl text-[#3E1C00] mt-2 text-center px-2">${c.name}</h3>
+            </div>
+        `;
+    }).join('');
+}
+
+function initCategoryCarousel() {
+    const container = document.getElementById('category-container');
+    if (!container) return;
+
+    const items = container.children;
+    let totalItems = items.length; // Update totalItems based on dynamic content
+    let currentIndex = 0;
+
+    // Remove existing listener to avoid duplicates if any (though we are replacing the function)
+    window.moveCarousel = function (direction) {
+        // Only run on mobile/tablet if needed, logic says < 768 usually
+        if (window.innerWidth >= 768) return;
+
+        currentIndex += direction;
+
+        if (currentIndex < 0) {
+            currentIndex = totalItems - 1;
+        } else if (currentIndex >= totalItems) {
+            currentIndex = 0;
+        }
+
+        updateCarousel();
+    }
+
+    function updateCarousel() {
+        if (totalItems === 0) return;
+        // Slide by 100% of the container width per item
+        const translateX = -(currentIndex * 100);
+
+        Array.from(items).forEach(item => {
+            item.style.transform = `translateX(${translateX}%)`;
         });
     }
-});
+
+    // Reset carousel on resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            Array.from(items).forEach(item => {
+                item.style.transform = 'none';
+            });
+            currentIndex = 0;
+        } else {
+            updateCarousel();
+        }
+    });
+}
 
 // Best Seller Carousel Logic
 document.addEventListener('DOMContentLoaded', () => {
@@ -333,7 +402,7 @@ async function loadSavouriesSection() {
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `/shop/shop.html?category=${savouriesCat.id}`;
+                window.location.href = `/Shop/Shop.html?category=${savouriesCat.id}`;
             };
         }
 
@@ -421,7 +490,7 @@ function renderSavouries(products, container) {
                 </div>
 
                 <div class="w-full h-64 bg-gray-900 relative rounded-t-[12px] overflow-hidden cursor-pointer" 
-                    onclick="window.location.href='/Product/product-details.html?id=${p.id}'">
+                    onclick="window.location.href='/Shop/Singleproduct.html?product_id=${p.id}'">
                     <img src="${imageUrl}" alt="${p.name}"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
@@ -494,7 +563,7 @@ window.changeCardQty = function (btn, change) {
 
 
 window.quickBuyNow = function (productId, btn) {
-    window.location.href = `/Product/product-details.html?id=${productId}`;
+    window.location.href = `/Shop/Singleproduct.html?product_id=${productId}`;
 }
 
 // Fallback for addToWishlist if not defined elsewhere
@@ -556,7 +625,7 @@ async function loadSweetsSection() {
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `/shop/shop.html?category=${sweetsCat.id}`;
+                window.location.href = `/Shop/Shop.html?category=${sweetsCat.id}`;
             };
         }
 
@@ -644,7 +713,7 @@ function renderSweets(products, container) {
                 </div>
 
                 <div class="w-full h-64 bg-gray-900 relative rounded-t-[12px] overflow-hidden cursor-pointer"
-                    onclick="window.location.href='/Product/product-details.html?id=${p.id}'">
+                    onclick="window.location.href='/Shop/Singleproduct.html?product_id=${p.id}'">
                     <img src="${imageUrl}" alt="${p.name}"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>

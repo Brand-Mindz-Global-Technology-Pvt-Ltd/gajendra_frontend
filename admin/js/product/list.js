@@ -88,14 +88,14 @@ async function loadProducts() {
                     <small class="product-stock">Stock: ${product.stock}</small>
                   </div>
                   <div class="col-md-2">
-                    <div class="product-actions">
-                      <button class="btn btn-edit" onclick="editProduct(${product.id})">
-                        <i class="fas fa-edit"></i> Edit
-                      </button>
-                      <button class="btn btn-delete" onclick="deleteProduct(${product.id})">
-                        <i class="fas fa-trash"></i> Delete
-                      </button>
-                    </div>
+                      <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-primary" data-id="${product.id}" onclick="editProduct(${product.id})">
+                          <i class="fas fa-edit me-1"></i> Edit
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" data-id="${product.id}" onclick="deleteProduct(${product.id})">
+                          <i class="fas fa-trash me-1"></i> Delete
+                        </button>
+                      </div>
                   </div>
                 </div>
               </div>

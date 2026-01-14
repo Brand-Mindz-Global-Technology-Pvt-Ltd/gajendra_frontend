@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wishlist</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
     <!-- ================= WISHLIST POPUP ================= -->
     <div id="wishlistOverlay" class="fixed inset-0 z-[999] hidden flex items-center justify-center">
@@ -14,7 +16,8 @@
         <div class="absolute inset-0 bg-black/40" onclick="closeWishlist()"></div>
 
         <!-- MODAL -->
-        <div class="relative bg-white w-[95%] max-w-6xl max-h-[90vh] rounded-2xl shadow-xl flex flex-col overflow-hidden">
+        <div
+            class="relative bg-white w-[95%] max-w-6xl max-h-[90vh] rounded-2xl shadow-xl flex flex-col overflow-hidden">
 
             <!-- HEADER -->
             <div class="flex items-center justify-between px-6 py-4 border-b">
@@ -40,4 +43,5 @@
 
     <script src="../components/wishlist.js"></script>
 </body>
+
 </html>

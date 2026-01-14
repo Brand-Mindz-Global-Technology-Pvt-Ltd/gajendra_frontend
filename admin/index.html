@@ -188,17 +188,26 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form id="categoryForm" class="row g-3" action="javascript:void(0)" method="post">
+                    <form id="categoryForm" class="row g-3" action="javascript:void(0)" method="post"
+                        enctype="multipart/form-data">
                         <input type="hidden" id="catId" name="id">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="catName" class="form-label">Category Name *</label>
                             <input type="text" id="catName" name="name" class="form-control"
                                 placeholder="Enter category name" required>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="catSlug" class="form-label">Slug *</label>
                             <input type="text" id="catSlug" name="slug" class="form-control" placeholder="category-slug"
                                 required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="catImage" class="form-label">Category Image</label>
+                            <input type="file" id="catImage" name="image" class="form-control" accept="image/*">
+                            <div id="catImagePreviewContainer" class="mt-2" style="display: none;">
+                                <img id="catImagePreview" src="" alt="Preview" class="img-thumbnail"
+                                    style="height: 50px;">
+                            </div>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label d-block">Show in Nav Menu?</label>

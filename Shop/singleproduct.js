@@ -27,9 +27,19 @@ async function loadProduct() {
         const p = data.product;
         currentProduct = p;
 
+        const variations = p.variations || [];
+        let displayPrice = "0.00";
+        if (variations.length > 0) {
+            // Sort by amount/price ascending
+            variations.sort((a, b) => parseFloat(a.amount || a.price || 0) - parseFloat(b.amount || b.price || 0));
+            displayPrice = parseFloat(variations[0].amount || variations[0].price || 0).toFixed(2);
+        } else {
+            displayPrice = parseFloat(p.price || p.amount || 0).toFixed(2);
+        }
+
         /* ===== BASIC INFO ===== */
         document.getElementById("productTitle").innerText = p.name;
-        document.getElementById("productPrice").innerText = `Rs : ${p.price}`;
+        document.getElementById("productPrice").innerText = `Rs : ${displayPrice}`;
         document.getElementById("productDescription").innerText = p.description;
 
 
@@ -134,6 +144,45 @@ function updateAndOpenCheckout() {
         openCheckout();
     } else {
         console.error("openCheckout function not found. Make sure popups.js is loaded.");
+    }
+}
+
+function addToCartFromDetails() {
+    if (!currentProduct) return;
+
+    const qtyElement = document.querySelector(".w-12.h-10.bg-white.border-y.border-\\[#D6D6D6\\]");
+    const qty = qtyElement ? parseInt(qtyElement.innerText) : 1;
+
+    // Get the actual display price (the one shown on page)
+    const priceText = document.getElementById("productPrice").innerText;
+    const price = priceText.replace("Rs : ", "").trim();
+
+    if (typeof addToCart === "function") {
+        for (let i = 0; i < qty; i++) {
+            addToCart({
+                id: currentProduct.id,
+                name: currentProduct.name,
+                price: price,
+                image: currentProduct.images_full[0]
+            });
+        }
+    } else {
+        console.error("addToCart function not found");
+    }
+}
+
+function changeQty(btn, change) {
+    const parent = btn.parentElement;
+    const qtyDiv = parent.querySelector(".w-12.h-10.bg-white.border-y.border-\\[#D6D6D6\\]");
+    if (qtyDiv) {
+        let current = parseInt(qtyDiv.innerText);
+        current += change;
+        if (current < 1) current = 1;
+        qtyDiv.innerText = current;
+
+        // Also update checkout if it's open or about to be (optional but good practice)
+        const checkoutQty = document.getElementById("checkoutProductQty");
+        if (checkoutQty) checkoutQty.innerText = current;
     }
 }
 

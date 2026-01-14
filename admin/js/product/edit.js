@@ -1,6 +1,6 @@
-    /**
- * Product Module Edit Functions
- */
+/**
+* Product Module Edit Functions
+*/
 
 /**
  * Edit product
@@ -179,8 +179,14 @@ async function editProduct(productId) {
 /**
  * Handle product save (edit mode)
  */
-async function handleProductSave() {
+async function handleProductSave(e) {
     console.log('💾 handleProductSave called');
+
+    // CRITICAL: Prevent default form submission and bubbling
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
 
     const productId = document.getElementById('prodId').value;
     console.log('Product ID:', productId);

@@ -80,6 +80,21 @@ async function initializeAdmin() {
     initializeImageUploadSlots();
 
     console.log("✅ Admin dashboard initialized successfully");
+
+    // Category Image Preview Listener
+    const catImageInput = document.getElementById("catImage");
+    if (catImageInput) {
+      catImageInput.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            document.getElementById("catImagePreview").src = e.target.result;
+            document.getElementById("catImagePreviewContainer").style.display = "block";
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+    }
   } catch (error) {
     console.error("❌ Failed to initialize admin:", error);
   }
@@ -289,12 +304,22 @@ async function loadCategories() {
 
       // SHOW LIST
       data.categories.forEach((cat) => {
+        const imgPath = cat.image
+          ? `https://gajendhrademo.brandmindz.com/uploads/categories/${cat.image}`
+          : null;
+
         list.innerHTML += `
           <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
             
-            <div>
-              <h6 class="mb-1">${cat.name}</h6>
-              <small class="text-muted">Slug: ${cat.slug}</small>
+            <div class="d-flex align-items-center">
+              ${imgPath
+            ? `<img src="${imgPath}" class="img-thumbnail me-3" style="width: 50px; height: 50px; object-fit: cover;">`
+            : `<div class="bg-light me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; border: 1px solid #ddd;"><i class="fas fa-image text-muted"></i></div>`
+          }
+              <div>
+                <h6 class="mb-1">${cat.name}</h6>
+                <small class="text-muted">Slug: ${cat.slug}</small>
+              </div>
             </div>
 
             <div class="btn-group">
@@ -370,6 +395,19 @@ function editCategory(categoryId) {
   document.getElementById("catId").value = category.id;
   document.getElementById("catName").value = category.name;
   document.getElementById("catSlug").value = category.slug;
+
+  // Clear file input
+  if (document.getElementById("catImage")) document.getElementById("catImage").value = "";
+
+  // Show image preview if exists
+  const preview = document.getElementById("catImagePreview");
+  const previewContainer = document.getElementById("catImagePreviewContainer");
+  if (category.image) {
+    preview.src = `https://gajendhrademo.brandmindz.com/uploads/categories/${category.image}`;
+    previewContainer.style.display = "block";
+  } else {
+    previewContainer.style.display = "none";
+  }
 
   // Set visibility radios
   const showInMenu = category.show_in_menu == 1 ? "menuYes" : "menuNo";
@@ -931,6 +969,11 @@ async function handleCategorySubmit(e) {
     if (data.success) {
       showToast("✅ Category added successfully!", "success");
       e.target.reset();
+
+      // Clear preview
+      const previewContainer = document.getElementById("catImagePreviewContainer");
+      if (previewContainer) previewContainer.style.display = "none";
+
       loadCategories();
     } else {
       showToast("❌ " + data.message, "error");
@@ -1115,6 +1158,10 @@ function switchToAddMode(type) {
   if (type === "category") {
     if (document.getElementById("menuYes")) document.getElementById("menuYes").checked = true;
     if (document.getElementById("filterYes")) document.getElementById("filterYes").checked = true;
+
+    // Hide image preview
+    const previewContainer = document.getElementById("catImagePreviewContainer");
+    if (previewContainer) previewContainer.style.display = "none";
   }
 }
 
