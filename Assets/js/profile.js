@@ -1,6 +1,7 @@
 import AuthService from "./services/authService.js";
 import ProfileService from "./services/profileService.js";
 import { ProfileRenderer } from "./renderers/profileRenderer.js";
+import { HeaderRenderer } from "./renderers/headerRenderer.js";
 import { Toast } from "./utils/toast.js";
 
 // Global Cache for Addresses
@@ -115,7 +116,7 @@ function updateSidebarProfile(user) {
 
     const userDropdown = document.getElementById("user-dropdown");
     if (userDropdown) {
-        userDropdown.innerHTML = ProfileRenderer.renderUserDropdown(user);
+        userDropdown.innerHTML = HeaderRenderer.renderUserDropdown(user);
     }
 }
 

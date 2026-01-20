@@ -204,7 +204,7 @@ async function loadDashboard() {
     const [productsRes, categoriesRes, ordersRes, blogsRes] = await Promise.all(
       [
         fetch(`${API_BASE}/get_my_products.php?shop_id=${currentShop.id}`),
-        fetch(`${API_BASE}/get_categories.php?shop_id=${currentShop.id}`),
+        fetch(`${API_BASE}/get_categories.php`),
         fetch(`${API_BASE}/get_orders.php?shop_id=${currentShop.id}`), // Use shop_id for admin orders
         fetch(`${API_BASE}/get_blogs.php`),
       ]
@@ -276,7 +276,7 @@ async function loadCategories() {
     showLoading("categories");
 
     const response = await fetch(
-      `${API_BASE}/get_categories.php?shop_id=${currentShop.id}`
+      `${API_BASE}/get_categories.php`
     );
 
     const responseText = await response.text();
@@ -462,7 +462,7 @@ async function loadSubcategoryList(categoryId) {
 
   try {
     const response = await fetch(
-      `${API_BASE}/get_subcategories.php?shop_id=${currentShop.id}&category_id=${categoryId}`
+      `${API_BASE}/get_subcategories.php?category_id=${categoryId}`
     );
 
     const data = await response.json();
@@ -490,7 +490,7 @@ async function loadSubcategoryList(categoryId) {
 
                   <div>
                       <button class="btn btn-sm btn-outline-primary me-2"
-                         onclick='editSubcategory(${sub.id}, ${JSON.stringify(sub.name)}, ${JSON.stringify(sub.slug)}, ${categoryId})'>
+                         onclick='editSubcategory(${sub.id}, ${JSON.stringify(sub.name)}, ${JSON.stringify(sub.slug)}, ${categoryId}, ${sub.show_in_menu}, ${sub.show_in_filter})'>
                           <i class="fas fa-edit"></i>
                       </button>
 
@@ -528,6 +528,12 @@ document.getElementById("subcatAddBtn").addEventListener("click", async () => {
     formData.append("category_id", categoryId);
     formData.append("name", name);
     formData.append("slug", slug);
+    
+    // Add visibility settings
+    const showInMenu = document.querySelector('input[name="sub_show_in_menu"]:checked')?.value || 1;
+    const showInFilter = document.querySelector('input[name="sub_show_in_filter"]:checked')?.value || 1;
+    formData.append("sub_show_in_menu", showInMenu);
+    formData.append("sub_show_in_filter", showInFilter);
 
     const response = await fetch(`${API_BASE}/add_subcategory.php`, {
       method: "POST",
@@ -566,16 +572,18 @@ function resetSubcatEditMode() {
   document.getElementById("subcatEditControls").style.display = "none";
 }
 
-function editSubcategory(id, name, slug, categoryId) {
+function editSubcategory(id, name, slug, categoryId, showInMenu = 1, showInFilter = 1) {
   // Fill the form
   document.getElementById("subcatId").value = id;
   document.getElementById("subcatName").value = name;
   document.getElementById("subcatSlug").value = slug;
 
-  // Set visibility radios (assuming they might be added to API later, or defaulting to Yes for now)
-  // For now, satisfy the frontend UI
-  if (document.getElementById("subMenuYes")) document.getElementById("subMenuYes").checked = true;
-  if (document.getElementById("subFilterYes")) document.getElementById("subFilterYes").checked = true;
+  // Set visibility radios
+  if(showInMenu == 1) document.getElementById("subMenuYes").checked = true;
+  else document.getElementById("subMenuNo").checked = true;
+
+  if(showInFilter == 1) document.getElementById("subFilterYes").checked = true;
+  else document.getElementById("subFilterNo").checked = true;
 
   // Change Add button to hidden
   document.getElementById("subcatAddBtn").style.display = "none";
@@ -619,6 +627,12 @@ document.getElementById("subcatSaveBtn").addEventListener("click", async () => {
     formData.append("category_id", categoryId);
     formData.append("name", name);
     formData.append("slug", slug);
+
+    // Add visibility settings for update
+    const showInMenu = document.querySelector('input[name="sub_show_in_menu"]:checked')?.value || 1;
+    const showInFilter = document.querySelector('input[name="sub_show_in_filter"]:checked')?.value || 1;
+    formData.append("sub_show_in_menu", showInMenu);
+    formData.append("sub_show_in_filter", showInFilter);
 
     const response = await fetch(`${API_BASE}/update_subcategory.php`, {
       method: "POST",
@@ -1360,36 +1374,35 @@ async function saveEdit(type) {
  * Delete category
  */
 async function deleteCategory(categoryId) {
-  showPopup(
-    "Delete Category",
-    "Are you sure you want to delete this category?",
-    "warning",
-    async () => {
-      try {
-        const formData = new FormData();
-        formData.append("delete", "1");
-        formData.append("id", categoryId);
+  if (!confirm("Are you sure you want to delete this category?")) {
+    return;
+  }
 
-        const response = await fetch(`${API_BASE}/add_category.php`, {
-          method: "POST",
-          body: formData,
-        });
+  try {
+    const formData = new FormData();
+    formData.append("delete", "1");
+    formData.append("id", categoryId);
 
-        const data = await response.json();
+    const response = await fetch(`${API_BASE}/add_category.php`, {
+      method: "POST",
+      body: formData,
+    });
 
-        if (data.success) {
-          showToast("✅ Category deleted successfully!", "success");
-          loadCategories();
-        } else {
-          showToast("❌ " + data.message, "error");
-        }
-      } catch (error) {
-        console.error("❌ Failed to delete category:", error);
-        showToast("❌ Failed to delete category", "error");
-      }
+    const data = await response.json();
+
+    if (data.success) {
+      showToast("✅ Category deleted successfully!", "success");
+      loadCategories();
+    } else {
+      showToast("❌ " + data.message, "error");
     }
-  );
+  } catch (error) {
+    console.error("❌ Failed to delete category:", error);
+    showToast("❌ Failed to delete category", "error");
+  }
 }
+// 🔥 IMPORTANT: Make function global so HTML onclick works
+window.deleteCategory = deleteCategory;
 
 /**
  * View order

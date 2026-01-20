@@ -140,7 +140,7 @@ async function loadProducts() {
 async function loadCategoriesForDropdown() {
   try {
     const response = await fetch(
-      `${API_BASE}/get_categories.php?shop_id=${currentShop.id}`
+      `${API_BASE}/get_categories.php`
     );
     const data = await response.json();
 

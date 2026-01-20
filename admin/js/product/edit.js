@@ -25,7 +25,7 @@ async function editProduct(productId) {
     try {
         // STEP 1: Fetch fresh product data from server
         console.log(`📡 Fetching full details for product ${productId}...`);
-        const response = await fetch(`${API_BASE}/get_product.php?product_id=${productId}&shop_id=${currentShop.id}`);
+        const response = await fetch(`${API_BASE}/get_product.php?product_id=${productId}`);
         const data = await response.json();
 
         if (!data.success) {
