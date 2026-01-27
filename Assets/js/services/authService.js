@@ -6,6 +6,8 @@ const AuthService = {
         const result = await apiCall(`${CONFIG.API_BASE_URL}/login.php`, "POST", formData);
         if ((result.success || result.status === 'success') && result.token) {
             localStorage.setItem("authToken", result.token);
+            const uid = result?.data?.id ?? result?.user_id ?? null;
+            if (uid) localStorage.setItem("userId", String(uid));
         }
         return result;
     },
@@ -18,6 +20,8 @@ const AuthService = {
         const result = await apiCall(`${CONFIG.API_BASE_URL}/verify_otp.php`, "POST", data);
         if ((result.success || result.status === 'success') && result.token) {
             localStorage.setItem("authToken", result.token);
+            const uid = result?.data?.id ?? result?.user_id ?? null;
+            if (uid) localStorage.setItem("userId", String(uid));
         }
         return result;
     },
@@ -28,10 +32,11 @@ const AuthService = {
 
     async logout() {
         localStorage.removeItem("authToken"); // Clear token on logout
+        localStorage.removeItem("userId");
         // Call backend logout if needed (optional for token auth, but good for cleanup)
         return await apiCall(`${CONFIG.API_BASE_URL}/logout.php`, "POST");
     },
-    
+
     async forgotPassword(email) {
         // Needs to use FormData because backend checks $_POST directly in some places
         const formData = new FormData();
@@ -49,12 +54,16 @@ const AuthService = {
     async resetPassword(email, password) {
         const formData = new FormData();
         formData.append('email', email);
-        formData.append('password', password); 
+        formData.append('password', password);
         return await apiCall(`${CONFIG.API_BASE_URL}/reset_password.php`, "POST", formData);
     },
 
     async getUserProfile() {
         return await apiCall(`${CONFIG.PROFILE_API_URL}/get_profile.php`, "GET");
+    },
+
+    getCurrentUserId() {
+        return localStorage.getItem("userId");
     }
 };
 

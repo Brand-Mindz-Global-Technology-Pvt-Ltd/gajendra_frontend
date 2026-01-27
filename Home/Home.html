@@ -55,24 +55,29 @@
                 <!-- Right Icons -->
                 <div class="flex items-center gap-3 md:gap-4">
                     <!-- Wishlist -->
-                    <button onclick="openWishlist()" class="text-white hover:opacity-80 transition-opacity p-1">
+                    <button onclick="openWishlist()"
+                        class="text-white hover:opacity-80 transition-opacity p-1 relative">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364 4.318 12.682a4.5 4.5 0 010-6.364z" />
                         </svg>
+                        <span data-wishlist-badge
+                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
                     </button>
                     <!-- Cart -->
-                    <button onclick="openCart()" class="text-white hover:opacity-80 transition-opacity p-1">
+                    <button onclick="openCart()" class="text-white hover:opacity-80 transition-opacity p-1 relative">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
+                        <span data-cart-badge
+                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
                     </button>
                     <!-- User Dropdown -->
                     <div class="relative">
-                        <button id="user-menu-btn" onclick="toggleUserMenu()"
+                        <button id="user-menu-btn" onclick="toggleUserMenu(event)"
                             class="text-white hover:opacity-80 transition-opacity p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -838,102 +843,8 @@
         </div>
     </section>
 
-    <!-- FOOTER SECTION -->
     <footer class="w-full bg-white font-poppins pt-0">
-
-        <!-- TOP DECORATIVE BORDER -->
-        <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
-
-        <!-- MAIN FOOTER CONTENT -->
-        <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-12">
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
-
-                <!-- Menus -->
-                <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Menus</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
-                        <li>Home</li>
-                        <li>About us</li>
-                        <li>Shop</li>
-                        <li>Contact us</li>
-                    </ul>
-                </div>
-
-                <!-- Savouries -->
-                <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Savouries</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
-                        <li>Sev</li>
-                        <li>Murugu</li>
-                        <li>Mixture</li>
-                        <li>Masala Kaju Mathri</li>
-                        <li>Chips</li>
-                    </ul>
-                </div>
-
-                <!-- Sweets -->
-                <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Sweets</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
-                        <li>Soan papdi</li>
-                        <li>Laddu</li>
-                        <li>Kaaju Sweets</li>
-                        <li>Jilabi</li>
-                        <li>Halwa</li>
-                        <li>General Sweets</li>
-                        <li>Bengali Sweets</li>
-                        <li>Barfi</li>
-                        <li>Badusha</li>
-                    </ul>
-                </div>
-
-                <!-- My Account -->
-                <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">My Account</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
-                        <li>Wishlist</li>
-                        <li>My Order</li>
-                        <li>Profile</li>
-                    </ul>
-                </div>
-
-                <!-- Contact Us -->
-                <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Contact Us</h3>
-
-                    <div class="flex items-start space-x-3 mb-3">
-                        <span class="text-[#B06D36] text-lg">📍</span>
-                        <p class="text-[#3E1C00]/90 text-sm">
-                            11/200 xxx, yy, Thirunelveli,<br>Tamilnadu
-                        </p>
-                    </div>
-
-                    <div class="flex items-center space-x-3 mb-4">
-                        <span class="text-[#B06D36] text-lg">📞</span>
-                        <p class="text-[#3E1C00]/90 text-sm">1234567890</p>
-                    </div>
-
-                    <!-- Social Icons -->
-                    <div class="flex items-center space-x-4 text-[#3E1C00] text-xl">
-                        <a href="#"><i class="fa-brands fa-instagram text-pink-600"></i></a>
-                        <a href="#"><i class="fa-brands fa-facebook text-blue-700"></i></a>
-                        <a href="#"><i class="fa-brands fa-youtube text-red-600"></i></a>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- LINE DIVIDER -->
-            <div class="w-full h-px bg-[#9a7a5a]/40 mt-10"></div>
-
-            <!-- COPYRIGHT -->
-            <p class="text-center text-[#3E1C00]/80 text-sm mt-4">
-                Copyright © 2025 Gajendra vilas. All rights reserved.
-            </p>
-
-        </div>
-
+        <!-- Content will be injected by HeaderInitializer -->
     </footer>
 
     <script src="./script.js"></script>
@@ -941,6 +852,9 @@
 
 
     <script type="module" src="../Assets/js/home/main.js"></script>
+    <script type="module" src="../Assets/js/utils/cartPopupManager.js"></script>
+    <script type="module" src="../Assets/js/utils/wishlistPopupManager.js"></script>
+
 </body>
 
 </html>

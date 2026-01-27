@@ -41,7 +41,7 @@ export const ProfileRenderer = {
 
         if (containerId === 'addressList') container.innerHTML = SKELETONS.ADDRESS;
         else if (containerId === 'ordersList') container.innerHTML = SKELETONS.ORDER;
-        else if (containerId === 'wishlistGrid') container.innerHTML = SKELETONS.WISHLIST;
+        else if (containerId === 'wishlistGrid' || containerId === 'profileWishlistGrid') container.innerHTML = SKELETONS.WISHLIST;
     },
 
     /**
@@ -141,7 +141,7 @@ export const ProfileRenderer = {
     updateSidebar(user) {
         document.getElementById("profileName").innerText = user.name || "User";
         document.getElementById("profileEmail").innerText = user.email || "";
-        if(user.profile_image) {
+        if (user.profile_image) {
             document.getElementById("profileImg").src = user.profile_image;
         }
     },
@@ -159,7 +159,7 @@ export const ProfileRenderer = {
         if (formName) formName.value = user.name || "";
         if (formEmail) formEmail.value = user.email || "";
         if (formPhone) formPhone.value = user.phone || "";
-        
+
         const formDob = document.querySelector("input[name='dob']");
         if (formDob) formDob.value = user.dob || "";
     },
@@ -170,7 +170,7 @@ export const ProfileRenderer = {
     toggleLoading(sectionId, show) {
         const skeleton = document.getElementById(`${sectionId}Skeleton`);
         const content = document.getElementById(sectionId === 'personal' ? 'personalForm' : sectionId === 'sidebar' ? 'sidebarContent' : sectionId);
-        
+
         if (show) {
             if (skeleton) skeleton.classList.remove("hidden");
             if (content) content.classList.add("hidden");

@@ -2,12 +2,40 @@ import AuthService from "./services/authService.js";
 import ProfileService from "./services/profileService.js";
 import { ProfileRenderer } from "./renderers/profileRenderer.js";
 import { HeaderRenderer } from "./renderers/headerRenderer.js";
+import { HeaderInitializer } from "./utils/headerInitializer.js";
+import cartStateManager from "./utils/cartStateManager.js";
+import wishlistStateManager from "./utils/wishlistStateManager.js";
+import headerBadgeManager from "./utils/headerBadgeManager.js";
+// Ensure popup managers are loaded to attach window global functions
+import "./utils/cartPopupManager.js";
+import "./utils/wishlistPopupManager.js";
 import { Toast } from "./utils/toast.js";
 
 // Global Cache for Addresses
 window.userAddresses = [];
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    // Initialize Header (Menu, Auth, Dropdown, Logout, Badges)
+    await HeaderInitializer.init();
+
+    // Initialize state managers (singleton pattern - syncs with backend)
+    await cartStateManager.init();
+    await wishlistStateManager.init();
+
+    // Initialize header badge manager (shows counts on cart/wishlist icons)
+    await headerBadgeManager.init();
+
+    // Subscribe to state changes for real-time sync on wishlist tab
+    wishlistStateManager.subscribe(() => {
+        const wishlistTab = document.getElementById("wishlist");
+        if (wishlistTab && !wishlistTab.classList.contains("hidden")) {
+            // Only refetch if tab is visible
+            // We can use ensureCurrentUserId from authService or just rely on loadUserProfile flow
+            const userId = AuthService.getCurrentUserId();
+            if (userId) fetchWishlist(userId);
+        }
+    });
+
     loadUserProfile();
     setupEventListeners();
 });
@@ -16,7 +44,7 @@ function setupEventListeners() {
     /* ================= TAB SWITCHING ================= */
     window.openTab = function (tabId, el) {
         document.querySelectorAll(".account-tab").forEach(tab => tab.classList.add("hidden"));
-        
+
         document.querySelectorAll(".sidebar-tab").forEach(item => {
             item.classList.remove("bg-brown", "text-white", "shadow-md");
             item.classList.add("text-brown", "hover:bg-brown/10", "hover:text-brownDark");
@@ -32,11 +60,7 @@ function setupEventListeners() {
     };
 
     /* ================= LOGOUT ================= */
-    window.logout = async function() {
-        await AuthService.logout();
-        Toast.success("Logged out successfully");
-        setTimeout(() => window.location.href = "./login.html", 1000);
-    }
+    // Logout is now handled by HeaderInitializer globally
 
     /* ================= PERSONAL INFO UPDATE ================= */
     const personalForm = document.getElementById("personalForm");
@@ -48,7 +72,7 @@ function setupEventListeners() {
                 const result = await ProfileService.updateProfile(formData);
                 if (result.success || result.status === 'success') {
                     Toast.success("Profile updated successfully");
-                    loadUserProfile(); 
+                    loadUserProfile();
                 } else {
                     Toast.error(result.message || "Failed to update profile");
                 }
@@ -72,8 +96,8 @@ function setupEventListeners() {
                 const result = await ProfileService.saveAddress(formData);
                 if (result.success || result.status === 'success') {
                     Toast.success(result.message || "Address saved");
-                    fetchAddresses(); 
-                    toggleAddressForm(false); 
+                    fetchAddresses();
+                    toggleAddressForm(false);
                 } else {
                     Toast.error(result.message || "Failed to save address");
                 }
@@ -94,12 +118,12 @@ async function loadUserProfile() {
             Toast.error(response.message || "Session expired. Please login again.");
             setTimeout(() => window.location.href = "./login.html", 2000);
             return;
-        } 
+        }
 
-        const user = response.data; 
+        const user = response.data;
         updateSidebarProfile(user);
         updatePersonalInfoForm(user);
-        
+
         // Lazy Load Other Data
         fetchOrders(user.id);
         fetchWishlist(user.id);
@@ -114,10 +138,7 @@ function updateSidebarProfile(user) {
     ProfileRenderer.updateSidebar(user);
     ProfileRenderer.toggleLoading('sidebar', false);
 
-    const userDropdown = document.getElementById("user-dropdown");
-    if (userDropdown) {
-        userDropdown.innerHTML = HeaderRenderer.renderUserDropdown(user);
-    }
+    // HeaderInitializer handles the dropdown now
 }
 
 function updatePersonalInfoForm(user) {
@@ -126,13 +147,13 @@ function updatePersonalInfoForm(user) {
 }
 
 /* ================= IMAGE UPLOAD ================= */
-window.uploadProfileImage = async function(input) {
+window.uploadProfileImage = async function (input) {
     if (input.files && input.files[0]) {
         const formData = new FormData();
         formData.append("profile_image", input.files[0]);
 
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             document.getElementById("profileImg").src = e.target.result;
         }
         reader.readAsDataURL(input.files[0]);
@@ -151,22 +172,22 @@ window.uploadProfileImage = async function(input) {
 }
 
 /* ================= ADDRESS FUNCTIONS ================= */
-window.toggleAddressForm = function(show = true) {
+window.toggleAddressForm = function (show = true) {
     const form = document.getElementById("addressForm");
     const title = document.getElementById("addressFormTitle");
-    
+
     if (show) {
         form.classList.remove("hidden");
         form.scrollIntoView({ behavior: 'smooth' });
     } else {
         form.classList.add("hidden");
         document.getElementById("addressForm").reset();
-        document.getElementById("address_id").value = ""; 
+        document.getElementById("address_id").value = "";
         title.innerText = "Add New Address";
     }
 }
 
-window.editAddress = function(id) {
+window.editAddress = function (id) {
     const addr = window.userAddresses.find(a => a.id == id);
     if (!addr) return;
 
@@ -184,13 +205,13 @@ window.editAddress = function(id) {
     window.toggleAddressForm(true);
 }
 
-window.deleteAddress = async function(addressId) {
+window.deleteAddress = async function (addressId) {
     if (!confirm("Are you sure you want to delete this address?")) return;
     try {
         const result = await ProfileService.deleteAddress(addressId);
         if (result.success || result.status === 'success') {
             Toast.success("Address deleted");
-            fetchAddresses(); 
+            fetchAddresses();
         } else {
             Toast.error(result.message || "Failed to delete address");
         }
@@ -237,17 +258,17 @@ async function fetchOrders(userId) {
 }
 
 async function fetchWishlist(userId) {
-    ProfileRenderer.showSkeletons('wishlistGrid');
+    ProfileRenderer.showSkeletons('profileWishlistGrid');
 
     try {
         const result = await ProfileService.getWishlist(userId);
         const products = (result.success && result.data && result.data.products) ? result.data.products : [];
-        const wishlistGrid = document.getElementById("wishlistGrid");
+        const wishlistGrid = document.getElementById("profileWishlistGrid");
         if (wishlistGrid) {
             wishlistGrid.innerHTML = ProfileRenderer.renderWishlist(products, userId);
         }
     } catch {
-        const wishlistGrid = document.getElementById("wishlistGrid");
+        const wishlistGrid = document.getElementById("profileWishlistGrid");
         if (wishlistGrid) {
             wishlistGrid.innerHTML = ProfileRenderer.renderWishlist([], userId);
         }
@@ -255,7 +276,7 @@ async function fetchWishlist(userId) {
 }
 
 // Global hook for wishlist removal (needed for onclick)
-window.removeFromWishlist = async function(userId, productId) {
+window.removeFromWishlist = async function (userId, productId) {
     if (!confirm("Remove from wishlist?")) return;
     try {
         const result = await ProfileService.removeFromWishlist(userId, productId);
