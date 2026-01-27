@@ -7,6 +7,7 @@ import wishlistStateManager from "../../utils/wishlistStateManager.js";
 import { HeaderInitializer } from "../../utils/headerInitializer.js";
 import SkeletonLoader from "../../utils/skeletonLoader.js";
 import { Toast } from "../../utils/toast.js";
+import ProductReviewController from "./productReviewController.js";
 
 // Initialize Toast
 Toast.init();
@@ -50,6 +51,9 @@ class ProductDetailController {
 
         // Load product data
         await this.loadProduct();
+
+        // Initialize Reviews
+        ProductReviewController.init(this.productId);
     }
 
     setupEventListeners() {

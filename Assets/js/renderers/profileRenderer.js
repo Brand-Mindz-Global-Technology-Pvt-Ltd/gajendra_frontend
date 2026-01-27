@@ -1,9 +1,12 @@
+import { ReviewRenderer } from "./reviews/reviewRenderer.js";
+
 /**
  * Profile Renderer
  * Responsibile for generating all HTML strings and managing skeleton states for the My Account page.
  */
 
 const SKELETONS = {
+    // ... (unchanged)
     ADDRESS: `
         <div class="border rounded-xl p-4 space-y-3 animate-pulse">
             <div class="h-4 bg-gray-200 rounded w-1/4"></div>
@@ -32,9 +35,7 @@ const SKELETONS = {
 };
 
 export const ProfileRenderer = {
-    /**
-     * Managed Loading States via Skeletons
-     */
+    // ... (unchanged methods)
     showSkeletons(containerId) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -84,9 +85,10 @@ export const ProfileRenderer = {
 
     /**
      * Renders Order List HTML
+     * Accepts a flat list of order items and groups them by order_id
      */
-    renderOrderList(orders) {
-        if (!orders || orders.length === 0) {
+    renderOrderList(orderItems) {
+        if (!orderItems || orderItems.length === 0) {
             return `
                 <div class="text-center py-10 text-gray-400">
                      <i class="fa-solid fa-box-open text-4xl mb-3"></i>
@@ -95,16 +97,58 @@ export const ProfileRenderer = {
                 </div>`;
         }
 
-        return orders.map(order => `
-            <div class="bg-white p-5 rounded-xl shadow-md mb-4 border border-gray-100">
-                <div class="flex justify-between mb-2">
-                    <span class="font-semibold text-brown">Order #${order.order_id}</span>
-                    <span class="text-xs px-2 py-1 rounded-full ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${order.status}</span>
+        // Group by Order ID
+        const orders = {};
+        orderItems.forEach(item => {
+            if (!orders[item.order_id]) {
+                orders[item.order_id] = {
+                    order_id: item.order_id,
+                    status: item.order_status,
+                    created_at: item.order_date,
+                    items: []
+                };
+            }
+            orders[item.order_id].items.push(item);
+        });
+
+        // Sort by ID desc
+        const sortedOrderIds = Object.keys(orders).sort((a, b) => b - a);
+
+        return sortedOrderIds.map(orderId => {
+            const order = orders[orderId];
+            return `
+            <div class="bg-white p-5 rounded-xl shadow-md mb-6 border border-gray-100">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <div>
+                        <span class="font-semibold text-brown text-lg">Order #${order.order_id}</span>
+                        <p class="text-xs text-gray-400 mt-1">Ordered on: ${new Date(order.created_at).toLocaleDateString()}</p>
+                    </div>
+                    <span class="text-xs px-3 py-1 rounded-full ${order.status === 'completed' || order.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'} font-medium uppercase tracking-wide">
+                        ${order.status}
+                    </span>
                 </div>
-                <p class="text-sm text-gray-600">Items: ${order.items_count} | Total: ₹${order.total_amount}</p>
-                <p class="text-xs text-gray-400 mt-1">Ordered on: ${new Date(order.created_at).toLocaleDateString()}</p>
+                
+                <div class="space-y-4">
+                    ${order.items.map(item => `
+                        <div class="flex items-center justify-between gap-4 p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-white rounded border flex items-center justify-center">
+                                    <img src="${item.product_image || 'https://placehold.co/50'}" class="w-10 h-10 object-contain" alt="">
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-[#3E1C00] text-sm">${item.product_name}</h5>
+                                    <p class="text-xs text-gray-500">Qty: ${item.quantity} | ₹${item.price}</p>
+                                </div>
+                            </div>
+                            <div>
+                                ${ReviewRenderer.renderOrderReviewButton(item)}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
     },
 
     /**

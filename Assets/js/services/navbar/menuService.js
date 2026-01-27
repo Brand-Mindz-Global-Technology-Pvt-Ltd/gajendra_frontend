@@ -15,6 +15,7 @@ const MenuService = {
       const response = await fetch(`${CONFIG.SHOP_API_URL}/get_mega_menu.php`);
       
       const data = await response.json();
+      console.log("menu", data);
       return data;
     } catch (error) {
       console.error('MenuService: Fetch error:', error);

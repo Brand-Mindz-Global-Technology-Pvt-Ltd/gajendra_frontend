@@ -125,7 +125,7 @@ export const MenuRenderer = {
                 <ul class="space-y-2">
                     ${sub.products.map(prod => `
                         <li>
-                            <a href="../Shop/Shop.html?search=${encodeURIComponent(prod.name)}"
+                            <a href="../Shop/Singleproduct.html?product_id=${prod.id}"
                                class="text-[#3E1C00] hover:text-[#C4703C] text-sm block transition-colors">
                                ${prod.name}
                             </a>

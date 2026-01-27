@@ -9,6 +9,8 @@ import headerBadgeManager from "./utils/headerBadgeManager.js";
 // Ensure popup managers are loaded to attach window global functions
 import "./utils/cartPopupManager.js";
 import "./utils/wishlistPopupManager.js";
+import "./utils/reviews/reviewPopupManager.js";
+import ReviewService from "./services/reviews/reviewService.js";
 import { Toast } from "./utils/toast.js";
 
 // Global Cache for Addresses
@@ -243,8 +245,8 @@ async function fetchOrders(userId) {
     ProfileRenderer.showSkeletons('ordersList');
 
     try {
-        const result = await ProfileService.getOrders(userId);
-        const orders = (result.success && result.orders) ? result.orders : [];
+        const result = await ReviewService.getOrdersWithReviewStatus(userId);
+        const orders = (result.status === 'success' && result.data) ? result.data : [];
         const ordersList = document.getElementById("ordersList");
         if (ordersList) {
             ordersList.innerHTML = ProfileRenderer.renderOrderList(orders);
