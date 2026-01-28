@@ -150,7 +150,7 @@ const ShopRenderer = {
     createProductCardHTML(p, { inCart = false, inWishlist = false } = {}) {
         // Use centralized image utility
         const imageUrl = getProductImageUrl(p);
-        
+
         // Use centralized price utility
         const { displayPrice } = calculateProductPrice(p);
 
@@ -347,7 +347,7 @@ const ShopRenderer = {
         const slidesHTML = products.map((p, index) => {
             // First check for thumbnail field (from get_products.php response)
             let productImage = p.thumbnail || null;
-            
+
             if (!productImage) {
                 // Process images array
                 let images = p.images;
@@ -358,7 +358,7 @@ const ShopRenderer = {
                 if (!Array.isArray(images) && images) {
                     images = [images];
                 }
-                
+
                 // Filter out __EMPTY__ images (check if image is '__EMPTY__' or ends with '/__EMPTY__')
                 if (Array.isArray(images) && images.length > 0) {
                     const validImages = images.filter(img => {

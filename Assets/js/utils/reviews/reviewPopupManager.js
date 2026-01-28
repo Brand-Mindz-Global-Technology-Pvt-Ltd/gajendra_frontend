@@ -6,11 +6,20 @@ const ReviewPopupManager = {
     init() {
         if (!document.getElementById("review-popup-container")) {
             const popupHTML = `
+                <style>
+                    .no-scrollbar::-webkit-scrollbar {
+                        display: none;
+                    }
+                    .no-scrollbar {
+                        -ms-overflow-style: none;  /* IE and Edge */
+                        scrollbar-width: none;  /* Firefox */
+                    }
+                </style>
                 <div id="review-popup-container" class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 font-poppins">
-                    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden transform transition-all scale-95 opacity-0 duration-300" id="review-modal">
+                    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden transform transition-all scale-95 opacity-0 duration-300 flex flex-col max-h-[90vh]" id="review-modal">
                         
                         <!-- Header -->
-                        <div class="bg-[#3E1C00] px-6 py-4 flex justify-between items-center text-white">
+                        <div class="bg-[#3E1C00] px-6 py-4 flex justify-between items-center text-white shrink-0">
                             <h3 class="text-lg font-semibold">Write a Review</h3>
                             <button onclick="ReviewPopupManager.close()" class="text-white/70 hover:text-white transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,7 +29,7 @@ const ReviewPopupManager = {
                         </div>
                         
                         <!-- Body -->
-                        <div class="p-6">
+                        <div class="p-6 overflow-y-auto no-scrollbar min-h-0">
                             <div class="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
                                 <img id="review-product-image" src="" class="w-16 h-16 object-cover rounded-lg bg-gray-100 border border-gray-200">
                                 <div>

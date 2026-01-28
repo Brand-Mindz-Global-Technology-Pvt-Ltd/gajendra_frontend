@@ -39,11 +39,6 @@ export const ReviewRenderer = {
             year: 'numeric', month: 'long', day: 'numeric'
         });
 
-        // Photo HTML
-        const photoHtml = review.photo
-            ? `<div class="mt-3"><img src="${review.photo}" alt="Review Image" class="w-20 h-20 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90" onclick="window.open('${review.photo}', '_blank')"></div>`
-            : '';
-
         // Verified Purchase Badge
         const verifiedBadge = review.is_verified_purchase
             ? `<span class="ml-2 text-green-600 text-xs bg-green-50 px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1"><i class="fas fa-check-circle"></i> Verified Purchase</span>`
@@ -51,15 +46,13 @@ export const ReviewRenderer = {
 
         // Action Buttons (Edit/Delete)
         let actionButtons = '';
-        // Ensure type safety (API might return strings)
         if (currentUserId && review.user_id == currentUserId) {
-            // Escape special chars in text for onclick
             const safeText = (review.review_text || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
             const safePhoto = (review.photo || '').replace(/'/g, "\\'");
             const safeProductName = String(productName).replace(/'/g, "\\'");
-            
+
             actionButtons = `
-                <div class="flex gap-3 mt-4 text-sm font-medium">
+                <div class="flex gap-3 mt-3 text-sm font-medium">
                     <button onclick="ReviewPopupManager.openEdit(${review.id}, ${review.product_id}, ${review.rating}, '${safeText}', '${safePhoto}', '${safeProductName}', '${productImage}')" 
                         class="text-[#3E1C00] hover:underline flex items-center gap-1">
                         <i class="fas fa-edit"></i> Edit
@@ -72,14 +65,35 @@ export const ReviewRenderer = {
             `;
         }
 
+        // Content Layout: Image Left, Text Right
+        let contentHtml = '';
+        if (review.photo) {
+            contentHtml = `
+                <div class="flex gap-4 mt-3">
+                    <div class="shrink-0">
+                        <img src="${review.photo}" alt="Review Image" class="w-24 h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity" onclick="window.open('${review.photo}', '_blank')">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[#3E1C00] leading-relaxed opacity-90 text-sm md:text-base break-words">${review.review_text || ''}</p>
+                    </div>
+                </div>
+            `;
+        } else {
+            contentHtml = `
+                <div class="mt-2 text-sm md:text-base">
+                    <p class="text-[#3E1C00] leading-relaxed opacity-90 break-words">${review.review_text || ''}</p>
+                </div>
+            `;
+        }
+
         return `
             <div class="mb-8 border-b border-[#D4B896]/30 pb-8 last:border-0 last:mb-0 last:pb-0 group">
                 <div class="flex items-start gap-4">
                     <div class="w-12 h-12 rounded-full bg-[#3E1C00] text-white flex items-center justify-center font-bold text-xl flex-shrink-0">
                         ${review.user_name ? review.user_name.charAt(0).toUpperCase() : 'U'}
                     </div>
-                    <div class="flex-1">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
                             <div>
                                 <h4 class="font-bold text-[#3E1C00] flex items-center">
                                     ${review.user_name || 'Anonymous'}
@@ -91,8 +105,8 @@ export const ReviewRenderer = {
                             </div>
                             <span class="text-xs text-gray-500">${date}</span>
                         </div>
-                        <p class="text-[#3E1C00] leading-relaxed opacity-90">${review.review_text || ''}</p>
-                        ${photoHtml}
+                        
+                        ${contentHtml}
                         ${actionButtons}
                     </div>
                 </div>
