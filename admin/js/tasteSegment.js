@@ -1,17 +1,20 @@
-document.addEventListener("DOMContentLoaded", function() {
-
+function initTasteSegmentModule() {
+    console.log("👅 Initializing Taste Segment Module...");
     const saveBtn = document.getElementById("saveHowToUseSegments");
     const prodIdInput = document.getElementById("prodId");
 
     if (!saveBtn) {
-        console.error("Save Segments button not found!");
+        console.warn("Save Segments button not found (may not be in current view)");
         return;
     }
 
-    saveBtn.addEventListener("click", function () {
+    // Remove existing listener to prevent duplicates
+    const newSaveBtn = saveBtn.cloneNode(true);
+    saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
 
+    newSaveBtn.addEventListener("click", function () {
         if (!prodIdInput || !prodIdInput.value) {
-            alert("Product ID missing!");
+            showToast("Product ID missing!", "error");
             return;
         }
 
@@ -19,32 +22,44 @@ document.addEventListener("DOMContentLoaded", function() {
         const formData = new FormData();
 
         document.querySelectorAll(".htu-segment").forEach((seg, index) => {
-            const title = seg.querySelector(".htu-title").value.trim();
-            const desc = seg.querySelector(".htu-description").value.trim();
-            segments.push({ title, description: desc });
+            const titleInput = seg.querySelector(".htu-title");
+            const descInput = seg.querySelector(".htu-description");
+
+            if (titleInput && descInput) {
+                const title = titleInput.value.trim();
+                const desc = descInput.value.trim();
+                if (title || desc) {
+                    segments.push({ title, description: desc });
+                }
+            }
         });
 
         if (segments.length === 0) {
-            alert("Add at least one segment.");
+            showToast("Add at least one segment.", "warning");
             return;
         }
 
         formData.append("segments", JSON.stringify(segments));
         formData.append("product_id", prodIdInput.value);
 
+        setButtonLoading(newSaveBtn, true, "Saving...");
+
         fetch("https://gajendhrademo.brandmindz.com/routes/auth/shop/taste_segment.php", {
             method: "POST",
             body: formData
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log("Response:", data);
-            alert(data.message || "Segments saved successfully");
-        })
-        .catch(err => {
-            console.error("Error:", err);
-            alert("Error while saving segments.");
-        });
+            .then(res => res.json())
+            .then(data => {
+                setButtonLoading(newSaveBtn, false);
+                showToast(data.message || "Segments saved successfully", data.success ? "success" : "error");
+            })
+            .catch(err => {
+                console.error("Error:", err);
+                setButtonLoading(newSaveBtn, false);
+                showToast("Error while saving segments.", "error");
+            });
     });
+}
 
-});
+// Attach to window
+window.initTasteSegmentModule = initTasteSegmentModule;

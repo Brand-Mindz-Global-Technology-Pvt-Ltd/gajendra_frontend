@@ -34,12 +34,12 @@ function showToast(message, type = "info") {
 
   toast.id = toastId;
   toast.className = `toast align-items-center text-white bg-${type === "error"
-      ? "danger"
-      : type === "success"
-        ? "success"
-        : type === "warning"
-          ? "warning"
-          : "info"
+    ? "danger"
+    : type === "success"
+      ? "success"
+      : type === "warning"
+        ? "warning"
+        : "info"
     } border-0 shadow-lg`;
 
   toast.setAttribute("role", "alert");
@@ -237,28 +237,46 @@ async function loadBlogs() {
 }
 
 // ------------------ INITIALIZER ------------------ //
-document.addEventListener("DOMContentLoaded", () => {
+function initBlogModule() {
+  console.log("📝 Initializing Blog Module...");
   const blogSection = document.getElementById("blogs");
 
   if (blogSection) {
     loadBlogs();
 
-    document.getElementById("blogForm").addEventListener("submit", createBlog);
+    const blogForm = document.getElementById("blogForm");
+    if (blogForm) {
+      blogForm.addEventListener("submit", createBlog);
+    }
 
-    document.getElementById("blogSaveBtn").addEventListener("click", updateBlog);
+    const saveBtn = document.getElementById("blogSaveBtn");
+    if (saveBtn) {
+      saveBtn.addEventListener("click", updateBlog);
+    }
 
-    document.getElementById("blogImage").addEventListener("change", async (e) => {
-      const url = await uploadBlogImage(e.target.files[0]);
-      if (url) {
-        getEl("blogImageUrl").value = url;
-        getEl("blogImagePreview").src = url;
-        getEl("blogImagePreview").classList.remove("d-none");
-      }
-    });
+    const cancelBtn = document.getElementById("blogCancelBtn");
+    if (cancelBtn) {
+      cancelBtn.addEventListener("click", resetBlogForm);
+    }
 
-    document.getElementById("blogCancelBtn").addEventListener("click", resetBlogForm);
+    const imageInput = document.getElementById("blogImage");
+    if (imageInput) {
+      imageInput.addEventListener("change", async (e) => {
+        if (e.target.files.length > 0) {
+          const url = await uploadBlogImage(e.target.files[0]);
+          if (url) {
+            getEl("blogImageUrl").value = url;
+            getEl("blogImagePreview").src = url;
+            getEl("blogImagePreview").classList.remove("d-none");
+          }
+        }
+      });
+    }
   }
-});
+}
+
+// Attach to window
+window.initBlogModule = initBlogModule;
 
 
 
@@ -404,6 +422,4 @@ function resetBlogForm() {
   getEl("blogSubmitBtn").style.display = "inline-block";
 }
 
-
-getEl("blogSaveBtn").addEventListener("click", updateBlog);
-getEl("blogCancelBtn").addEventListener("click", resetBlogForm);
+// End of blog module

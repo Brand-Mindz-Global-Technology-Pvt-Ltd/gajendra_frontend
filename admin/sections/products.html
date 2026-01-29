@@ -1,0 +1,185 @@
+<!-- Products Section -->
+<section id="products" class="section d-none">
+    <div class="section-header">
+        <h1 class="section-title">
+            <i class="fas fa-box me-3 text-primary"></i>
+            Manage Products
+        </h1>
+    </div>
+
+    <!-- Add/Edit Product Form -->
+    <div class="admin-card mb-4" id="productFormCard">
+        <div class="card-header">
+            <h5 class="mb-0" id="productFormTitle">
+                <i class="fas fa-plus-circle text-primary me-2"></i>
+                Add New Product
+            </h5>
+        </div>
+        <div class="card-body">
+            <form id="addProductForm" enctype="multipart/form-data" class="row g-3" action="javascript:void(0)"
+                method="post">
+                <input type="hidden" id="prodId" name="id">
+                <div class="col-md-6">
+                    <label for="prodName" class="form-label">Product Name *</label>
+                    <input type="text" id="prodName" name="name" class="form-control" placeholder="Enter product name"
+                        required>
+                </div>
+                <div class="col-md-6">
+                    <label for="prodSlug" class="form-label">Slug *</label>
+                    <input type="text" id="prodSlug" name="slug" class="form-control" placeholder="product-slug"
+                        required>
+                </div>
+                <div class="col-12">
+                    <label for="prodDesc" class="form-label">Description</label>
+                    <textarea id="prodDesc" name="description" class="form-control" rows="3"
+                        placeholder="Enter product description"></textarea>
+                </div>
+                <div class="col-12">
+                    <label for="prodProductDesc" class="form-label">Product Description</label>
+                    <textarea id="prodProductDesc" name="product_description" class="form-control" rows="3"
+                        placeholder="Enter detailed product description"></textarea>
+                </div>
+                <div class="col-12">
+                    <label for="prodBenefits" class="form-label">Benefits</label>
+                    <textarea id="prodBenefits" name="benefits" class="form-control" rows="3"
+                        placeholder="Enter product benefits"></textarea>
+                </div>
+                <div class="col-12">
+                    <label for="prodHowToUse" class="form-label">How to Use</label>
+                    <textarea id="prodHowToUse" name="how_to_use" class="form-control" rows="3"
+                        placeholder="Enter how to use instructions"></textarea>
+                </div>
+                <!-- Taste Segments Section -->
+                <div class="col-12 mt-3">
+                    <label class="form-label">Taste Segments</label>
+                    <div id="howToUseSegments">
+                        <!-- Segments will be added here -->
+                    </div>
+                    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="addHtuSegment">
+                        <i class="fas fa-plus me-1"></i>Add Segment
+                    </button>
+                    <div class="form-text mt-1">
+                        Add multiple how-to-use steps with title, description & an image.
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Price Variations</label>
+                    <div id="priceVariations">
+                        <div class="variation-row row g-2 mb-2">
+                            <div class="col-md-3">
+                                <input type="text" class="form-control variation-quantity" placeholder="e.g., 500g">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control variation-price" placeholder="Price"
+                                    step="0.01" min="0">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control variation-strike-price"
+                                    placeholder="Strike Price" step="0.01" min="0">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-outline-danger btn-sm remove-variation">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="addVariation">
+                        <i class="fas fa-plus me-1"></i>Add Variation
+                    </button>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="prodStock" class="form-label">Stock Quantity</label>
+                    <input type="number" id="prodStock" name="stock" class="form-control" placeholder="0" min="0">
+                </div>
+                <div class="col-md-3">
+                    <label for="prodCategory" class="form-label">Category *</label>
+                    <select id="prodCategory" name="category_id" class="form-select" required>
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="prodSubcategory" class="form-label">Subcategory</label>
+                    <select id="prodSubcategory" name="subcategory_id" class="form-select">
+                        <option value="">Select Subcategory</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="prodStatus" class="form-label">Status</label>
+                    <select id="prodStatus" name="status" class="form-select">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="col-md-9">
+                    <label class="form-label">Product Tags</label>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="prodNew" name="is_new_arrival" class="form-check-input">
+                                <label for="prodNew" class="form-check-label">New Arrival</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="prodBestSeller" name="is_best_seller"
+                                    class="form-check-input">
+                                <label for="prodBestSeller" class="form-check-label">Best Seller</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="prodFourthSection" name="is_fourth_section"
+                                    class="form-check-input">
+                                <label for="prodFourthSection" class="form-check-label">4th Section</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Product Images (Max 4)</label>
+                    <div class="row g-3" id="imageUploadSlots">
+                        <!-- Slots generated by JS -->
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success" id="productSubmitBtn">
+                        <i class="fas fa-plus me-2"></i> Add Product
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary ms-2">
+                        <i class="fas fa-undo me-2"></i> Reset
+                    </button>
+                </div>
+            </form>
+            <div class="row g-3 mt-2" id="productEditControls" style="display: none;">
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-success me-2" id="productSaveBtn">
+                        <i class="fas fa-save me-2"></i> Save Changes
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="productCancelBtn">
+                        <i class="fas fa-times me-2"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products List -->
+    <div class="admin-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list text-primary me-2"></i> Product List
+            </h5>
+            <span class="badge bg-primary" id="productCount">0 products</span>
+        </div>
+        <div class="card-body p-0" id="productList">
+            <div class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading products...</p>
+            </div>
+        </div>
+    </div>
+</section>

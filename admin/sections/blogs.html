@@ -1,0 +1,105 @@
+<!-- Blogs Section -->
+<section id="blogs" class="section d-none">
+    <div class="section-header">
+        <h1 class="section-title">
+            <i class="fas fa-blog me-3 text-primary"></i>
+            Manage Blogs
+        </h1>
+    </div>
+
+    <!-- Blog Form -->
+    <div class="admin-card mb-4" id="blogFormCard">
+        <div class="card-header">
+            <h5 class="mb-0" id="blogFormTitle">
+                <i class="fas fa-plus-circle text-primary me-2"></i>
+                Add New Blog Post
+            </h5>
+        </div>
+        <div class="card-body">
+            <form id="blogForm" enctype="multipart/form-data" class="row g-3" action="javascript:void(0)">
+                <input type="hidden" id="blogId">
+                <input type="hidden" id="blogImageUrl">
+                <input type="hidden" id="blogAuthorId" value="1">
+                <div class="col-md-6">
+                    <label class="form-label">Blog Title *</label>
+                    <input type="text" id="blogTitle" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Slug *</label>
+                    <input type="text" id="blogSlug" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Short Description *</label>
+                    <textarea id="blogShortDesc" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Full Content *</label>
+                    <textarea id="blogContent" class="form-control" rows="6"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Category *</label>
+                    <input type="text" id="blogCategory" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tags (comma separated)</label>
+                    <input type="text" id="blogTags" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">SEO Meta Title</label>
+                    <input type="text" id="blogMetaTitle" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">SEO Meta Description</label>
+                    <textarea id="blogMetaDesc" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Status</label>
+                    <select id="blogStatus" class="form-select">
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Featured Image</label>
+                    <input type="file" id="blogImage" class="form-control">
+                    <img id="blogImagePreview" class="img-fluid rounded mt-2 d-none"
+                        style="max-height:150px;border:1px solid #ddd;">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-info" id="blogSubmitBtn">
+                        <i class="fas fa-plus me-2"></i> Add Blog Post
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary ms-2" id="blogResetBtn">
+                        <i class="fas fa-undo me-2"></i> Reset
+                    </button>
+                </div>
+            </form>
+            <div class="row g-3 mt-3" id="blogEditControls" style="display:none;">
+                <div class="col-12 text-end">
+                    <button class="btn btn-success me-2" id="blogSaveBtn">
+                        <i class="fas fa-save me-2"></i> Save Changes
+                    </button>
+                    <button class="btn btn-outline-secondary" id="blogCancelBtn">
+                        <i class="fas fa-times me-2"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog List -->
+    <div class="admin-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list text-primary me-2"></i> Blog Posts
+            </h5>
+            <span class="badge bg-primary" id="blogCount">0 blogs</span>
+        </div>
+        <div class="card-body p-0" id="blogList">
+            <div class="loading-spinner">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Loading blogs...</p>
+            </div>
+        </div>
+    </div>
+</section>

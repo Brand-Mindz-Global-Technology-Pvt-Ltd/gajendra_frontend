@@ -1,0 +1,215 @@
+<!-- Shared Modals & Popups -->
+
+<!-- Enquiry Message Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-comment-dots me-2 text-primary"></i>
+                    Enquiry Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-2">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <strong>Type:</strong> <span id="modalType" class="badge bg-secondary"></span>
+                            </div>
+                            <div class="col-md-6 mb-2 text-md-end">
+                                <strong>Date:</strong> <span id="modalDate"></span>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <strong>Name:</strong> <span id="modalName"></span>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <strong>Email:</strong> <span id="modalEmail"></span>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <strong>Phone:</strong> <span id="modalPhone"></span>
+                            </div>
+                        </div>
+                        <hr class="my-3">
+                        <div id="contactSection">
+                            <p class="mb-1 text-primary fw-bold">Message:</p>
+                            <div id="modalMessage"
+                                style="white-space: pre-wrap; background:#f8fafc; padding:12px; border: 1px solid #e2e8f0; min-height: 100px;">
+                            </div>
+                        </div>
+                        <div id="bulkSection" class="d-none">
+                            <p class="mb-3 text-primary fw-bold">Bulk Enquiry Details:</p>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="small text-muted">Preferred Delivery Date</label>
+                                    <div id="modalDeliveryDate" class="fw-semibold"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="small text-muted">Category / Product</label>
+                                    <div class="fw-semibold"><span id="modalCategory"></span> / <span
+                                            id="modalProduct"></span></div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="small text-muted">Delivery Address</label>
+                                    <div id="modalAddress" class="fw-semibold"></div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="small text-muted">Additional Remarks</label>
+                                    <div id="modalRemarks" class="p-2 rounded bg-light border fst-italic"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal fade" id="orderViewModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title">
+                    <i class="fas fa-receipt me-2 text-primary"></i>
+                    Order Details: <span id="orderDetailId" class="text-primary">#000</span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-4">
+                    <!-- Left Column: Order Stats & Customer -->
+                    <div class="col-lg-4">
+                        <div class="card border-0 bg-light mb-3">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-3 border-bottom pb-2">Order Information</h6>
+                                <div class="mb-2">
+                                    <small class="text-muted d-block">Order Date</small>
+                                    <span id="orderDetailDate" class="fw-semibold">N/A</span>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted d-block">Status</small>
+                                    <span id="orderDetailStatus" class="badge">N/A</span>
+                                </div>
+                                <div class="mb-2">
+                                    <small class="text-muted d-block">Payment Method</small>
+                                    <span id="orderDetailPaymentMethod" class="text-uppercase fw-semibold">N/A</span>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Payment Status</small>
+                                    <span id="orderDetailPaymentStatus" class="badge">N/A</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-3 border-bottom pb-2">Customer Details</h6>
+                                <div class="mb-2">
+                                    <small class="text-muted d-block">Name</small>
+                                    <span id="orderDetailCustomerName" class="fw-semibold">N/A</span>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Email</small>
+                                    <span id="orderDetailCustomerEmail">N/A</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Middle Column: Addresses -->
+                    <div class="col-lg-8">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-primary-subtle">
+                                    <div class="card-header bg-primary-subtle py-2">
+                                        <h6 class="mb-0 small fw-bold text-primary">Shipping Address</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p id="orderDetailShippingAddress" class="mb-0 small text-muted fst-italic">N/A
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-info-subtle">
+                                    <div class="card-header bg-info-subtle py-2">
+                                        <h6 class="mb-0 small fw-bold text-info">Billing Address</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p id="orderDetailBillingAddress" class="mb-0 small text-muted fst-italic">N/A
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Items Table -->
+                            <div class="col-12 mt-3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Product</th>
+                                                <th class="text-center">Price</th>
+                                                <th class="text-center">Qty</th>
+                                                <th class="text-end">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="orderDetailItems">
+                                            <!-- Items will be injected here -->
+                                        </tbody>
+                                        <tfoot>
+                                            <tr class="table-light fw-bold">
+                                                <td colspan="3" class="text-end">Grand Total:</td>
+                                                <td class="text-end text-success fs-5" id="orderDetailGrandTotal">₹0.00
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup Modal System (Custom) -->
+<div id="popupModal" class="popup-modal">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h5 class="popup-title" id="popupTitle">Notification</h5>
+            <button class="popup-close" id="popupClose">&times;</button>
+        </div>
+        <div class="popup-body">
+            <div class="popup-icon" id="popupIcon"><i class="fas fa-info-circle"></i></div>
+            <p class="popup-message" id="popupMessage">Message content</p>
+        </div>
+        <div class="popup-footer">
+            <button class="btn btn-primary" id="popupOk">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Image Modal (Gallery) -->
+<div id="imageModal" class="image-modal">
+    <div class="image-modal-content">
+        <button class="image-modal-close" id="imageModalClose">&times;</button>
+        <button class="image-modal-nav image-modal-prev" id="imageModalPrev"><i
+                class="fas fa-chevron-left"></i></button>
+        <button class="image-modal-nav image-modal-next" id="imageModalNext"><i
+                class="fas fa-chevron-right"></i></button>
+        <img id="imageModalImg" src="" alt="Gallery Image">
+        <div class="image-modal-counter" id="imageModalCounter">1 / 1</div>
+    </div>
+</div>

@@ -1,0 +1,178 @@
+<!-- Categories Section -->
+<section id="categories" class="section d-none">
+    <div class="section-header">
+        <h1 class="section-title">
+            <i class="fas fa-folder me-3 text-primary"></i>
+            Manage Categories
+        </h1>
+    </div>
+
+    <!-- Add/Edit Category Form -->
+    <div class="admin-card mb-4" id="categoryFormCard">
+        <div class="card-header">
+            <h5 class="mb-0" id="categoryFormTitle">
+                <i class="fas fa-plus-circle text-primary me-2"></i>
+                Add New Category
+            </h5>
+        </div>
+        <div class="card-body">
+            <form id="categoryForm" class="row g-3" action="javascript:void(0)" method="post"
+                enctype="multipart/form-data">
+                <input type="hidden" id="catId" name="id">
+                <div class="col-md-4">
+                    <label for="catName" class="form-label">Category Name *</label>
+                    <input type="text" id="catName" name="name" class="form-control" placeholder="Enter category name"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="catSlug" class="form-label">Slug *</label>
+                    <input type="text" id="catSlug" name="slug" class="form-control" placeholder="category-slug"
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="catImage" class="form-label">Category Image</label>
+                    <input type="file" id="catImage" name="image" class="form-control" accept="image/*">
+                    <div id="catImagePreviewContainer" class="mt-2" style="display: none;">
+                        <img id="catImagePreview" src="" alt="Preview" class="img-thumbnail" style="height: 50px;">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label d-block">Show in Nav Menu?</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="show_in_menu" id="menuYes" value="1">
+                        <label class="form-check-label" for="menuYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="show_in_menu" id="menuNo" value="0">
+                        <label class="form-check-label" for="menuNo">No</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label d-block">Show in Shop Filter?</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="show_in_filter" id="filterYes" value="1">
+                        <label class="form-check-label" for="filterYes">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="show_in_filter" id="filterNo" value="0">
+                        <label class="form-check-label" for="filterNo">No</label>
+                    </div>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100" id="categorySubmitBtn">
+                        <i class="fas fa-plus me-2"></i>
+                        Add Category
+                    </button>
+                </div>
+            </form>
+            <div class="row g-3 mt-2" id="categoryEditControls" style="display: none;">
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-success me-2" id="categorySaveBtn">
+                        <i class="fas fa-save me-2"></i>
+                        Save Changes
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" id="categoryCancelBtn">
+                        <i class="fas fa-times me-2"></i>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories List -->
+    <div class="admin-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list text-primary me-2"></i>
+                Category List
+            </h5>
+            <span class="badge bg-primary" id="categoryCount">0 categories</span>
+        </div>
+        <div class="card-body p-0" id="categoryList">
+            <div class="loading-spinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading categories...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subcategory Modal (Nested in Categories Section for scope) -->
+    <div id="subcategoryModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-sitemap me-2"></i>
+                        Manage Subcategories
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 id="subcatCategoryTitle" class="mb-3 text-primary fw-bold"></h6>
+                    <form id="subcatForm" class="row g-3 mb-2" onsubmit="return false;">
+                        <input type="hidden" id="subcatId" name="id">
+                        <input type="hidden" id="subcatCategoryId" name="category_id">
+                        <div class="col-md-5">
+                            <label class="form-label">Subcategory Name *</label>
+                            <input type="text" id="subcatName" class="form-control" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Slug *</label>
+                            <input type="text" id="subcatSlug" class="form-control" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label d-block">Show in Nav Menu?</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sub_show_in_menu" id="subMenuYes"
+                                    value="1">
+                                <label class="form-check-label" for="subMenuYes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sub_show_in_menu" id="subMenuNo"
+                                    value="0">
+                                <label class="form-check-label" for="subMenuNo">No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label d-block">Show in Shop Filter?</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sub_show_in_filter" id="subFilterYes"
+                                    value="1">
+                                <label class="form-check-label" for="subFilterYes">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sub_show_in_filter" id="subFilterNo"
+                                    value="0">
+                                <label class="form-check-label" for="subFilterNo">No</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-primary w-100" id="subcatAddBtn">
+                                <i class="fas fa-plus me-1"></i> Add
+                            </button>
+                        </div>
+                    </form>
+                    <div class="row mb-3" id="subcatEditControls" style="display:none;">
+                        <div class="col-12 d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="subcatCancelBtn">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn btn-success btn-sm" id="subcatSaveBtn">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                    <div id="subcatList">
+                        <div class="text-center p-3">
+                            <div class="spinner-border text-primary"></div>
+                            <p class="mt-2">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

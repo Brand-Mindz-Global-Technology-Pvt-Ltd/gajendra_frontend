@@ -8,7 +8,8 @@ let currentPage = 1;
 const pageSize = 10;
 
 // ========= INIT =========
-document.addEventListener("DOMContentLoaded", () => {
+function initEnquiryModule() {
+    console.log("📨 Initializing Enquiry Module...");
     // Load once when admin opens
     loadEnquiries();
 
@@ -59,16 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+}
 
-    // Optional: reload enquiries when Enquiries menu clicked
-    document
-        .querySelectorAll('.admin-sidebar .nav-link[data-target="enquiries"]')
-        .forEach((link) => {
-            link.addEventListener("click", () => {
-                loadEnquiries();
-            });
-        });
-});
+// Attach to window
+window.initEnquiryModule = initEnquiryModule;
 
 // ========= LOAD ENQUIRIES =========
 async function loadEnquiries() {
