@@ -11,7 +11,8 @@ const FRAGMENTS = [
   { id: 'products', path: 'sections/products.html' },
   { id: 'orders', path: 'sections/orders.html' },
   { id: 'blogs', path: 'sections/blogs.html' },
-  { id: 'enquiries', path: 'sections/enquiries.html' }
+  { id: 'enquiries', path: 'sections/enquiries.html' },
+  { id: 'users', path: 'sections/users.html' }
 ];
 
 async function loadFragments() {
@@ -107,6 +108,8 @@ async function initializeAdmin() {
     // Initialize specific modules that need DOM elements from fragments
     if (typeof initBlogModule === 'function') initBlogModule();
     if (typeof initEnquiryModule === 'function') initEnquiryModule();
+    if (typeof initUserModule === 'function') initUserModule();
+    if (typeof initProductModule === 'function') initProductModule();
     if (typeof initTasteSegmentModule === 'function') initTasteSegmentModule();
     if (typeof initializePriceVariations === 'function') initializePriceVariations();
     if (typeof initializeImageUploadSlots === 'function') initializeImageUploadSlots();
@@ -181,6 +184,9 @@ function handleNavigation(link) {
     case "enquiries":
       if (typeof loadEnquiries === 'function') loadEnquiries();
       break;
+    case "users":
+      if (typeof loadUsers === 'function') loadUsers();
+      break;
   }
 }
 
@@ -197,7 +203,7 @@ function setupCoreEventListeners() {
   const categorySaveBtn = document.getElementById("categorySaveBtn");
   if (categorySaveBtn) {
     categorySaveBtn.addEventListener("click", () => {
-      if (typeof saveEdit === 'function') saveEdit("category");
+      if (typeof saveCategoryEdit === 'function') saveCategoryEdit();
     });
   }
 
@@ -205,6 +211,28 @@ function setupCoreEventListeners() {
   if (categoryCancelBtn) {
     categoryCancelBtn.addEventListener("click", () => {
       if (typeof switchToAddMode === 'function') switchToAddMode("category");
+    });
+  }
+
+  // Subcategory Management
+  const subcatAddBtn = document.getElementById("subcatAddBtn");
+  if (subcatAddBtn) {
+    subcatAddBtn.addEventListener("click", () => {
+      if (typeof handleSubcategorySubmit === 'function') handleSubcategorySubmit();
+    });
+  }
+
+  const subcatSaveBtn = document.getElementById("subcatSaveBtn");
+  if (subcatSaveBtn) {
+    subcatSaveBtn.addEventListener("click", () => {
+      if (typeof saveSubcategoryEdit === 'function') saveSubcategoryEdit();
+    });
+  }
+
+  const subcatCancelBtn = document.getElementById("subcatCancelBtn");
+  if (subcatCancelBtn) {
+    subcatCancelBtn.addEventListener("click", () => {
+      if (typeof resetSubcatEditMode === 'function') resetSubcatEditMode();
     });
   }
 

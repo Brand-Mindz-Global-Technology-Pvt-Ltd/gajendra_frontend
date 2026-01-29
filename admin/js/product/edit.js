@@ -316,35 +316,37 @@ function handleProductCancel() {
     showToast('📝 Edit cancelled', 'info');
 }
 
-// Export functions to global scope
-// Export functions to global scope
+/**
+ * Unified initialization for Product Module
+ * Called by script.js after fragments load
+ */
+function initProductModule() {
+    console.log('📦 Product Module Initializing...');
+    initializeEditListeners();
+    if (typeof initializeProductFormListeners === 'function') {
+        initializeProductFormListeners();
+    }
+}
+
+// Export to window
 window.editProduct = editProduct;
 window.handleProductSave = handleProductSave;
 window.handleProductCancel = handleProductCancel;
+window.initProductModule = initProductModule;
 
 // Initialize listeners
 function initializeEditListeners() {
     const saveBtn = document.getElementById('productSaveBtn');
     if (saveBtn) {
-        // Remove existing to prevent duplicates
         saveBtn.removeEventListener('click', handleProductSave);
         saveBtn.addEventListener('click', handleProductSave);
-        console.log('✅ Product save button listener attached from edit.js');
-    } else {
-        console.error('❌ productSaveBtn not found in edit.js');
+        console.log('✅ Product save button listener attached');
     }
 
     const cancelBtn = document.getElementById('productCancelBtn');
     if (cancelBtn) {
         cancelBtn.removeEventListener('click', handleProductCancel);
         cancelBtn.addEventListener('click', handleProductCancel);
-        console.log('✅ Product cancel button listener attached from edit.js');
+        console.log('✅ Product cancel button listener attached');
     }
-}
-
-// Run initialization
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeEditListeners);
-} else {
-    initializeEditListeners();
 }

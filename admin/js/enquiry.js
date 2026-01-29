@@ -333,29 +333,33 @@ function openMessageModal(id) {
 
 // ========= DELETE ENQUIRY =========
 async function deleteEnquiry(id) {
-    if (!confirm("Are you sure you want to delete this enquiry?")) return;
+    showConfirm(
+        "Delete Enquiry",
+        "Are you sure you want to delete this enquiry?",
+        async () => {
+            try {
+                const res = await fetch(`${ENQUIRY_API_BASE}/delete_enquiry.php`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id }),
+                });
 
-    try {
-        const res = await fetch(`${ENQUIRY_API_BASE}/delete_enquiry.php`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id }),
-        });
+                const data = await res.json();
 
-        const data = await res.json();
-
-        if (data.success) {
-            showToast("Enquiry deleted", "success");
-            // Remove from local arrays
-            allEnquiries = allEnquiries.filter(
-                (e) => String(e.id) !== String(id)
-            );
-            applyFiltersAndRender();
-        } else {
-            showToast(data.message || "Delete failed", "error");
+                if (data.success) {
+                    showToast("Enquiry deleted", "success");
+                    // Remove from local arrays
+                    allEnquiries = allEnquiries.filter(
+                        (e) => String(e.id) !== String(id)
+                    );
+                    applyFiltersAndRender();
+                } else {
+                    showToast(data.message || "Delete failed", "error");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Server error while deleting", "error");
+            }
         }
-    } catch (err) {
-        console.error(err);
-        showToast("Server error while deleting", "error");
-    }
+    );
 }

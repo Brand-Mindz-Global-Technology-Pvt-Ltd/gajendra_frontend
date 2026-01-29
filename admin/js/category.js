@@ -157,15 +157,39 @@ function editCategory(categoryId) {
 }
 
 /**
- * Delete category
+ * Save Category Edit
  */
-async function deleteCategory(categoryId) {
-    if (!confirm("Are you sure you want to delete this category?")) return;
+async function saveCategoryEdit() {
+    const id = document.getElementById("catId").value;
+    const name = document.getElementById("catName").value.trim();
+    const slug = document.getElementById("catSlug").value.trim();
+    const imageInput = document.getElementById("catImage");
+    const showInMenu = document.querySelector('input[name="show_in_menu"]:checked')?.value || '1';
+    const showInFilter = document.querySelector('input[name="show_in_filter"]:checked')?.value || '1';
+
+    if (!id || !name || !slug) {
+        showToast("Please fill all required fields", "error");
+        return;
+    }
+
+    if (!window.currentShop || !window.currentShop.id) {
+        showToast("Shop context not found. Please refresh the page.", "error");
+        return;
+    }
 
     try {
         const formData = new FormData();
-        formData.append("delete", "1");
-        formData.append("id", categoryId);
+        formData.append("id", id);
+        formData.append("edit", "1"); // Tell backend this is an UPDATE operation
+        formData.append("shop_id", window.currentShop.id);
+        formData.append("name", name);
+        formData.append("slug", slug);
+        formData.append("show_in_menu", showInMenu);
+        formData.append("show_in_filter", showInFilter);
+
+        if (imageInput && imageInput.files && imageInput.files[0]) {
+            formData.append("image", imageInput.files[0]);
+        }
 
         const response = await fetch(`${API_BASE}/add_category.php`, {
             method: "POST",
@@ -174,15 +198,49 @@ async function deleteCategory(categoryId) {
 
         const data = await response.json();
         if (data.success) {
-            if (typeof showToast === 'function') showToast("✅ Category deleted successfully!", "success");
+            showToast("✅ Category updated successfully!", "success");
+            if (typeof switchToAddMode === 'function') switchToAddMode("category");
             loadCategories();
         } else {
-            if (typeof showToast === 'function') showToast("❌ " + data.message, "error");
+            showToast("❌ " + data.message, "error");
         }
     } catch (error) {
-        console.error("❌ Failed to delete category:", error);
-        if (typeof showToast === 'function') showToast("❌ Failed to delete category", "error");
+        console.error("❌ Failed to update category:", error);
+        showToast("❌ Failed to update category", "error");
     }
+}
+
+/**
+ * Delete category
+ */
+async function deleteCategory(categoryId) {
+    showConfirm(
+        "Delete Category",
+        "Are you sure you want to delete this category? All subcategories will also be affected.",
+        async () => {
+            try {
+                const formData = new FormData();
+                formData.append("delete", "1");
+                formData.append("id", categoryId);
+
+                const response = await fetch(`${API_BASE}/add_category.php`, {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showToast("✅ Category deleted successfully!", "success");
+                    loadCategories();
+                } else {
+                    showToast("❌ " + data.message, "error");
+                }
+            } catch (error) {
+                console.error("❌ Failed to delete category:", error);
+                showToast("❌ Failed to delete category", "error");
+            }
+        }
+    );
 }
 
 /**
@@ -245,26 +303,124 @@ async function loadSubcategoryList(categoryId) {
     }
 }
 
-async function deleteSubcategory(id, categoryId) {
-    if (!confirm("Are you sure you want to delete this subcategory?")) return;
+/**
+ * Handle Subcategory Add
+ */
+async function handleSubcategorySubmit() {
+    const categoryId = document.getElementById("subcatCategoryId").value;
+    const name = document.getElementById("subcatName").value.trim();
+    const slug = document.getElementById("subcatSlug").value.trim();
+    const showInMenu = document.querySelector('input[name="sub_show_in_menu"]:checked')?.value || '1';
+    const showInFilter = document.querySelector('input[name="sub_show_in_filter"]:checked')?.value || '1';
+
+    if (!name || !slug) {
+        showToast("Please fill all required fields", "error");
+        return;
+    }
+
+    if (!window.currentShop || !window.currentShop.id) {
+        showToast("Shop context not found. Please refresh the page.", "error");
+        return;
+    }
+
     try {
         const formData = new FormData();
-        formData.append("id", id);
-        const response = await fetch(`${API_BASE}/delete_subcategory.php`, {
+        formData.append("shop_id", window.currentShop.id);
+        formData.append("category_id", categoryId);
+        formData.append("name", name);
+        formData.append("slug", slug);
+        formData.append("sub_show_in_menu", showInMenu);
+        formData.append("sub_show_in_filter", showInFilter);
+
+        const response = await fetch(`${API_BASE}/add_subcategory.php`, {
             method: "POST",
             body: formData,
         });
+
         const data = await response.json();
         if (data.success) {
-            if (typeof showToast === 'function') showToast("Subcategory deleted", "success");
+            showToast("✅ Subcategory added successfully!", "success");
+            document.getElementById("subcatName").value = "";
+            document.getElementById("subcatSlug").value = "";
             loadSubcategoryList(categoryId);
         } else {
-            if (typeof showToast === 'function') showToast(data.message || "Cannot delete subcategory", "error");
+            showToast("❌ " + data.message, "error");
         }
     } catch (error) {
-        console.error("❌ Subcategory delete error:", error);
-        if (typeof showToast === 'function') showToast("Error deleting subcategory", "error");
+        console.error("❌ Failed to add subcategory:", error);
+        showToast("❌ Failed to add subcategory", "error");
     }
+}
+
+/**
+ * Handle Subcategory Update
+ */
+async function saveSubcategoryEdit() {
+    const id = document.getElementById("subcatId").value;
+    const categoryId = document.getElementById("subcatCategoryId").value;
+    const name = document.getElementById("subcatName").value.trim();
+    const slug = document.getElementById("subcatSlug").value.trim();
+    const showInMenu = document.querySelector('input[name="sub_show_in_menu"]:checked')?.value || '1';
+    const showInFilter = document.querySelector('input[name="sub_show_in_filter"]:checked')?.value || '1';
+
+    if (!id || !name || !slug) {
+        showToast("Please fill all required fields", "error");
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append("id", id);
+        formData.append("category_id", categoryId);
+        formData.append("name", name);
+        formData.append("slug", slug);
+        formData.append("sub_show_in_menu", showInMenu);
+        formData.append("sub_show_in_filter", showInFilter);
+
+        const response = await fetch(`${API_BASE}/update_subcategory.php`, {
+            method: "POST",
+            body: formData,
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showToast("✅ Subcategory updated successfully!", "success");
+            resetSubcatEditMode();
+            loadSubcategoryList(categoryId);
+        } else {
+            showToast("❌ " + data.message, "error");
+        }
+    } catch (error) {
+        console.error("❌ Failed to update subcategory:", error);
+        showToast("❌ Failed to update subcategory", "error");
+    }
+}
+
+async function deleteSubcategory(id, categoryId) {
+    showConfirm(
+        "Delete Subcategory",
+        "Are you sure you want to delete this subcategory?",
+        async () => {
+            try {
+                const formData = new FormData();
+                formData.append("id", id);
+                const response = await fetch(`${API_BASE}/delete_subcategory.php`, {
+                    method: "POST",
+                    body: formData,
+                });
+                const data = await response.json();
+                if (data.success) {
+                    showToast("Subcategory deleted", "success");
+                    loadSubcategoryList(categoryId);
+                } else {
+                    showToast(data.message || "Cannot delete subcategory", "error");
+                }
+            } catch (error) {
+                console.error("❌ Subcategory delete error:", error);
+                showToast("Error deleting subcategory", "error");
+            }
+        }
+    );
 }
 
 function editSubcategory(id, name, slug, categoryId, showInMenu = 1, showInFilter = 1) {
@@ -284,19 +440,27 @@ function editSubcategory(id, name, slug, categoryId, showInMenu = 1, showInFilte
 }
 
 function resetSubcatEditMode() {
-    document.getElementById("subcatId").value = "";
+    const subcatId = document.getElementById("subcatId");
+    if (subcatId) subcatId.value = "";
+
     document.getElementById("subcatName").value = "";
     document.getElementById("subcatSlug").value = "";
-    document.getElementById("subcatAddBtn").style.display = "block";
-    document.getElementById("subcatEditControls").style.display = "none";
+
+    const addBtn = document.getElementById("subcatAddBtn");
+    const editControls = document.getElementById("subcatEditControls");
+    if (addBtn) addBtn.style.display = "block";
+    if (editControls) editControls.style.display = "none";
 }
 
 // Attach to window
 window.loadCategories = loadCategories;
 window.handleCategorySubmit = handleCategorySubmit;
+window.saveCategoryEdit = saveCategoryEdit;
 window.editCategory = editCategory;
 window.deleteCategory = deleteCategory;
 window.openSubcategoryModal = openSubcategoryModal;
+window.handleSubcategorySubmit = handleSubcategorySubmit;
+window.saveSubcategoryEdit = saveSubcategoryEdit;
 window.editSubcategory = editSubcategory;
 window.deleteSubcategory = deleteSubcategory;
 window.resetSubcatEditMode = resetSubcatEditMode;

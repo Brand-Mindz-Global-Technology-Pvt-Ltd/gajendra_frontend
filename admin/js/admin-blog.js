@@ -379,30 +379,34 @@ async function updateBlog() {
 
 // ------------------ DELETE BLOG ------------------ //
 async function deleteBlog(id) {
-  if (!confirm("Are you sure? This will permanently delete the blog.")) return;
+  showConfirm(
+    "Delete Blog",
+    "Are you sure? This will permanently delete the blog.",
+    async () => {
+      const fd = new FormData();
+      fd.append("blog_id", id);
 
-  const fd = new FormData();
-  fd.append("blog_id", id);
+      try {
+        const res = await fetch(`${BLOG_API_BASE}/admin/delete_blog.php`, {
+          method: "POST",
+          body: fd,
+        });
 
-  try {
-    const res = await fetch(`${BLOG_API_BASE}/admin/delete_blog.php`, {
-      method: "POST",
-      body: fd,
-    });
+        const data = await res.json();
 
-    const data = await res.json();
+        if (data.status === "success") {
+          showToast("Blog deleted successfully!", "success");
+          loadBlogs();
+        } else {
+          showToast(data.message, "error");
+        }
 
-    if (data.status === "success") {
-      showToast("Blog deleted successfully!", "success");
-      loadBlogs();
-    } else {
-      showToast(data.message, "error");
+      } catch (err) {
+        console.error(err);
+        showToast("Delete failed", "error");
+      }
     }
-
-  } catch (err) {
-    console.error(err);
-    showToast("Delete failed", "error");
-  }
+  );
 }
 
 

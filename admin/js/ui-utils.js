@@ -99,19 +99,17 @@ function showToast(message, type = "info") {
 }
 
 /**
- * Show popup modal (standardized replacement for alert/confirm)
+ * Show popup modal (standardized replacement for alert)
  */
 function showPopup(title, message, type = "info", callback = null) {
     const modal = document.getElementById("popupModal");
-    if (!modal) {
-        console.warn("Popup modal element not found in DOM");
-        return;
-    }
+    if (!modal) return;
 
     const titleEl = document.getElementById("popupTitle");
     const messageEl = document.getElementById("popupMessage");
     const iconEl = document.getElementById("popupIcon");
     const okBtn = document.getElementById("popupOk");
+    const cancelBtn = document.getElementById("popupCancel");
     const closeBtn = document.getElementById("popupClose");
 
     if (titleEl) titleEl.textContent = title;
@@ -129,37 +127,48 @@ function showPopup(title, message, type = "info", callback = null) {
         iconEl.innerHTML = `<i class="${iconMap[type] || iconMap.info}"></i>`;
     }
 
+    // Hide cancel button for regular popups
+    if (cancelBtn) cancelBtn.classList.add("d-none");
+    if (okBtn) okBtn.textContent = "OK";
+
     modal.classList.add("show");
 
-    // REMOVE old handlers
+    // Click Handlers
+    const closePopup = () => modal.classList.remove("show");
+
     if (okBtn) {
-        okBtn.onclick = null;
         okBtn.onclick = () => {
-            modal.classList.remove("show");
+            closePopup();
             if (callback) callback();
         };
     }
 
-    const closeOnly = () => {
-        modal.classList.remove("show");
-    };
+    if (closeBtn) closeBtn.onclick = closePopup;
+    if (cancelBtn) cancelBtn.onclick = closePopup;
 
-    if (closeBtn) {
-        closeBtn.onclick = null;
-        closeBtn.onclick = closeOnly;
+    modal.onclick = (e) => { if (e.target === modal) closePopup(); };
+}
+
+/**
+ * Show confirmation popup (standardized replacement for confirm)
+ */
+function showConfirm(title, message, onConfirm, onCancel = null) {
+    const modal = document.getElementById("popupModal");
+    if (!modal) return;
+
+    showPopup(title, message, "warning", onConfirm);
+
+    const okBtn = document.getElementById("popupOk");
+    const cancelBtn = document.getElementById("popupCancel");
+
+    if (okBtn) okBtn.textContent = "Yes, Continue";
+    if (cancelBtn) {
+        cancelBtn.classList.remove("d-none");
+        cancelBtn.onclick = () => {
+            modal.classList.remove("show");
+            if (onCancel) onCancel();
+        };
     }
-
-    modal.onclick = (e) => {
-        if (e.target === modal) closeOnly();
-    };
-
-    const handleEscape = (e) => {
-        if (e.key === "Escape") {
-            closeOnly();
-            document.removeEventListener("keydown", handleEscape);
-        }
-    };
-    document.addEventListener("keydown", handleEscape);
 }
 
 /**
@@ -190,15 +199,84 @@ function showLoading(sectionId) {
     const section = document.getElementById(sectionId);
     if (!section) return;
 
-    // Find list container within section if it exists
     const listId = sectionId === 'dashboard' ? 'dashboard' : sectionId.slice(0, -1) + 'List';
     const list = document.getElementById(listId) || section;
+    // Simple implementation
+}
 
-    // If it's a specific list, we might want to preserve header but show spinner in body
-    // For now, keep it simple as in existing script.js
+/**
+ * Switch form UI to Edit Mode
+ */
+function switchToEditMode(module) {
+    const title = document.getElementById(`${module}FormTitle`);
+    const submitBtn = document.getElementById(`${module}SubmitBtn` || `add${module.charAt(0).toUpperCase() + module.slice(1)}Form`);
+    const editControls = document.getElementById(`${module}EditControls`);
+
+    if (title) {
+        title.innerHTML = `<i class="fas fa-edit text-success me-2"></i>Edit ${module.charAt(0).toUpperCase() + module.slice(1)}`;
+    }
+    // Handle both direct button and form-based visibility
+    if (submitBtn) submitBtn.style.display = "none";
+    const addForm = document.getElementById(`add${module.charAt(0).toUpperCase() + module.slice(1)}Form`);
+    if (addForm) {
+        const directSubmit = addForm.querySelector('button[type="submit"]');
+        if (directSubmit) directSubmit.style.display = "none";
+    }
+
+    if (editControls) editControls.style.display = "flex";
+}
+
+/**
+ * Switch form UI to Add Mode
+ */
+function switchToAddMode(module) {
+    const title = document.getElementById(`${module}FormTitle`);
+    const submitBtn = document.getElementById(`${module}SubmitBtn`);
+    const editControls = document.getElementById(`${module}EditControls`);
+    const form = document.getElementById(`add${module.charAt(0).toUpperCase() + module.slice(1)}Form`) || document.getElementById(`${module}Form`);
+
+    if (title) {
+        title.innerHTML = `<i class="fas fa-plus-circle text-primary me-2"></i>Add New ${module.charAt(0).toUpperCase() + module.slice(1)}`;
+    }
+    if (submitBtn) submitBtn.style.display = "block";
+    const addForm = document.getElementById(`add${module.charAt(0).toUpperCase() + module.slice(1)}Form`);
+    if (addForm) {
+        const directSubmit = addForm.querySelector('button[type="submit"]');
+        if (directSubmit) directSubmit.style.display = "block";
+    }
+
+    if (editControls) editControls.style.display = "none";
+    if (form) form.reset();
+
+    // Specific field resets
+    if (module === 'product') {
+        const prodId = document.getElementById('prodId');
+        if (prodId) prodId.value = '';
+        if (typeof resetPriceVariations === 'function') resetPriceVariations();
+        if (typeof initializeImageUploadSlots === 'function') initializeImageUploadSlots();
+    }
+    if (module === 'category') {
+        const catId = document.getElementById('catId');
+        if (catId) catId.value = '';
+        const preview = document.getElementById('catImagePreviewContainer');
+        if (preview) preview.style.display = 'none';
+    }
+}
+
+/**
+ * Hide loading indicator
+ */
+function hideLoading(sectionId) {
+    // Basic implementation for now
 }
 
 // Attach to window for global access
 window.showToast = showToast;
 window.showPopup = showPopup;
+window.showConfirm = showConfirm;
 window.setButtonLoading = setButtonLoading;
+window.showLoading = showLoading;
+window.hideLoading = hideLoading;
+window.switchToEditMode = switchToEditMode;
+window.switchToAddMode = switchToAddMode;
+window.API_BASE = API_BASE;
