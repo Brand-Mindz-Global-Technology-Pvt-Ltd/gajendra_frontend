@@ -19,6 +19,7 @@ export const FooterRenderer = {
                     <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
                         <li><a href="../Home/Home.html" class="hover:text-[#B06D36] transition-colors">Home</a></li>
                         <li><a href="../About/About.html" class="hover:text-[#B06D36] transition-colors">About us</a></li>
+                        <li><a href="../Blog/blog.html" class="hover:text-[#B06D36] transition-colors">Blog</a></li>
                         <li><a href="../Shop/Shop.html" class="hover:text-[#B06D36] transition-colors">Shop</a></li>
                         <li><a href="../Contact/Contact.html" class="hover:text-[#B06D36] transition-colors">Contact us</a></li>
                     </ul>
@@ -55,7 +56,7 @@ export const FooterRenderer = {
                     <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
                         <li><a href="../PolicyPages/privacy.html" class="hover:text-[#B06D36] transition-colors">Privacy Policy</a></li>
                         <li><a href="../PolicyPages/Cookie.html" class="hover:text-[#B06D36] transition-colors">Cookie Policy</a></li>
-                        <li><a href="../PolicyPages/Return.html" class="hover:text-[#B06D36] transition-colors">Return Policy</a></li>
+                        <li><a href="../PolicyPages/Refund.html" class="hover:text-[#B06D36] transition-colors">Return Policy</a></li>
                     </ul>
                 </div>
                 <!-- Contact Us -->
