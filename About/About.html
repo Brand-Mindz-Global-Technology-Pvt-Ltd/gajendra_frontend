@@ -108,11 +108,11 @@
     <section class="relative w-full h-[420px] md:h-[500px] lg:h-[560px] overflow-hidden">
 
         <!-- Background Image -->
-        <img src="https://placehold.co/1600x900" alt="About Us Banner"
+        <img src="../Assets/images/about_banner.webp" alt="About Us Banner"
             class="absolute inset-0 w-full h-full object-cover object-center">
 
         <!-- Bottom Left Gradient Overlay (same design style as home page) -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+        <!-- <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div> -->
 
         <!-- Content -->
         <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-10 lg:px-20 pb-10">
@@ -128,18 +128,18 @@
     </section>
 
     <!-- WELCOME TO GAJENDRA VILAS SECTION -->
-    <section class="relative w-full py-16 md:py-20 bg-[#FDF5ED] font-poppins overflow-hidden">
+    <section class="relative w-full py-16 md:py-20 md:px-20 bg-[#FDF5ED] font-poppins overflow-hidden">
 
         <!-- Top Right Decorative Pattern -->
         <div class="absolute top-0 right-0 w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/About/pattern-right.png"
+            <img src="../Assets/images/right-pattern.png"
                 onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
                 class="w-full h-full object-contain opacity-60">
         </div>
 
         <!-- Bottom Left Decorative Pattern -->
         <div class="absolute bottom-0 left-0 w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/About/pattern-left.png"
+            <img src="../Assets/images/left-pattern.png"
                 onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
                 class="w-full h-full object-contain opacity-60">
         </div>
@@ -156,12 +156,12 @@
                         <div class="relative w-[60%] flex flex-col">
                             <!-- Large Image with increased height -->
                             <div class="flex-grow relative">
-                                <img src="../Assets/About/welcome-img-1.jpg"
+                                <img src="../Assets/images/about-1.webp"
                                     onerror="this.src='https://placehold.co/400x490/DAA520/FFF?text=Family+Enjoying'"
                                     alt="Family enjoying sweets"
                                     class="w-full h-full min-h-[370px] md:min-h-[430px] lg:min-h-[470px] object-cover shadow-lg rounded-[6px]">
                                 <!-- 1000+ Happy Customer Badge INSIDE the bottom left of image -->
-                                <div class="absolute left-0 bottom-0 bg-[#5D3420] text-white px-5 py-2.5 rounded-full shadow-md border-8 border-[#FDF5ED]"
+                                <div class="absolute left-1 bottom-0 bg-[#5D3420] text-white px-5 py-2.5 rounded-full shadow-md border-8 border-[#FDF5ED]"
                                     style="box-shadow: 0 6px 24px 0 rgba(93,52,32,0.14);">
                                     <span class="text-xs md:text-sm font-medium">1000+ Happy Customer</span>
                                 </div>
@@ -171,7 +171,7 @@
                         <!-- Right side: 2 stacked images (first at top-right end, second below) -->
                         <div class="w-[40%] flex flex-col justify-end items-end h-full">
                             <div class="w-full flex flex-col justify-end items-end h-full">
-                                <img src="../Assets/About/welcome-img-2.jpg"
+                                <img src="../Assets/images/about-2.webp"
                                     onerror="this.src='https://placehold.co/300x180/DAA520/FFF?text=Sweet+Shop'"
                                     alt="Sweet shop display"
                                     class="w-[90%] h-[180px] md:h-[270px] object-cover shadow-lg rounded-[6px] ml-auto"
@@ -184,7 +184,7 @@
                                 <div
                                     class="absolute -top-[10px] -left-[10px] w-[calc(100%+10px)] h-[calc(100%+10px)] border-t-[25px] border-l-[25px] border-white pointer-events-none z-10">
                                 </div>
-                                <img src="../Assets/About/welcome-img-3.jpg"
+                                <img src="../Assets/images/about-3.webp"
                                     onerror="this.src='https://placehold.co/300x180/DAA520/FFF?text=Kids+Enjoying'"
                                     alt="Kids enjoying sweets"
                                     class="w-full h-[180px] md:h-[270px] object-cover shadow-lg relative z-0">
@@ -254,7 +254,7 @@
     <section class="relative w-full py-14 md:py-20 font-poppins overflow-hidden">
 
         <!-- Background Image -->
-        <img src="https://placehold.co/1600x900"
+        <img src="../Assets/images/Frame 2147226467.webp"
             class="absolute inset-0 w-full h-full object-cover object-center z-0" />
 
         <!-- Brown Overlay (same tone as design) -->
@@ -280,7 +280,7 @@
 
                 <button
                     class="bg-white text-[#603813] px-7 py-3 rounded-md font-medium shadow hover:bg-[#f5efe9] transition w-max">
-                    Shop Now
+                    <a href="../Shop/Shop.html">Shop Now</a>
                 </button>
             </div>
 
@@ -289,7 +289,7 @@
 
                 <!-- Card 1 -->
                 <div class="bg-[#F7E7D4] rounded-xl p-6 shadow-md">
-                    <img src="https://placehold.co/50" class="mb-4" />
+                    <img src="../Assets/images/cake.png" class="mb-4 w-10 h-10" />
                     <h3 class="text-[#3E1C00] font-semibold text-lg mb-1">Fresh products</h3>
                     <p class="text-[#3E1C00] text-sm leading-relaxed opacity-80">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -298,7 +298,7 @@
 
                 <!-- Card 2 -->
                 <div class="bg-[#F7E7D4] rounded-xl p-6 shadow-md">
-                    <img src="https://placehold.co/50" class="mb-4" />
+                    <img src="../Assets/images/taste.png" class="mb-4 w-10 h-10" />
                     <h3 class="text-[#3E1C00] font-semibold text-lg mb-1">Taste</h3>
                     <p class="text-[#3E1C00] text-sm leading-relaxed opacity-80">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -307,7 +307,7 @@
 
                 <!-- Card 3 -->
                 <div class="bg-[#F7E7D4] rounded-xl p-6 shadow-md">
-                    <img src="https://placehold.co/50" class="mb-4" />
+                    <img src="../Assets/images/heart.png" class="mb-4 w-10 h-10" />
                     <h3 class="text-[#3E1C00] font-semibold text-lg mb-1">Hygenic products</h3>
                     <p class="text-[#3E1C00] text-sm leading-relaxed opacity-80">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -316,7 +316,7 @@
 
                 <!-- Card 4 -->
                 <div class="bg-[#F7E7D4] rounded-xl p-6 shadow-md">
-                    <img src="https://placehold.co/50" class="mb-4" />
+                    <img src="../Assets/images/hygenic.png" class="mb-4 w-10 h-10" />
                     <h3 class="text-[#3E1C00] font-semibold text-lg mb-1">20+ Years Experiences</h3>
                     <p class="text-[#3E1C00] text-sm leading-relaxed opacity-80">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -333,14 +333,14 @@
 
         <!-- Top Right Decorative Pattern -->
         <div class="absolute top-0 right-0 w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/About/pattern-right.png"
+            <img src="../Assets/images/right-pattern.png"
                 onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
                 class="w-full h-full object-contain opacity-60">
         </div>
 
         <!-- Bottom Left Decorative Pattern -->
         <div class="absolute bottom-0 left-0 w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/About/pattern-left.png"
+            <img src="../Assets/images/left-pattern.png"
                 onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
                 class="w-full h-full object-contain opacity-60">
         </div>

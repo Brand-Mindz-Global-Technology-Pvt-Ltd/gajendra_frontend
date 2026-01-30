@@ -8,7 +8,7 @@ export const FooterRenderer = {
     render() {
         return `
         <!-- TOP DECORATIVE BORDER -->
-        <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
+        <div style="background-image: url('../Assets/images/footer-design.png'); background-repeat: repeat-x; background-size: auto 100%; height: 22px; width: 100%;" aria-label="Footer Top Design"></div>
 
         <!-- MAIN FOOTER CONTENT -->
         <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-12">
