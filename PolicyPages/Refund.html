@@ -98,33 +98,90 @@
     </header>
 
     <!-- BANNER SECTION -->
-    <section class="relative w-full h-[300px] overflow-hidden">
-        <img src="https://placehold.co/1600x400/5D3420/FFFFFF?text=Refund+Policy" alt="Refund Policy Banner"
-            class="absolute inset-0 w-full h-full object-cover">
-        <div class="absolute inset-0 bg-black/60"></div>
-        <div class="relative z-10 h-full flex flex-col justify-center items-center px-6 text-center">
-            <h1 class="font-poppins text-white text-4xl md:text-5xl font-bold mb-4">Refund Policy</h1>
-            <p class="text-white/80 max-w-2xl mx-auto">Learn about our returns and refund process to ensure a smooth
-                shopping experience.</p>
+    <section class="relative w-full h-[420px] md:h-[500px] lg:h-[560px] overflow-hidden">
+
+        <!-- Background Image -->
+        <img src="../Assets/Home/Policy-banner.png" alt="Privacy Policy Banner"
+            class="absolute inset-0 w-full h-full object-cover object-top">
+
+        <!-- Bottom Left Gradient Overlay (same design style as home page) -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
+
+        <!-- Content -->
+        <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-10 lg:px-20 pb-10">
+            <h1 class="font-poppins text-white text-3xl md:text-4xl lg:text-[42px] font-semibold mb-2">
+                Refund Policy
+            </h1>
+
+            <p class="font-poppins text-white text-sm md:text-base max-w-xl opacity-90 leading-relaxed">
+                Our refund policy explains the conditions under which refunds or replacements are provided for damaged, incorrect, or spoiled food items.
+            </p>
         </div>
+
     </section>
 
     <!-- CONTENT SECTION -->
     <section class="py-16 px-6">
-        <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-sm">
+        <div class="max-w-6xl mx-auto bg-white p-8 md:p-12 rounded-2xl shadow-sm">
             <div class="prose prose-brown max-w-none text-gray-700 leading-relaxed font-poppins">
-                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">Returns</h2>
-                <p class="mb-6">You have 30 calendar days to return an item from the date you received it. To be
-                    eligible for a return, your item must be unused and in the same condition that you received it.</p>
+                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">1. Eligibility for Returns</h2>
+                <p class="mb-4">You can initiate a return within 24–48 hours from the time of delivery only if:</p>
+                <ul class="list-disc pl-6 mb-6 space-y-1">
+                    <li>The product is damaged during delivery</li>
+                    <li>You received the wrong item</li>
+                    <li>The product is spoiled or not fit for consumption upon arrival</li>
+                </ul>
 
-                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">Refunds</h2>
-                <p class="mb-6">Once we receive your item, we will inspect it and notify you that we have received your
-                    returned item. We will immediately notify you on the status of your refund after inspecting the
-                    item.</p>
+                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">2. Return Process</h2>
+                <p class="mb-4">To initiate a return, contact our customer care team within 24–48 hours of delivery:</p>
+                <div class="bg-[#FDF5ED] p-6 rounded-xl border border-[#5D3420]/10 mb-6">
+                    <p class="flex items-center gap-3 mb-2">
+                        <span>📞</span>
+                        <a href="tel:9566323321" class="hover:text-[#5D3420] underline">9566323321</a>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span>📧</span>
+                        <a href="mailto:sales.gajendravilas@gmail.com"
+                            class="hover:text-[#5D3420] underline">sales.gajendravilas@gmail.com</a>
+                    </p>
+                </div>
+                <p class="mb-4 font-semibold">Please provide:</p>
+                <ul class="list-disc pl-6 mb-6 space-y-1">
+                    <li>Your Order ID</li>
+                    <li>Photos of the damaged/spoiled item(s)</li>
+                    <li>Photos of the packaging</li>
+                </ul>
+                <p class="mb-6">Our team will verify and respond within a reasonable time.</p>
 
-                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">Shipping Costs</h2>
-                <p class="mb-6">You will be responsible for paying for your own shipping costs for returning your item.
-                    Shipping costs are non-refundable.</p>
+                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">3. Refund and Replacement Options</h2>
+                <p class="mb-4">Once your return is approved, you can choose any one of the following:</p>
+                <ul class="list-disc pl-6 mb-6 space-y-1">
+                    <li>Refund to the original payment method</li>
+                    <li>Replacement within 2–3 business days</li>
+                    <li>Replacement along with your next purchase</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">4. Non-Returnable Items</h2>
+                <p class="mb-4">Due to hygiene and safety reasons, we do not accept returns if:</p>
+                <ul class="list-disc pl-6 mb-6 space-y-1">
+                    <li>The product has been partially consumed</li>
+                    <li>The return request is made after 48 hours of delivery</li>
+                    <li>The damage is due to improper storage after delivery</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-[#5D3420] mb-4">5. Contact Us</h2>
+                <p class="mb-4">For any return or refund support:</p>
+                <div class="bg-[#FDF5ED] p-6 rounded-xl border border-[#5D3420]/10">
+                    <p class="flex items-center gap-3 mb-2">
+                        <span>📧</span>
+                        <a href="mailto:sales.gajendravilas@gmail.com"
+                            class="hover:text-[#5D3420] underline">sales.gajendravilas@gmail.com</a>
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span>📞</span>
+                        <a href="tel:9566323321" class="hover:text-[#5D3420] underline">9566323321</a>
+                    </p>
+                </div>
             </div>
         </div>
     </section>
