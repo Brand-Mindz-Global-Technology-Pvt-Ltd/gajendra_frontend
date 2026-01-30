@@ -78,13 +78,13 @@ async function renderCartFromStateManager() {
             
             // Normalize URL to use CONFIG domain (fix domain mismatch between APIs)
             // Backend APIs return different domains, but images should be on CONFIG domain
-            if (imageUrl.includes('narpavihoney.brandmindz.com')) {
-                imageUrl = imageUrl.replace('narpavihoney.brandmindz.com', 'gajendhrademo.brandmindz.com');
+            if (imageUrl.includes('gajendhrademo.brandmindz.com')) {
+                imageUrl = imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com');
             }
             
             // Create fallback URL (try alternative domain if current one fails)
             const fallbackUrl = imageUrl.includes('gajendhrademo.brandmindz.com')
-                ? imageUrl.replace('gajendhrademo.brandmindz.com', 'narpavihoney.brandmindz.com')
+                ? imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com')
                 : imageUrl;
             
             const productName = item.name || 'Product';

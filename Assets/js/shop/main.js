@@ -58,6 +58,29 @@ class ShopController {
         await this.loadCategories();
         await this.loadProducts();
         await this.loadBestSellers();
+
+        // 6. Auto-scroll if filters are present in URL
+        this.autoScroll();
+    }
+
+    autoScroll() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('category_id') || params.has('subcategory_id') || params.has('search')) {
+            setTimeout(() => {
+                const target = document.getElementById('shopResultsSection');
+
+                if (target) {
+                    const headerOffset = 100; // Account for sticky header
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            }, 500); // Small delay to allow rendering to complete
+        }
     }
 
     setupStateManagerListeners() {

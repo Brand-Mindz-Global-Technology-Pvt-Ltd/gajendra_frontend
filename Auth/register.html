@@ -15,6 +15,9 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <!-- Google Identity Services SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -30,6 +33,24 @@
       }
     }
   </script>
+  <style>
+    .requirement-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #6b7280;
+      transition: color 0.3s ease;
+    }
+
+    .requirement-item.valid {
+      color: #10b981;
+    }
+
+    .requirement-item i {
+      font-size: 10px;
+    }
+  </style>
 </head>
 
 <body class="font-poppins bg-pageBg text-gray-800">
@@ -140,32 +161,50 @@
 
           <div>
             <label class="block text-sm font-medium mb-1">Phone Number *</label>
-            <input type="tel" name="phone" placeholder="Enter your phone number" required
+            <input type="tel" name="phone" placeholder="10-digit mobile number" required pattern="[6-9]{1}[0-9]{9}"
               class="w-full px-4 py-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brownDark">
           </div>
 
           <div>
             <label class="block text-sm font-medium mb-1">Email Address *</label>
-            <input type="email" name="email" placeholder="Enter your email" required
+            <input type="email" name="email" id="registerEmail" placeholder="Enter your email" required
               class="w-full px-4 py-3 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brownDark">
+            <p id="emailAvailabilityMsg" class="hidden text-[10px] mt-1 font-medium"></p>
           </div>
 
           <div>
             <label class="block text-sm font-medium mb-1">Password *</label>
             <div class="relative">
-              <input type="password" name="password" placeholder="Create a password" required
+              <input type="password" name="password" id="registerPassword" placeholder="Create a password" required
                 class="w-full px-4 py-3 text-sm border border-gray-300 rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-brownDark">
               <i class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"></i>
+            </div>
+            <!-- Password Checklist -->
+            <div class="grid grid-cols-2 gap-x-2 gap-y-1 mt-2 mb-4">
+              <div class="requirement-item" data-rule="length">
+                <i class="fa-solid fa-circle"></i> 8+ characters
+              </div>
+              <div class="requirement-item" data-rule="uppercase">
+                <i class="fa-solid fa-circle"></i> One uppercase
+              </div>
+              <div class="requirement-item" data-rule="number">
+                <i class="fa-solid fa-circle"></i> One number
+              </div>
+              <div class="requirement-item" data-rule="special">
+                <i class="fa-solid fa-circle"></i> One special (@$!%)
+              </div>
             </div>
           </div>
 
           <div>
             <label class="block text-sm font-medium mb-1">Confirm Password *</label>
             <div class="relative">
-              <input type="password" name="confirm_password" placeholder="Confirm your password" required
+              <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirm your password"
+                required
                 class="w-full px-4 py-3 text-sm border border-gray-300 rounded-md pr-10 focus:outline-none focus:ring-2 focus:ring-brownDark">
               <i class="fa-solid fa-eye absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"></i>
             </div>
+            <p id="passwordMatchMsg" class="hidden text-[10px] mt-1 font-medium"></p>
           </div>
 
           <div class="flex items-center gap-2 text-sm">
@@ -184,24 +223,59 @@
             Register
           </button>
 
+          <!-- Social Login Divider -->
+          <div class="relative my-8">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-pageBg text-gray-500">Or sign up with</span>
+            </div>
+          </div>
+
+          <!-- Google Button -->
+          <div class="flex flex-col items-center gap-4">
+            <div id="googleButton"></div>
+          </div>
+
         </form>
       </div>
 
       <div id="otpSection" class="hidden mt-6 space-y-4">
         <h3 class="text-lg font-semibold">Verify OTP</h3>
+        <p class="text-sm text-gray-500">We've sent a code to <span id="displayEmail" class="font-bold"></span></p>
 
-        <input type="text" id="otpInput" maxlength="6" placeholder="Enter 6-digit OTP"
-          class="w-full px-4 py-3 border rounded-md focus:ring-2 focus:ring-brownDark">
+        <input type="text" id="otpInput" maxlength="6" placeholder="000000"
+          class="w-full px-4 py-3 border text-center text-2xl tracking-[1em] rounded-md focus:ring-2 focus:ring-brownDark outline-none bg-gray-50">
 
-        <button id="verifyOtpBtn" class="w-full bg-brownDark text-white py-3 rounded-md">
+        <button id="verifyOtpBtn"
+          class="w-full bg-brownDark text-white py-3 rounded-md font-medium hover:bg-[#4a220e] transition">
           Verify OTP
         </button>
 
         <div class="text-center text-sm text-gray-600 mt-2">
           <p id="otpTimerText">Resend OTP in <span id="otpTimer" class="font-bold text-brownDark">60</span>s</p>
-          <button id="resendOtpBtn" class="hidden text-brownDark font-semibold underline hover:text-[#C4703C]">Resend
-            OTP</button>
+          <div class="flex flex-col gap-2 mt-4">
+            <button id="resendOtpBtn" class="hidden text-brownDark font-semibold underline hover:text-[#C4703C]">Resend
+              Code</button>
+            <button id="editDetailsBtn" class="text-gray-500 text-xs hover:underline">Change Email / Edit
+              Details</button>
+          </div>
         </div>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div id="registerSuccessState" class="hidden text-center py-10 fade-in">
+        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fa-solid fa-check text-4xl"></i>
+        </div>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Registration Successful!</h2>
+        <p class="text-gray-600 mb-8 max-w-sm mx-auto">Welcome to the family! Your account has been created and you can
+          now log in.</p>
+        <button onclick="location.href='./login.html'"
+          class="bg-brownDark text-white px-10 py-3 rounded-md transition-transform hover:scale-105">
+          Go to Login
+        </button>
       </div>
 
 

@@ -72,12 +72,12 @@ async function loadWishlistFromStateManager() {
                 ? (productImage.startsWith('http') ? productImage : CONFIG.UPLOADS_URL + '/' + productImage)
                 : 'https://placehold.co/300x300/FDF5ED/DAA520?text=' + encodeURIComponent(productName);
 
-            if (imageUrl.includes('narpavihoney.brandmindz.com')) {
-                imageUrl = imageUrl.replace('narpavihoney.brandmindz.com', 'gajendhrademo.brandmindz.com');
+            if (imageUrl.includes('gajendhrademo.brandmindz.com')) {
+                imageUrl = imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com');
             }
 
             const fallbackUrl = imageUrl.includes('gajendhrademo.brandmindz.com')
-                ? imageUrl.replace('gajendhrademo.brandmindz.com', 'narpavihoney.brandmindz.com')
+                ? imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com')
                 : imageUrl;
 
             // Check if product is in cart

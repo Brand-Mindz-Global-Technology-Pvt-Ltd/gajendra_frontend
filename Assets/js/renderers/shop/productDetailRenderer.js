@@ -272,8 +272,8 @@ const ProductDetailRenderer = {
         // Only show image if it exists
         if (imageUrl) {
             // Normalize URL (fix domain mismatch)
-            if (imageUrl.includes('narpavihoney.brandmindz.com')) {
-                imageUrl = imageUrl.replace('narpavihoney.brandmindz.com', 'gajendhrademo.brandmindz.com');
+            if (imageUrl.includes('gajendhrademo.brandmindz.com')) {
+                imageUrl = imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com');
             }
 
             const finalUrl = imageUrl.startsWith('http')
@@ -327,8 +327,8 @@ const ProductDetailRenderer = {
         validImages.forEach((img, i) => {
             // Normalize URL
             let imageUrl = String(img);
-            if (imageUrl.includes('narpavihoney.brandmindz.com')) {
-                imageUrl = imageUrl.replace('narpavihoney.brandmindz.com', 'gajendhrademo.brandmindz.com');
+            if (imageUrl.includes('gajendhrademo.brandmindz.com')) {
+                imageUrl = imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com');
             }
             if (!imageUrl.startsWith('http')) {
                 imageUrl = CONFIG.UPLOADS_URL + '/' + imageUrl;
@@ -435,8 +435,8 @@ const ProductDetailRenderer = {
         tasteSegments.forEach(segment => {
             const iconUrl = segment.icon_url || segment.icon || "";
             // Normalize icon URL
-            const normalizedIconUrl = iconUrl.includes('narpavihoney.brandmindz.com')
-                ? iconUrl.replace('narpavihoney.brandmindz.com', 'gajendhrademo.brandmindz.com')
+            const normalizedIconUrl = iconUrl.includes('gajendhrademo.brandmindz.com')
+                ? iconUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com')
                 : iconUrl;
 
             featureGrid.innerHTML += `

@@ -12,6 +12,19 @@ const AuthService = {
         return result;
     },
 
+    async ssoLogin(provider, idToken) {
+        const formData = new FormData();
+        formData.append("provider", provider);
+        formData.append("id_token", idToken);
+        const result = await apiCall(`${CONFIG.API_BASE_URL}/sso_login.php`, "POST", formData);
+        if ((result.success || result.status === 'success') && result.token) {
+            localStorage.setItem("authToken", result.token);
+            const uid = result?.data?.id ?? result?.user_id ?? null;
+            if (uid) localStorage.setItem("userId", String(uid));
+        }
+        return result;
+    },
+
     async register(formData) {
         return await apiCall(`${CONFIG.API_BASE_URL}/register.php`, "POST", formData);
     },
@@ -28,6 +41,18 @@ const AuthService = {
 
     async resendOTP(data) {
         return await apiCall(`${CONFIG.API_BASE_URL}/resend_otp.php`, "POST", data);
+    },
+
+    async checkEmailAvailability(email) {
+        try {
+            const formData = new FormData();
+            formData.append("email", email);
+            const response = await apiCall(`${CONFIG.API_BASE_URL}/check_email.php`, "POST", formData);
+            return { available: response.success };
+        } catch (error) {
+            console.error("Email check failed:", error);
+            return { available: true }; // Fallback to avoid blocking
+        }
     },
 
     async logout() {

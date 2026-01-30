@@ -4,6 +4,7 @@ const CONFIG = {
     SHOP_API_URL: "https://gajendhrademo.brandmindz.com/routes/auth/shop",
     UPLOADS_URL: "https://gajendhrademo.brandmindz.com/routes/uploads/products",
     REVIEWS_API_URL: "https://gajendhrademo.brandmindz.com/routes/reviews",
+    GOOGLE_CLIENT_ID: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
 };
 
 export default CONFIG;

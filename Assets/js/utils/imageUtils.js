@@ -62,9 +62,9 @@ export function getProductImageUrl(product, productName = null) {
     if (productImage) {
         let imageUrl = String(productImage);
         
-        // Normalize domain (replace narpavihoney with gajendhrademo)
-        if (imageUrl.includes('narpavihoney.brandmindz.com')) {
-            imageUrl = imageUrl.replace('narpavihoney.brandmindz.com', 'gajendhrademo.brandmindz.com');
+        // Normalize domain (replace gajendhrademo with gajendhrademo)
+        if (imageUrl.includes('gajendhrademo.brandmindz.com')) {
+            imageUrl = imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com');
         }
         
         // If already a full URL, return as is

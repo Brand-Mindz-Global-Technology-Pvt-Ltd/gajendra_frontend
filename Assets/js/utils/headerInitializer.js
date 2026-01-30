@@ -17,7 +17,11 @@ export const HeaderInitializer = {
         this.setupGlobalHandlers();
 
         // 2. Initialize Footer (Static content)
-        this.initFooter();
+        try {
+            await this.initFooter();
+        } catch (error) {
+            console.error("Footer initialization failed:", error);
+        }
 
         // 3. Define Logout Globally
         window.logout = async function () {
@@ -113,10 +117,14 @@ export const HeaderInitializer = {
         });
     },
 
-    initFooter() {
+    async initFooter() {
         const footer = document.querySelector('footer');
         if (footer) {
-            footer.innerHTML = FooterRenderer.render();
+            try {
+                footer.innerHTML = await FooterRenderer.render();
+            } catch (error) {
+                console.error("HeaderInitializer: Footer render error:", error);
+            }
         }
     }
 };
