@@ -26,7 +26,7 @@ async function loadCategoriesVisuals() {
             return;
         }
 
-        renderCategoryVisuals(categories, container);
+        renderCategoryVisuals(categories.slice(0, 4), container);
         initCategoryCarousel(); // Re-init carousel after rendering
 
     } catch (error) {
@@ -483,7 +483,7 @@ function renderSavouries(products, container) {
                 </div>
 
                 <div class="w-full h-64 bg-gray-900 relative rounded-t-[12px] overflow-hidden cursor-pointer" 
-                    onclick="window.location.href='/Shop/Singleproduct.html?product_id=${p.id}'">
+                    onclick="window.location.href='../Shop/Singleproduct.html?product_id=${p.id}'">
                     <img src="${imageUrl}" alt="${p.name}"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
@@ -556,7 +556,7 @@ window.changeCardQty = function (btn, change) {
 
 
 window.quickBuyNow = function (productId, btn) {
-    window.location.href = `/Shop/Singleproduct.html?product_id=${productId}`;
+    window.location.href = `../Shop/Singleproduct.html?product_id=${productId}`;
 }
 
 // Fallback for addToWishlist if not defined elsewhere
@@ -706,7 +706,7 @@ function renderSweets(products, container) {
                 </div>
 
                 <div class="w-full h-64 bg-gray-900 relative rounded-t-[12px] overflow-hidden cursor-pointer"
-                    onclick="window.location.href='/Shop/Singleproduct.html?product_id=${p.id}'">
+                    onclick="window.location.href='../Shop/Singleproduct.html?product_id=${p.id}'">
                     <img src="${imageUrl}" alt="${p.name}"
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>

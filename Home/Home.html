@@ -39,13 +39,13 @@
     <!-- RESPONSIVE HEADER -->
     <header class="bg-[#5D3420] w-full sticky top-0 z-50 font-poppins">
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-14 md:h-16">
+            <div class="flex items-center justify-between h-20 md:h-24">
 
                 <!-- Logo -->
                 <a href="../Home/Home.html" class="flex-shrink-0">
-                    <img src="../Assets/Logo/logo.png"
+                    <img src="../Assets/Home/Logo-Gajendhra.png"
                         onerror="this.src='https://placehold.co/50x50/FDF5ED/5D3420?text=GV'" alt="Gajendra Vilas"
-                        class="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-white/20">
+                        class="h-10 w-10 md:h-20 md:w-20 rounded-full object-cover border-2 border-white/20">
                 </a>
 
                 <nav id="main-nav" class="hidden md:flex items-center gap-6 lg:gap-8">
@@ -122,9 +122,8 @@
         <div class="absolute inset-0 w-full h-full">
             <img src="../Assets/Home/Banner.webp" alt="Bakery Moments" class="w-full h-full object-cover object-center">
             <!-- Gradient Overlay: Black from left to right -->
-            <div class="absolute inset-0 w-full h-full pointer-events-none"
-                style="background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0));">
-            </div>
+            <div class="absolute inset-0 w-full h-full pointer-events-none"></div>
+        </div>
         </div>
 
         <!-- Content Container -->
@@ -132,21 +131,22 @@
             class="relative z-10 container mx-auto h-full flex flex-col justify-center items-start px-[20px] md:px-[40px] lg:px-[100px]">
             <div class="w-full max-w-[800px] text-white">
                 <h1
-                    class="font-poppins text-[40px] md:text-[52px] lg:text-[40px] font-semibold leading-[1.4] drop-shadow-md mb-[30px]">
-                    Sweet Moments <br> Start Here.
+                    class="font-poppins text-[40px] md:text-[52px] lg:text-[40px] font-semibold leading-[1.4] drop-shadow-[0_8px_10px_rgba(0,0,0,1)] mb-[30px]">
+                    From Our Bakery to<br>Your Family Moments
                 </h1>
-
-                <button
-                    class="relative font-poppins bg-gradient-to-br from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-semibold text-base md:text-lg lg:text-[18px] py-3 md:py-4 lg:py-[16px] px-6 md:px-8 lg:px-[40px] rounded-[10px] shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
-                    <!-- Shine Effect on Hover -->
-                    <div
-                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
-                    </div>
-
-                    <!-- Button Text -->
-                    <span class="relative z-10 tracking-wide">Shop Now</span>
-                </button>
             </div>
+
+            <button
+                class="relative font-poppins bg-gradient-to-br from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-semibold text-base md:text-lg lg:text-[18px] py-3 md:py-4 lg:py-[16px] px-6 md:px-8 lg:px-[40px] rounded-[10px] shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
+                <!-- Shine Effect on Hover -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
+                </div>
+
+                <!-- Button Text -->
+                <span class="relative z-10 tracking-wide">Shop Now</span>
+            </button>
+        </div>
         </div>
     </section>
 
@@ -172,7 +172,7 @@
     </section>
 
     <!-- Category Section -->
-    <section class="relative bg-[#faedcd] py-16 overflow-hidden">
+    <section class="relative bg-[#F8E2D0] py-16 overflow-hidden">
         <!-- Decorative Corners (Placeholders) -->
         <img src="../Assets/images/right-pattern.png" alt="Decor"
             class="absolute top-0 right-0 w-32 md:w-48 opacity-20 pointer-events-none">
@@ -465,7 +465,8 @@
     </section>
 
     <!-- Sweet Section -->
-    <section class="bg-[#48240A] py-12 px-4 md:px-10 lg:px-20 bg-cover bg-center bg-no-repeat"   style="background-image: url('../Assets/images/home_texture.png');">
+    <section class="bg-[#48240A] py-12 px-4 md:px-10 lg:px-20 bg-cover bg-center bg-no-repeat"
+        style="background-image: url('../Assets/images/home_texture.png');">
         <div class="max-w-7xl mx-auto">
             <!-- Header Row -->
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
