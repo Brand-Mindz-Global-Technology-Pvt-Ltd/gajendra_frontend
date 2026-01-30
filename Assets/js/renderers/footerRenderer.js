@@ -51,11 +51,11 @@ export const FooterRenderer = {
                 </div>
                 <!-- My Account -->
                 <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">My Account</h3>
+                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Policies</h3>
                     <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
-                        <li><a href="../components/wishlist.html" class="hover:text-[#B06D36] transition-colors">Wishlist</a></li>
-                        <li><a href="../Auth/my-account.html" class="hover:text-[#B06D36] transition-colors">My Order</a></li>
-                        <li><a href="../Auth/my-account.html" class="hover:text-[#B06D36] transition-colors">Profile</a></li>
+                        <li><a href="../PolicyPages/privacy.html" class="hover:text-[#B06D36] transition-colors">Privacy Policy</a></li>
+                        <li><a href="../PolicyPages/Cookie.html" class="hover:text-[#B06D36] transition-colors">Cookie Policy</a></li>
+                        <li><a href="../PolicyPages/Return.html" class="hover:text-[#B06D36] transition-colors">Return Policy</a></li>
                     </ul>
                 </div>
                 <!-- Contact Us -->
@@ -64,12 +64,16 @@ export const FooterRenderer = {
                     <div class="flex items-start space-x-3 mb-3">
                         <span class="text-[#B06D36] text-lg">📍</span>
                         <p class="text-[#3E1C00]/90 text-sm">
-                            11/200 xxx, yy, Thirunelveli,<br>Tamilnadu
+                            40P, Keela Kadai St, Sivagami Puram, Virudhunagar, Tamil Nadu 626001
                         </p>
                     </div>
                     <div class="flex items-center space-x-3 mb-4">
                         <span class="text-[#B06D36] text-lg">📞</span>
-                        <p class="text-[#3E1C00]/90 text-sm">1234567890</p>
+                        <p class="text-[#3E1C00]/90 text-sm">+91 9159025623</p>
+                    </div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="text-[#B06D36] text-lg">📧</span>
+                        <p class="text-[#3E1C00]/90 text-sm">sales.gajendravilas@gmail.com</p>
                     </div>
                     <!-- Social Icons -->
                     <div class="flex items-center space-x-4 text-[#3E1C00] text-xl">
