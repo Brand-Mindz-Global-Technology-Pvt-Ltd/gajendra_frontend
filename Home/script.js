@@ -48,7 +48,7 @@ function renderCategoryVisuals(categories, container) {
 
         return `
             <div class="w-full md:w-auto flex-shrink-0 flex flex-col items-center group cursor-pointer transition-transform duration-500 ease-in-out"
-                onclick="window.location.href='/shop/shop.html?category=${c.id}'">
+                onclick="window.location.href='../Shop/Shop.html?category=${c.id}'">
                 <div class="relative w-[280px] h-[320px] flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2">
                     <!-- Frame Image -->
                     <img src="../Assets/Home/Border-design.png" alt="Frame"
@@ -338,7 +338,7 @@ async function loadSavouriesSection() {
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `/Shop/Shop.html?category=${savouriesCat.id}`;
+                window.location.href = `../Shop/Shop.html?category=${savouriesCat.id}`;
             };
         }
 
@@ -561,7 +561,7 @@ async function loadSweetsSection() {
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `/Shop/Shop.html?category=${sweetsCat.id}`;
+                window.location.href = `../Shop/Shop.html?category=${sweetsCat.id}`;
             };
         }
 
