@@ -254,6 +254,13 @@ function switchToAddMode(module) {
         if (prodId) prodId.value = '';
         if (typeof resetPriceVariations === 'function') resetPriceVariations();
         if (typeof initializeImageUploadSlots === 'function') initializeImageUploadSlots();
+        if (typeof window.loadTasteSegments === 'function') window.loadTasteSegments([]);
+
+        const subcatSelect = document.getElementById("prodSubcategory");
+        if (subcatSelect) {
+            subcatSelect.innerHTML = '<option value="">Select Subcategory</option>';
+            subcatSelect.removeAttribute('required');
+        }
     }
     if (module === 'category') {
         const catId = document.getElementById('catId');

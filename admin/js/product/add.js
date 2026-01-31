@@ -45,7 +45,17 @@ function initializeProductFormListeners() {
   if (productForm) {
     productForm.removeEventListener('submit', handleProductSubmit);
     productForm.addEventListener('submit', handleProductSubmit);
-    console.log('✅ Product form submit listener attached to addProductForm');
+
+    // Add reset listener
+    productForm.addEventListener('reset', (e) => {
+      // switchToAddMode resets the form fields and custom UI
+      // We delay slightly to ensure native reset happens first if needed, 
+      // or just call it directly since it handles form.reset()
+      if (typeof switchToAddMode === 'function') {
+        switchToAddMode('product');
+      }
+    });
+    console.log('✅ Product form submit and reset listeners attached');
   } else {
     console.error('❌ addProductForm not found');
   }

@@ -230,207 +230,61 @@
                 <p class="font-poppins text-gray-300 text-sm md:text-base max-w-2xl">From crunchy to Traditional Indian
                     Sweets and Snacks, every bite tells a story – explore our legendary flavours today.</p>
             </div>
+        </div>
 
-            <!-- Content Layout -->
-            <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Content Layout - Modified to bleed to right -->
+        <div class="ml-auto flex flex-col lg:flex-row gap-6 relative"
+            style="max-width: 100%; padding-left: max(1rem, calc((100vw - 1280px) / 2 + 1rem));">
 
                 <!-- Banner Card (Static Left) -->
                 <div class="w-full lg:w-1/4 flex-shrink-0">
                     <div
                         class="relative w-full h-[400px] lg:h-full min-h-[400px] rounded-lg overflow-hidden shadow-2xl group">
-                        <img src="../Assets/Home/Best-seller.webp"
+                        <img src="../Assets/Home/bestseller-banner.png"
                             onerror="this.src='https://placehold.co/400x500/8B4513/FFF?text=Best+Selling+Products'"
                             alt="Best Selling Products"
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         <div class="absolute bottom-8 left-8 text-white">
-                            <!-- <h3 class="font-poppins font-bold text-3xl leading-tight">BEST SELLING<br>PRODUCTS</h3> -->
+                            <h3 class="font-poppins font-bold text-3xl leading-tight">BEST SELLING<br>PRODUCTS</h3>
                         </div>
                     </div>
                 </div>
 
-                <!-- Product Carousel (Right) -->
-                <div class="w-full lg:w-3/4 flex items-center gap-4 relative">
-                    <!-- Prev Arrow -->
-                    <button
-                        class="flex-shrink-0 bg-white/90 text-[#3E1C00] w-10 h-10 flex items-center justify-center rounded-full shadow-lg hover:bg-white transition-colors z-20 group"
-                        onclick="moveBestSellerX(-1)">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
+            <!-- Product Carousel (Right) -->
+            <div class="w-full lg:w-3/4 flex items-center gap-4 relative">
+                <!-- Prev Arrow -->
+                <button
+                    class="flex-shrink-0 bg-white/90 text-[#3E1C00] w-10 h-10 flex items-center justify-center rounded-full shadow-lg hover:bg-white transition-colors z-20 group"
+                    onclick="moveBestSellerX(-1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
 
-                    <!-- Carousel Wrapper -->
-                    <div class="overflow-hidden w-full h-full rounded-lg flex-grow">
-                        <div id="bestseller-track" class="flex transition-transform duration-500 ease-out h-full gap-0">
-                            <!-- Product 1 -->
-                            <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-                                <div
-                                    class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
-                                    <!-- Best Seller Tag (Gradient) -->
-                                    <div class="absolute top-4 left-0 bg-gradient-to-r from-[#eaa956] to-[#ad632a] text-white text-xs font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
-                                        style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); box-shadow: 2px 2px 5px rgba(0,0,0,0.3);">
-                                        <i class="fas fa-star mr-1"></i> Best Seller
-                                    </div>
-
-                                    <!-- Image -->
-                                    <div class="relative h-56 overflow-hidden shadow-xl">
-                                        <img src="https://placehold.co/400x300" alt="Mixture"
-                                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="pt-5 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <h3 class="font-poppins font-semibold text-2xl text-white mb-1">Mixture</h3>
-                                            <div class="flex text-[#F59E0B] text-base mb-2">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : 100.00</p>
-                                        </div>
-                                        <button class="btn-heritage-white text-white w-full">
-                                            <div class="dot-circle dot-circle-left"></div>
-                                            <span class="relative z-10">Buy Now</span>
-                                            <div class="dot-circle dot-circle-right"></div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product 2 -->
-                            <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-                                <div
-                                    class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
-                                    <div class="absolute top-5 left-0 bg-[#B06D36] text-white text-sm font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
-                                        style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);"><i
-                                            class="fas fa-star mr-2"></i> Best Seller</div>
-                                    <div class="relative h-56 overflow-hidden rounded-lg shadow-xl">
-                                        <img src="https://placehold.co/400x300" alt="Soan papadi"
-                                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                                    </div>
-                                    <div class="pt-5 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <h3 class="font-poppins font-semibold text-2xl text-white mb-1">Soan papadi
-                                            </h3>
-                                            <div class="flex text-[#F59E0B] text-base mb-2">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : 100.00</p>
-                                        </div>
-                                        <button class="btn-heritage-white text-white w-full">
-                                            <div class="dot-circle dot-circle-left"></div>
-                                            <span class="relative z-10">Buy Now</span>
-                                            <div class="dot-circle dot-circle-right"></div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product 3 -->
-                            <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-                                <div
-                                    class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
-                                    <div class="absolute top-5 left-0 bg-[#B06D36] text-white text-sm font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
-                                        style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);"><i
-                                            class="fas fa-star mr-2"></i> Best Seller</div>
-                                    <div class="relative h-56 overflow-hidden rounded-lg shadow-xl">
-                                        <img src="https://placehold.co/400x300" alt="Sev"
-                                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                                    </div>
-                                    <div class="pt-5 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <h3 class="font-poppins font-semibold text-2xl text-white mb-1">Sev</h3>
-                                            <div class="flex text-[#F59E0B] text-base mb-2">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : 100.00</p>
-                                        </div>
-                                        <button class="btn-heritage-white text-white w-full">
-                                            <div class="dot-circle dot-circle-left"></div>
-                                            <span class="relative z-10">Buy Now</span>
-                                            <div class="dot-circle dot-circle-right"></div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product 4 -->
-                            <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-                                <div
-                                    class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
-                                    <div class="absolute top-5 left-0 bg-[#B06D36] text-white text-sm font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
-                                        style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);"><i
-                                            class="fas fa-star mr-2"></i> Best Seller</div>
-                                    <div class="relative h-56 overflow-hidden rounded-lg shadow-xl">
-                                        <img src="https://placehold.co/400x300" alt="Gulab Jamun"
-                                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                                    </div>
-                                    <div class="pt-5 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <h3 class="font-poppins font-semibold text-2xl text-white mb-1">Gulab Jamun
-                                            </h3>
-                                            <div class="flex text-[#F59E0B] text-base mb-2">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : 100.00</p>
-                                        </div>
-                                        <button class="btn-heritage-white text-white w-full">
-                                            <div class="dot-circle dot-circle-left"></div>
-                                            <span class="relative z-10">Buy Now</span>
-                                            <div class="dot-circle dot-circle-right"></div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Product 5 -->
-                            <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-                                <div
-                                    class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
-                                    <div class="absolute top-5 left-0 bg-[#B06D36] text-white text-sm font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
-                                        style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);"><i
-                                            class="fas fa-star mr-2"></i> Best Seller</div>
-                                    <div class="relative h-56 overflow-hidden rounded-lg shadow-xl">
-                                        <img src="https://placehold.co/400x300" alt="Mysore Pak"
-                                            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                                    </div>
-                                    <div class="pt-5 flex-grow flex flex-col justify-between">
-                                        <div>
-                                            <h3 class="font-poppins font-semibold text-2xl text-white mb-1">Mysore Pak
-                                            </h3>
-                                            <div class="flex text-[#F59E0B] text-base mb-2">
-                                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                            </div>
-                                            <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : 100.00</p>
-                                        </div>
-                                        <button class="btn-heritage-white text-white w-full">
-                                            <div class="dot-circle dot-circle-left"></div>
-                                            <span class="relative z-10">Buy Now</span>
-                                            <div class="dot-circle dot-circle-right"></div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Carousel Wrapper -->
+                <div class="overflow-hidden w-full h-full rounded-lg flex-grow">
+                    <div id="bestseller-track" class="flex transition-transform duration-500 ease-out h-full gap-0">
+                        <!-- Product slots will be generated by BestSellerRenderer.js -->
                     </div>
-
-                    <!-- Next Arrow -->
-                    <button
-                        class="flex-shrink-0 bg-white/90 text-[#3E1C00] w-10 h-10 flex items-center justify-center rounded-full shadow-lg hover:bg-white transition-colors z-20 group"
-                        onclick="moveBestSellerX(1)">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
                 </div>
+
+                <!-- Next Arrow -->
+                <button
+                    class="flex-shrink-0 bg-white/90 text-[#3E1C00] w-10 h-10 flex items-center justify-center rounded-full shadow-lg hover:bg-white transition-colors z-20 group"
+                    onclick="moveBestSellerX(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:scale-110 transition-transform"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
             </div>
         </div>
-        </div>
+
+        <!-- Right Shade Overlay - Moved to edge of screen -->
+        <div class="absolute top-0 right-0 w-48 h-full pointer-events-none z-10 opacity-80 hidden lg:block"
+            style="background: linear-gradient(to right, transparent, #642E13);"></div>
     </section>
 
     <!-- Savouries Section -->
