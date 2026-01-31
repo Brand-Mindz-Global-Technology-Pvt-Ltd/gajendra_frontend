@@ -57,10 +57,10 @@ function renderCategoryVisuals(categories, container) {
                     <div class="relative w-48 h-48 flex items-center justify-center">
                         <!-- Plate Image (Bottom) -->
                         <img src="../Assets/Home/Ellipse.png" alt="Plate"
-                            class="absolute bottom-8 w-40 h-16 object-contain opacity-90 drop-shadow-lg">
+                            class="absolute bottom-4 w-44 h-20 object-contain opacity-90 drop-shadow-lg">
                         <!-- Category Image (Top) -->
                         <img src="${imageUrl}" alt="${c.name}"
-                            class="relative z-10 w-32 h-32 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300">
+                            class="relative z-10 w-42 h-42 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300">
                     </div>
                 </div>
                 <h3 class="font-poppins font-semibold text-xl text-[#3E1C00] mt-2 text-center px-2">${c.name}</h3>
