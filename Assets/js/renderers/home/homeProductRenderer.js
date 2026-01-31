@@ -15,8 +15,12 @@ const HomeProductRenderer = {
             return;
         }
 
-        // Duplication for scroll effect (optional, but good for UI)
-        const productsToRender = [...products, ...products];
+        // Looping logic to ensure the scrolling track is always filled
+        // We repeat the products until we have enough for a seamless loop
+        let productsToRender = [...products];
+        while (productsToRender.length < 15) {
+            productsToRender = [...productsToRender, ...products];
+        }
 
         container.innerHTML = productsToRender.map(product => this.createProductCard(product)).join('');
     },
@@ -63,7 +67,7 @@ const HomeProductRenderer = {
                      <!-- Optional: Price display could be added here if desired -->
                      <!-- <p class="text-white/80">Rs. ${price}</p> -->
                      
-                    <button onclick="window.location.href='../Shop/Shop.html?search=${encodeURIComponent(product.name)}'"
+                    <button onclick="window.location.href='/Shop/Singleproduct.html?product_id=${product.id}'"
                         class="relative font-poppins bg-gradient-to-br rounded-[10px] from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-semibold text-sm md:text-base py-2.5 md:py-3 px-5 md:px-7 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden group">
 
                         <!-- Shine Effect -->

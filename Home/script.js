@@ -116,67 +116,10 @@ function initCategoryCarousel() {
     });
 }
 
-// Best Seller Carousel Logic
-document.addEventListener('DOMContentLoaded', () => {
-    loadBestSellers();
-});
+// Best Seller Carousel Logic - Modular logic now handled in Assets/js/home/main.js
+// We keep the initialization and movement functions as utilities
 
-async function loadBestSellers() {
-    const track = document.getElementById('bestseller-track');
-    if (!track) return;
-
-    try {
-        const res = await fetch('https://gajendhrademo.brandmindz.com/routes/auth/shop/get_products.php?is_best_seller=1');
-        const data = await res.json();
-
-        if (!data.success || !data.products || data.products.length === 0) {
-            track.innerHTML = '<p class="text-white text-center w-full">No best selling products at the moment.</p>';
-            return;
-        }
-
-        renderBestSellers(data.products);
-    } catch (err) {
-        console.error("Error loading best sellers:", err);
-    }
-}
-
-function renderBestSellers(products) {
-    const track = document.getElementById('bestseller-track');
-    track.innerHTML = products.map(p => `
-        <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-            <div class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
-                <!-- Best Seller Tag (Gradient) -->
-                <div class="absolute top-4 left-0 bg-gradient-to-r from-[#eaa956] to-[#ad632a] text-white text-xs font-bold px-8 py-1.5 z-10 shadow-md font-poppins transform -rotate-45 origin-bottom-left"
-                    style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); box-shadow: 2px 2px 5px rgba(0,0,0,0.3);">
-                    <i class="fas fa-star mr-1"></i> Best Seller
-                </div>
-
-                <!-- Image -->
-                <div class="relative h-56 overflow-hidden shadow-xl">
-                    <img src="${p.images && p.images[0] ? p.images[0] : 'https://placehold.co/400x300'}" alt="${p.name}"
-                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                </div>
-
-                <!-- Content -->
-                <div class="pt-5 flex-grow flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-poppins font-semibold text-2xl text-white mb-1">${p.name}</h3>
-                        <div class="flex text-[#F59E0B] text-base mb-2">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                        </div>
-                        <p class="font-poppins text-white font-medium mb-4 text-lg">Rs : ${p.price}</p>
-                    </div>
-                    <button onclick="window.location.href='/shop/singleproduct.html?product_id=${p.id}'"
-                        class="w-full bg-[#B06D36] hover:bg-[#8f5424] text-white font-poppins font-medium py-3 rounded transition-colors uppercase text-sm tracking-wider shadow-lg">Buy
-                        Now</button>
-                </div>
-            </div>
-        </div>
-    `).join('');
-
-    // Re-initialize carousel variables if needed
-    initializeBestSellerCarousel();
-}
+// Removed renderBestSellers - handled by BestSellerRenderer.js
 
 let bestSellerIndex = 0;
 function initializeBestSellerCarousel() {
