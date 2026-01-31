@@ -300,6 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', () => {
     console.log("🚀 DOMContentLoaded: Initializing Savouries Section");
     loadSavouriesSection();
+    loadBakerySection(); // Initialize Bakery as well
 });
 
 async function loadSavouriesSection() {
@@ -515,27 +516,23 @@ if (typeof window.addToWishlist === 'undefined') {
     };
 }
 
-// Sweet Section Logic
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("🚀 DOMContentLoaded: Initializing Sweet Section");
-    loadSweetsSection();
-});
+// Bakery Section Logic
+// Removed separate DOMContentLoaded for sweets, now handled in single listener above
 
-async function loadSweetsSection() {
-    console.log("🚀 loadSweetsSection called");
-    const grid = document.getElementById('sweets-grid');
-    const viewAllBtn = document.getElementById('sweets-view-all');
+async function loadBakerySection() {
+    console.log("🚀 loadBakerySection called");
+    const grid = document.getElementById('bakery-grid');
+    const viewAllBtn = document.getElementById('bakery-view-all');
     if (!grid) {
-        console.error("❌ sweets-grid not found in DOM");
+        console.error("❌ bakery-grid not found in DOM");
         return;
     }
 
     try {
-        // 1. Fetch Categories to find "Sweet" ID
-        console.log("📡 Fetching categories...");
+        // 1. Fetch Categories to find "Bakery" ID
+        console.log("📡 Fetching categories for Bakery...");
         const catRes = await fetch('https://gajendhrademo.brandmindz.com/routes/auth/shop/get_categories.php');
         const catData = await catRes.json();
-        // console.log("✅ Categories fetched:", catData); // Reduced logging
 
         let localCategories = [];
         if (catData.success && catData.categories) {
@@ -544,30 +541,29 @@ async function loadSweetsSection() {
             localCategories = catData;
         }
 
-        // Find "Sweet" (case insensitive, partial match if needed, but strict is better usually)
-        // Checking for "sweet" or "sweets"
-        const sweetsCat = localCategories.find(c => {
+        // Search for "Bakery" related names
+        const bakeryCat = localCategories.find(c => {
             const name = c.name.toLowerCase().trim();
-            return name === 'sweet' || name === 'sweets';
+            return name === 'bakery' || name === 'bakkeries' || name === 'bakkery';
         });
 
-        if (!sweetsCat) {
-            console.warn("⚠️ 'Sweet' category not found in:", localCategories.map(c => c.name));
-            grid.innerHTML = '<p class="col-span-full text-center text-white">Sweet category not found.</p>';
+        if (!bakeryCat) {
+            console.warn("⚠️ 'Bakery' category not found in:", localCategories.map(c => c.name));
+            grid.innerHTML = '<p class="col-span-full text-center text-white">Bakery category not found.</p>';
             return;
         }
-        console.log("✅ Found Sweet Category:", sweetsCat);
+        console.log("✅ Found Bakery Category:", bakeryCat);
 
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `../Shop/Shop.html?category=${sweetsCat.id}`;
+                window.location.href = `../Shop/Shop.html?category=${bakeryCat.id}`;
             };
         }
 
         // 2. Fetch Products for this Category
-        console.log(`📡 Fetching products for category ${sweetsCat.id}...`);
-        const prodRes = await fetch(`https://gajendhrademo.brandmindz.com/routes/auth/shop/get_products.php?category_id=${sweetsCat.id}&limit=4`);
+        console.log(`📡 Fetching products for category ${bakeryCat.id}...`);
+        const prodRes = await fetch(`https://gajendhrademo.brandmindz.com/routes/auth/shop/get_products.php?category_id=${bakeryCat.id}&limit=4`);
         const prodData = await prodRes.json();
         console.log("✅ Products fetched:", prodData);
 
@@ -579,20 +575,20 @@ async function loadSweetsSection() {
         }
 
         if (products.length === 0) {
-            grid.innerHTML = '<p class="col-span-full text-center text-white">No sweets available at the moment.</p>';
+            grid.innerHTML = '<p class="col-span-full text-center text-white">No bakery items available at the moment.</p>';
             return;
         }
 
         // 3. Render Products
-        renderSweets(products, grid);
+        renderBakery(products, grid);
 
     } catch (error) {
-        console.error("❌ Error loading sweets:", error);
+        console.error("❌ Error loading bakery products:", error);
         grid.innerHTML = `<p class="col-span-full text-center text-white">Failed to load products. ${error.message}</p>`;
     }
 }
 
-function renderSweets(products, container) {
+function renderBakery(products, container) {
     container.innerHTML = products.map(p => {
         let imageUrl = 'https://placehold.co/400x350';
         if (p.images && p.images.length > 0) {

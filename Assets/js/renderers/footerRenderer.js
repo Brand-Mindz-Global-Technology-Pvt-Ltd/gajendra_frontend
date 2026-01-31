@@ -33,25 +33,49 @@ export const FooterRenderer = {
         <div style="background-image: url('../Assets/images/footer-design.png'); background-repeat: repeat-x; background-size: auto 100%; height: 22px; width: 100%;" aria-label="Footer Top Design"></div>
 
         <div class="bg-white">
-            <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-12 md:py-6 md:pt-10">
-                <!-- GRID CONTAINER -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+            <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-8 md:pt-12">
+                <!-- MAIN GRID: 4 COLUMNS (ABOUT, MENUS, CATEGORIES, CONTACT) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10">
                     
-                    ${this.getColumnAbout()}
-                    ${this.getColumnMenus()}
-                    ${this.getColumnCategories(categories)}
-                    ${this.getColumnPolicies()}
-                    ${this.getColumnContact()}
+                    <!-- ABOUT (Spans 2) -->
+                    <div class="lg:col-span-2">
+                        ${this.getColumnAbout()}
+                    </div>
+
+                    <!-- MENUS (Spans 2) -->
+                    <div class="lg:col-span-1">
+                        ${this.getColumnMenus()}
+                    </div>
+
+                    <!-- CATEGORIES (Spans 2) -->
+                    <div class="lg:col-span-1">
+                        ${this.getColumnCategories(categories)}
+                    </div>
+
+                    <!-- CONTACT (Spans 2) -->
+                    <div class="lg:col-span-2">
+                        ${this.getColumnContact()}
+                    </div>
 
                 </div>
                 
-                <!-- LINE DIVIDER -->
-                <div class="w-full h-px bg-[#9a7a5a]/40 mt-10"></div>
+                <!-- BOTTOM DIVIDER -->
+                <div class="w-full h-px bg-[#9a7a5a]/20 mt-12 mb-6"></div>
                 
-                <!-- COPYRIGHT -->
-                <p class="text-center text-[#3E1C00]/80 text-sm mt-4">
-                    Copyright © 2025 Gajendra vilas. All rights reserved.
-                </p>
+                <!-- BOTTOM ROW: COPYRIGHT & POLICIES -->
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <!-- LEFT: COPYRIGHT -->
+                    <p class="text-[#3E1C00]/80 text-sm order-2 md:order-1 text-center md:text-left">
+                        Copyright © 2025 Gajendra vilas. All rights reserved.
+                    </p>
+                    
+                    <!-- RIGHT: HORIZONTAL POLICIES -->
+                    <ul class="flex flex-wrap justify-center md:justify-end gap-6 text-[#3E1C00]/90 text-sm order-1 md:order-2">
+                        <li><a href="../PolicyPages/Privacy.html" class="hover:text-[#B06D36] transition-colors">Privacy Policy</a></li>
+                        <li><a href="../PolicyPages/Cookie.html" class="hover:text-[#B06D36] transition-colors">Cookie Policy</a></li>
+                        <li><a href="../PolicyPages/Refund.html" class="hover:text-[#B06D36] transition-colors">Return Policy</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         `;
@@ -64,7 +88,7 @@ export const FooterRenderer = {
         return `
         <div class="flex flex-col space-y-4">
             <a href="../Home/Home.html" class="inline-block">
-                <img src="../Assets/Logo/logo.png" alt="Gajendra Vilas Logo" class="h-20 w-20 object-contain rounded-full border-2 border-[#5D3420]/10" />
+                <img src="../Assets/Home/Logo-Gajendhra.png" alt="Gajendra Vilas Logo" class="h-20 w-20 object-contain rounded-full border-2 border-[#5D3420]/10" />
             </a>
             <p class="text-[#3E1C00]/80 text-sm leading-relaxed max-w-xs">
                 Pure heritage, authentic flavors. Since 1978, Gajendra Vilas has been bringing the joy of traditional sweets and savouries to every celebration.
@@ -104,7 +128,7 @@ export const FooterRenderer = {
         return `
         <div>
             <h3 class="text-[#3E1C00] font-semibold text-lg mb-4 text-nowrap">Categories</h3>
-            <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+            <ul class="space-y-2 text-[#3E1C00]/90 text-sm lowercase capitalize">
                 ${categoryLinks}
             </ul>
         </div>
@@ -112,41 +136,25 @@ export const FooterRenderer = {
     },
 
     /**
-     * COLUMN 4: Legal & Policies
-     */
-    getColumnPolicies() {
-        return `
-        <div>
-            <h3 class="text-[#3E1C00] font-semibold text-lg mb-4 text-nowrap">Policies</h3>
-            <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
-                <li><a href="../PolicyPages/Privacy.html" class="hover:text-[#B06D36] transition-colors">Privacy Policy</a></li>
-                <li><a href="../PolicyPages/Cookie.html" class="hover:text-[#B06D36] transition-colors">Cookie Policy</a></li>
-                <li><a href="../PolicyPages/Refund.html" class="hover:text-[#B06D36] transition-colors">Return Policy</a></li>
-            </ul>
-        </div>
-        `;
-    },
-
-    /**
-     * COLUMN 5: Contact Information & Social
+     * COLUMN 4: Contact Information & Social
      */
     getColumnContact() {
         return `
-        <div>
-            <h3 class="text-[#3E1C00] font-semibold text-lg mb-4 text-nowrap">Contact Us</h3>
+        <div class="lg:space-x-10">
+            <h3 class="text-[#3E1C00] font-semibold text-lg mb-4 text-nowrap lg:pl-10">Contact Us</h3>
             <div class="flex items-start space-x-3 mb-3">
                 <span class="text-[#B06D36] text-lg">📍</span>
-                <p class="text-[#3E1C00]/90 text-sm">
+                <p class="text-[#3E1C00]/90 text-sm max-w-[340px]">
                     40P, Keela Kadai St, Sivagami Puram, Virudhunagar, Tamil Nadu 626001
                 </p>
             </div>
-            <div class="flex items-center space-x-3 mb-4">
+            <div class="flex items-center space-x-3 mb-3">
                 <span class="text-[#B06D36] text-lg">📞</span>
                 <p class="text-[#3E1C00]/90 text-sm">+91 9159025623</p>
             </div>
             <div class="flex items-center space-x-3 mb-4">
                 <span class="text-[#B06D36] text-lg">📧</span>
-                <p class="text-[#3E1C00]/90 text-sm">sales.gajendravilas@gmail.com</p>
+                <p class="text-[#3E1C00]/90 text-sm lowercase">sales.gajendravilas@gmail.com</p>
             </div>
             <!-- Social Icons -->
             <div class="flex items-center space-x-4 text-[#3E1C00] text-xl">
