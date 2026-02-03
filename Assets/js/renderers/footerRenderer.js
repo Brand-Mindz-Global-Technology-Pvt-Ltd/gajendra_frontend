@@ -107,6 +107,7 @@ export const FooterRenderer = {
             <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
                 <li><a href="../Home/Home.html" class="hover:text-[#B06D36] transition-colors">Home</a></li>
                 <li><a href="../About/About.html" class="hover:text-[#B06D36] transition-colors">About us</a></li>
+                <li><a href="../components/bulk-enquiry.html" class="hover:text-[#B06D36] transition-colors">Bulk Enquiry</a></li>
                 <li><a href="../Blog/blog.html" class="hover:text-[#B06D36] transition-colors">Blog</a></li>
                 <li><a href="../Shop/Shop.html" class="hover:text-[#B06D36] transition-colors">Shop</a></li>
                 <li><a href="../Contact/Contact.html" class="hover:text-[#B06D36] transition-colors">Contact us</a></li>

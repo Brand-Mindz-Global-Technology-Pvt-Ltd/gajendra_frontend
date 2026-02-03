@@ -24,7 +24,14 @@ async function loadWishlistFromStateManager() {
 
     const userId = await ensureCurrentUserId();
     if (!userId) {
-        grid.innerHTML = `<p class="text-gray-500 text-center col-span-full py-10">Please login to view wishlist</p>`;
+        grid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center justify-center py-10 gap-4">
+                <p class="text-gray-500">Please login to view wishlist</p>
+                <a href="../Auth/login.html" class="px-6 py-2 bg-[#B06D36] text-white rounded-lg hover:bg-[#8B4513] transition-colors">
+                    Login
+                </a>
+            </div>
+        `;
         return;
     }
 

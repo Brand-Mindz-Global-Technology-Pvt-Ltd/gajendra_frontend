@@ -133,6 +133,14 @@ class ShopController {
                 this.handleLiveSearch(e.target.value);
             });
 
+            // Re-open suggestions on focus if value exists
+            searchInput.addEventListener('focus', () => {
+                const query = searchInput.value;
+                if (query && query.length >= 1) {
+                    this.handleLiveSearch(query);
+                }
+            });
+
             const searchBtn = searchInput.parentElement.querySelector('button');
             if (searchBtn) {
                 searchBtn.addEventListener('click', () => {
@@ -464,16 +472,25 @@ class ShopController {
     async handleLiveSearch(query) {
         if (this.searchTimeout) clearTimeout(this.searchTimeout);
 
-        if (!query || query.length < 2) {
+        if (!query || query.length < 1) {
             this.hideSuggestions();
             return;
         }
 
         this.searchTimeout = setTimeout(async () => {
-            const results = await ShopService.getSearchSuggestions(query);
-            if (results.success) {
-                ShopRenderer.renderSearchSuggestions(results);
-                this.attachSuggestionListeners();
+            console.log("Fetching suggestions for:", query);
+            ShopRenderer.renderLoading(); // Show loading state
+            try {
+                const results = await ShopService.getSearchSuggestions(query);
+                console.log("Search results:", results);
+                if (results && results.success) {
+                    ShopRenderer.renderSearchSuggestions(results);
+                    this.attachSuggestionListeners();
+                } else {
+                    console.error("Search API failed or returned success:false", results);
+                }
+            } catch (err) {
+                console.error("Error in handleLiveSearch:", err);
             }
         }, 300);
     }
@@ -521,6 +538,7 @@ class ShopController {
         if (!userId) {
             if (window.showToast) window.showToast("Please login to add items to cart", "error");
             else alert("Please login to add items to cart");
+            window.location.href = '../Auth/login.html';
             return;
         }
 
@@ -568,6 +586,7 @@ class ShopController {
         if (!userId) {
             if (window.showToast) window.showToast("Please login to use wishlist", "error");
             else alert("Please login to use wishlist");
+             window.location.href = '../Auth/login.html';
             return;
         }
 

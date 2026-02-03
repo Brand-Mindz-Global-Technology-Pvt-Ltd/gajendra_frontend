@@ -92,11 +92,27 @@ export const HeaderInitializer = {
         window.toggleMobileMenu = function (e) {
             if (e) e.stopPropagation();
             const menu = document.getElementById('mobile-menu');
+            const header = document.querySelector('header');
             console.log("HeaderInitializer: Toggling mobile menu...", menu);
             if (menu) {
                 menu.classList.toggle('hidden');
+                if (header) {
+                    header.classList.toggle('is-mobile-open');
+                }
             }
         };
+
+        // Scroll Listener for Header Background
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.classList.add('is-scrolled');
+                } else {
+                    header.classList.remove('is-scrolled');
+                }
+            }
+        });
 
         // Click Outside to close dropdowns
         document.addEventListener('click', (e) => {

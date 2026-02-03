@@ -14,7 +14,7 @@ import CONFIG from "../config.js";
 async function renderCartFromStateManager() {
     const container = document.querySelector("#cartOverlay .overflow-y-auto");
     const summaryContainer = document.querySelector("#cartOverlay .w-full.md\\:w-80");
-    
+
     if (!container) return;
 
     // Wait for state manager to be ready
@@ -23,7 +23,14 @@ async function renderCartFromStateManager() {
     // Get cart items from state manager
     const userId = await ensureCurrentUserId();
     if (!userId) {
-        container.innerHTML = `<div class="text-center p-10 text-gray-500">Please login to view cart</div>`;
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center p-10 gap-4">
+                <p class="text-gray-500">Please login to view cart</p>
+                <a href="../Auth/login.html" class="px-6 py-2 bg-[#B06D36] text-white rounded-lg hover:bg-[#8B4513] transition-colors">
+                    Login
+                </a>
+            </div>
+        `;
         return;
     }
 
@@ -49,7 +56,7 @@ async function renderCartFromStateManager() {
             // Use same image fetching logic as shopRenderer.js with proper __EMPTY__ filtering
             // First check for thumbnail field (from get_products.php response)
             let productImage = item.thumbnail || null;
-            
+
             if (!productImage) {
                 // Process images array
                 let images = item.images || item.image;
@@ -60,7 +67,7 @@ async function renderCartFromStateManager() {
                 if (!Array.isArray(images) && images) {
                     images = [images];
                 }
-                
+
                 // Filter out __EMPTY__ images (check if image is '__EMPTY__' or ends with '/__EMPTY__')
                 if (Array.isArray(images) && images.length > 0) {
                     const validImages = images.filter(img => {
@@ -75,18 +82,18 @@ async function renderCartFromStateManager() {
             let imageUrl = productImage
                 ? (productImage.startsWith('http') ? productImage : CONFIG.UPLOADS_URL + '/' + productImage)
                 : 'https://placehold.co/300x300/FDF5ED/DAA520?text=' + encodeURIComponent(item.name || 'Product');
-            
+
             // Normalize URL to use CONFIG domain (fix domain mismatch between APIs)
             // Backend APIs return different domains, but images should be on CONFIG domain
             if (imageUrl.includes('gajendhrademo.brandmindz.com')) {
                 imageUrl = imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com');
             }
-            
+
             // Create fallback URL (try alternative domain if current one fails)
             const fallbackUrl = imageUrl.includes('gajendhrademo.brandmindz.com')
                 ? imageUrl.replace('gajendhrademo.brandmindz.com', 'gajendhrademo.brandmindz.com')
                 : imageUrl;
-            
+
             const productName = item.name || 'Product';
 
             container.innerHTML += `
@@ -137,7 +144,7 @@ async function renderCartFromStateManager() {
  * Update cart quantity
  * Note: Backend doesn't have update endpoint, so we delete and re-add
  */
-window.updateCartQuantity = async function(cartId, newQuantity) {
+window.updateCartQuantity = async function (cartId, newQuantity) {
     if (newQuantity < 1) {
         await window.removeCartItem(cartId);
         return;
@@ -165,10 +172,10 @@ window.updateCartQuantity = async function(cartId, newQuantity) {
 
         // Remove old item
         await CartService.deleteCartItem({ userId, cartItemId: cartId });
-        
+
         // Add with new quantity
         const addResponse = await cartStateManager.addToCart(cartItem.product_id, newQuantity);
-        
+
         if (addResponse.success) {
             await renderCartFromStateManager();
         } else {
@@ -183,7 +190,7 @@ window.updateCartQuantity = async function(cartId, newQuantity) {
 /**
  * Remove cart item
  */
-window.removeCartItem = async function(cartId) {
+window.removeCartItem = async function (cartId) {
     const userId = await ensureCurrentUserId();
     if (!userId) {
         alert("Please login");
@@ -205,11 +212,11 @@ window.removeCartItem = async function(cartId) {
         }
 
         // Remove directly using CartService (since we have cart_id)
-        const removeResponse = await CartService.deleteCartItem({ 
-            userId, 
-            cartItemId: cartId 
+        const removeResponse = await CartService.deleteCartItem({
+            userId,
+            cartItemId: cartId
         });
-        
+
         if (removeResponse && removeResponse.success) {
             // Sync state manager to reflect the change
             await cartStateManager.sync();
@@ -226,7 +233,7 @@ window.removeCartItem = async function(cartId) {
 /**
  * Open cart popup (updated to use state manager)
  */
-window.openCart = async function() {
+window.openCart = async function () {
     const overlay = document.getElementById("cartOverlay");
     if (overlay) {
         await renderCartFromStateManager();

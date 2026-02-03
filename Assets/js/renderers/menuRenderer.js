@@ -29,30 +29,41 @@ export const MenuRenderer = {
                 return;
             }
 
-            // Keep "HOME" link (static)
-            let html = `
-                <a href="../Home/Home.html"
-                    class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors py-4">
-                    HOME
-                </a>
-            `;
+            // Helper to check if a link is active
+            const currentPath = window.location.pathname.toLowerCase();
+            const currentQuery = window.location.search.toLowerCase();
+            const isActive = (path, categorySlug = null) => {
+                if (categorySlug) {
+                    return currentQuery.includes(`category=${categorySlug.toLowerCase()}`);
+                }
+                const normalizedPath = path.replace(/^\.\.\//, '').toLowerCase();
+                return currentPath.includes(normalizedPath);
+            };
+
+            // Helper to generate the link HTML with stable alignment
+            const createLinkHTML = (href, label, path, categorySlug = null, extraClasses = '') => {
+                const active = isActive(path, categorySlug);
+                const activeBar = active ? '<span class="absolute bottom-3 left-2 right-2 h-0.5 bg-white"></span>' : '';
+                return `
+                    <a href="${href}"
+                        class="text-white text-sm lg:text-[15px] font-medium tracking-wider transition-all py-4 px-4 relative group ${extraClasses} ${active ? '' : 'hover:opacity-80'}">
+                        ${label}
+                        ${activeBar}
+                    </a>
+                `;
+            };
+
+            // Generate HOME link
+            let html = createLinkHTML('../Home/Home.html', 'HOME', 'Home/Home.html');
 
             // Generate dynamic category menus
             data.menu.forEach(category => {
-                html += this.createCategoryItem(category);
+                html += this.createCategoryItem(category, createLinkHTML);
             });
 
             // Add static "ABOUT US" and "CONTACT US"
-            html += `
-                <a href="../About/About.html"
-                    class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
-                    ABOUT US
-                </a>
-                <a href="../Contact/Contact.html"
-                    class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors">
-                    CONTACT US
-                </a>
-            `;
+            html += createLinkHTML('../About/About.html', 'ABOUT US', 'About/About.html');
+            html += createLinkHTML('../Contact/Contact.html', 'CONTACT US', 'Contact/Contact.html');
 
             container.innerHTML = html;
 
@@ -67,16 +78,13 @@ export const MenuRenderer = {
     /**
      * Create HTML for a single category item (with mega menu)
      */
-    createCategoryItem(category) {
+    createCategoryItem(category, createLinkHTML) {
         // If no subcategories, just a simple link
         if (!category.subcategories || category.subcategories.length === 0) {
-            return `
-                <a href="../Shop/Shop.html?category=${category.slug}"
-                    class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors py-4 flex items-center gap-1 cursor-pointer">
-                    ${category.name.toUpperCase()}
-                </a>
-            `;
+            return createLinkHTML(`../Shop/Shop.html?category=${category.slug}`, category.name.toUpperCase(), `Shop/Shop.html`, category.slug);
         }
+
+        const active = createLinkHTML(`../Shop/Shop.html?category=${category.slug}`, category.name.toUpperCase(), `Shop/Shop.html`, category.slug, 'flex items-center gap-1 cursor-pointer');
 
         // Determine width and grid columns based on subcategory count
         const subCount = category.subcategories.length;
@@ -92,18 +100,20 @@ export const MenuRenderer = {
         }
 
         // Mega Menu Structure
+        // Extracting just the content of the link for the mega menu trigger, but we need the absolute bar
+        const labelWithIcon = `
+            ${category.name.toUpperCase()}
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 9l-7 7-7-7" />
+            </svg>
+        `;
+
         return `
             <div class="relative group">
-                <a href="../Shop/Shop.html?category=${category.slug}"
-                    class="text-white text-sm lg:text-base font-medium hover:text-[#C4703C] transition-colors py-4 flex items-center gap-1 cursor-pointer">
-                    ${category.name.toUpperCase()}
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 9l-7 7-7-7" />
-                    </svg>
-                </a>
+                ${createLinkHTML(`../Shop/Shop.html?category=${category.slug}`, labelWithIcon, `Shop/Shop.html`, category.slug, 'flex items-center gap-1 cursor-pointer')}
                 <!-- Mega Menu -->
                 <div class="absolute top-full left-1/2 -translate-x-1/2 ${widthClass} bg-white rounded-lg shadow-xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-0 border-t-4 border-[#C4703C]">
                     <div class="grid ${gridClass} gap-8 text-left">

@@ -461,9 +461,25 @@ const ShopRenderer = {
     /**
      * Renders the search suggestions dropdown
      */
-    renderSearchSuggestions(results) {
+    renderLoading() {
         const container = document.getElementById('searchSuggestions');
         if (!container) return;
+
+        container.innerHTML = `
+            <div class="flex items-center justify-center py-6">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-[#642E13]"></div>
+            </div>
+        `;
+        container.classList.remove('hidden');
+    },
+
+    renderSearchSuggestions(results) {
+        console.log("Rendering search suggestions:", results);
+        const container = document.getElementById('searchSuggestions');
+        if (!container) {
+            console.error("Search suggestions container not found!");
+            return;
+        }
 
         if ((!results.exact || results.exact.length === 0) && (!results.related || results.related.length === 0)) {
             container.innerHTML = `
@@ -480,10 +496,10 @@ const ShopRenderer = {
         // EXACT MATCHES
         if (results.exact && results.exact.length > 0) {
             html += `
-                <div class="bg-gray-50/50 px-4 py-3 border-b border-gray-100">
-                    <span class="text-[10px] tracking-[0.1em] font-black text-gray-400 uppercase font-poppins">Exact Matches</span>
+                <div class="bg-[#FDF5ED]/50 px-5 py-3 border-b border-[#642E13]/5">
+                    <span class="text-[11px] tracking-wider font-bold text-[#642E13]/40 uppercase font-poppins">Exact Matches</span>
                 </div>
-                <div class="divide-y divide-gray-50">
+                <div class="divide-y divide-[#642E13]/5">
                     ${results.exact.map(p => this.createSuggestionItemHTML(p)).join('')}
                 </div>
             `;
@@ -492,10 +508,10 @@ const ShopRenderer = {
         // RELATED PRODUCTS
         if (results.related && results.related.length > 0) {
             html += `
-                <div class="bg-gray-50/50 px-4 py-3 border-y border-gray-100 mt-2">
-                    <span class="text-[10px] tracking-[0.1em] font-black text-gray-400 uppercase font-poppins">Related Products</span>
+                <div class="bg-[#FDF5ED]/50 px-5 py-3 border-y border-[#642E13]/5 mt-2">
+                    <span class="text-[11px] tracking-wider font-bold text-[#642E13]/40 uppercase font-poppins">Related Products</span>
                 </div>
-                <div class="divide-y divide-gray-50">
+                <div class="divide-y divide-[#642E13]/5">
                     ${results.related.map(p => this.createSuggestionItemHTML(p)).join('')}
                 </div>
             `;
@@ -507,13 +523,11 @@ const ShopRenderer = {
 
     createSuggestionItemHTML(p) {
         return `
-            <div class="suggestion-item flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-[#FDF5ED] transition-colors group" data-id="${p.id}">
-                <div class="w-14 h-14 bg-gray-50 rounded-lg overflow-hidden flex-shrink-0 border border-gray-100 p-1">
-                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain group-hover:scale-110 transition-transform">
-                </div>
-                <div class="flex-grow min-w-0">
-                    <h4 class="text-[#3E1C00] font-bold text-sm truncate leading-tight mb-0.5">${p.name}</h4>
-                    <p class="text-[#B06D36] font-extrabold text-xs">${p.display_price}</p>
+            <div class="suggestion-item flex items-center gap-3 p-3 hover:bg-amber-50 cursor-pointer transition-colors border-b border-gray-50 last:border-none" data-id="${p.id}">
+                <img src="${p.image}" alt="${p.name}" class="w-12 h-12 object-cover rounded-md" onerror="this.onerror=null;this.src='../Assets/Home/Logo-Gajendhra.png'">
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-semibold text-gray-800 truncate">${p.name}</h4>
+                    <p class="text-xs text-[#8B4513] font-bold">${p.display_price}</p>
                 </div>
             </div>
         `;
