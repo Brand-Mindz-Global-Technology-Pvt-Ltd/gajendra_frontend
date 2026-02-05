@@ -440,11 +440,11 @@ const ProductDetailRenderer = {
                 : iconUrl;
 
             featureGrid.innerHTML += `
-                <div class="flex items-start gap-4">
-                    ${iconUrl ? `<img src="${normalizedIconUrl}" class="w-8 h-8 object-contain" alt="${segment.title || ''}" onerror="this.style.display='none'">` : '<div class="w-8 h-8"></div>'}
+                <div class="flex items-start gap-2 md:gap-3 lg:gap-4">
+                    ${iconUrl ? `<img src="${normalizedIconUrl}" class="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 object-contain flex-shrink-0" alt="${segment.title || ''}" onerror="this.style.display='none'">` : '<div class="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8 flex-shrink-0"></div>'}
                     <div>
-                        <h4 class="font-bold text-[#3E1C00] text-lg">${segment.title || ""}</h4>
-                        <p class="text-[#3E1C00] text-sm opacity-80 leading-tight">${segment.description || ""}</p>
+                        <h4 class="font-bold text-[#3E1C00] text-sm md:text-base lg:text-lg">${segment.title || ""}</h4>
+                        <p class="text-[#3E1C00] text-xs md:text-sm opacity-80 leading-tight">${segment.description || ""}</p>
                     </div>
                 </div>
             `;

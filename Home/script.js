@@ -47,8 +47,8 @@ function renderCategoryVisuals(categories, container) {
         }
 
         return `
-            <div class="w-full md:w-auto flex-shrink-0 flex flex-col items-center group cursor-pointer transition-transform duration-500 ease-in-out"
-                onclick="window.location.href='../Shop/Shop.html?category=${c.id}'">
+            <div class="w-full md:w-auto flex-shrink-0 flex flex-col items-center group cursor-pointer transition-transform duration-500 ease-in-out snap-center snap-always"
+                onclick="window.location.href='../Shop/Shop.html?category_id=${c.id}#shopResultsSection'">
                 <div class="relative w-[280px] h-[320px] flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-2">
                     <!-- Frame Image -->
                     <img src="../Assets/Home/Border-design.png" alt="Frame"
@@ -63,57 +63,14 @@ function renderCategoryVisuals(categories, container) {
                             class="relative z-10 w-42 h-42 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-300">
                     </div>
                 </div>
-                <h3 class="font-poppins font-semibold text-xl text-[#3E1C00] mt-2 text-center px-2">${c.name}</h3>
+                <h3 class="font-poppins font-semibold text-lg md:text-xl text-[#3E1C00] mt-2 text-center px-2">${c.name}</h3>
             </div>
         `;
     }).join('');
 }
 
 function initCategoryCarousel() {
-    const container = document.getElementById('category-container');
-    if (!container) return;
-
-    const items = container.children;
-    let totalItems = items.length; // Update totalItems based on dynamic content
-    let currentIndex = 0;
-
-    // Remove existing listener to avoid duplicates if any (though we are replacing the function)
-    window.moveCarousel = function (direction) {
-        // Only run on mobile/tablet if needed, logic says < 768 usually
-        if (window.innerWidth >= 768) return;
-
-        currentIndex += direction;
-
-        if (currentIndex < 0) {
-            currentIndex = totalItems - 1;
-        } else if (currentIndex >= totalItems) {
-            currentIndex = 0;
-        }
-
-        updateCarousel();
-    }
-
-    function updateCarousel() {
-        if (totalItems === 0) return;
-        // Slide by 100% of the container width per item
-        const translateX = -(currentIndex * 100);
-
-        Array.from(items).forEach(item => {
-            item.style.transform = `translateX(${translateX}%)`;
-        });
-    }
-
-    // Reset carousel on resize
-    window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) {
-            Array.from(items).forEach(item => {
-                item.style.transform = 'none';
-            });
-            currentIndex = 0;
-        } else {
-            updateCarousel();
-        }
-    });
+    // Native horizontal scroll is used on mobile now. No JS needed for sliding.
 }
 
 // Best Seller Carousel Logic - Modular logic now handled in Assets/js/home/main.js
@@ -181,18 +138,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const cardClasses = {
         center: {
-            add: ['scale-100', 'opacity-100', 'blur-none', 'z-10'],
-            remove: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', 'translate-x-[70%]', '-translate-x-[70%]']
+            add: ['scale-100', 'opacity-100', 'z-10'],
+            remove: ['scale-90', 'opacity-70', 'z-[5]', 'translate-x-[35%]', '-translate-x-[35%]']
         },
         left: {
-            add: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', 'translate-x-[70%]'],
-            remove: ['scale-100', 'opacity-100', 'blur-none', 'z-10', '-translate-x-[70%]']
+            add: ['scale-90', 'opacity-70', 'z-[5]', 'translate-x-[35%]'],
+            remove: ['scale-100', 'opacity-100', 'z-10', '-translate-x-[35%]']
         },
         right: {
-            add: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', '-translate-x-[70%]'],
-            remove: ['scale-100', 'opacity-100', 'blur-none', 'z-10', 'translate-x-[70%]']
+            add: ['scale-90', 'opacity-70', 'z-[5]', '-translate-x-[35%]'],
+            remove: ['scale-100', 'opacity-100', 'z-10', 'translate-x-[35%]']
         }
     };
+
+
+
+
 
     function getWrappedIndex(index) {
         return ((index % totalCards) + totalCards) % totalCards;
@@ -200,6 +161,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateVisibleCards() {
         carouselContainer.innerHTML = '';
+
+        const isMobile = window.innerWidth < 640;
+
+        if (isMobile) {
+            // ✅ MOBILE: show only ONE card
+            const cardClone = originalCards[currentIndex].cloneNode(true);
+
+            cardClone.className = originalCards[currentIndex].className;
+            cardClone.classList.add('scale-100', 'opacity-100', 'z-10');
+
+            cardClone.addEventListener('click', () => {
+                goToCard(currentIndex);
+            });
+
+            carouselContainer.appendChild(cardClone);
+            updateProgressBars();
+            return;
+        }
+
+        // ✅ DESKTOP: show 3 cards
         const prevIndex = getWrappedIndex(currentIndex - 1);
         const nextIndex = getWrappedIndex(currentIndex + 1);
 
@@ -211,16 +192,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
         positions.forEach(({ index, position }) => {
             const cardClone = originalCards[index].cloneNode(true);
-            cardClone.setAttribute('data-position', position);
+
+            cardClone.className = originalCards[index].className;
             cardClone.setAttribute('data-original-index', index);
-            cardClone.classList.remove(...cardClasses.center.remove, ...cardClasses.left.remove, ...cardClasses.right.remove);
-            cardClone.classList.add('transition-all', 'duration-500', 'ease-out', 'flex-shrink-0');
+
+            cardClone.classList.remove(
+                ...cardClasses.center.add, ...cardClasses.left.add, ...cardClasses.right.add,
+                ...cardClasses.center.remove, ...cardClasses.left.remove, ...cardClasses.right.remove
+            );
+
             const classes = cardClasses[position];
             classes.add.forEach(cls => cardClone.classList.add(cls));
+
+            cardClone.addEventListener('mouseenter', () => {
+                clearInterval(progressTimer);
+                clearTimeout(scrollTimer);
+            });
+
+            cardClone.addEventListener('mouseleave', () => {
+                animateProgress();
+                startAutoScroll();
+            });
+
+
+            // click → make center
+            cardClone.addEventListener('click', () => {
+                goToCard(index);
+            });
+
             carouselContainer.appendChild(cardClone);
         });
+
         updateProgressBars();
     }
+
 
     function updateProgressBars() {
         progressBars.forEach((bar, index) => {
@@ -339,7 +344,7 @@ async function loadSavouriesSection() {
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `../Shop/Shop.html?category=${savouriesCat.id}`;
+                window.location.href = `../Shop/Shop.html?category_id=${savouriesCat.id}#shopResultsSection`;
             };
         }
 
@@ -407,7 +412,7 @@ function renderSavouries(products, container) {
         let weightOptions = '';
         if (variations.length > 0) {
             weightOptions = variations.map((v) => `
-                <option value="${v.id}" data-price="${v.price}">${v.weight} - Rs ${v.price}</option>
+                <option value="${v.id}" data-price="${v.price}">${v.weight}</option>
             `).join('');
         } else {
             weightOptions = '<option>Standard</option>';
@@ -432,9 +437,9 @@ function renderSavouries(products, container) {
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
 
-                <div class="bg-white border border-[#E8D1BB] rounded-[12px] p-4 relative -mt-4 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <div class="bg-white border border-[#E8D1BB] rounded-t-[27px] rounded-b-[14px] p-4 relative -mt-8 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
                     <div class="mb-3">
-                        <h3 class="font-poppins font-bold text-lg text-[#3E1C00] leading-tight mb-1 truncate" title="${p.name}">${p.name}</h3>
+                        <h3 class="font-poppins font-normal text-md md:text-lg text-[#3E1C00] leading-tight mb-1 truncate" title="${p.name}">${p.name}</h3>
                         <p class="font-poppins font-medium text-[#B06D36] text-sm product-price-display">Rs : ${displayPrice}</p>
                     </div>
 
@@ -455,7 +460,7 @@ function renderSavouries(products, container) {
                     </div>
 
                     <div class="flex items-center justify-between gap-3">
-                        <div class="flex items-center bg-gray-50 rounded-md border border-[#E8D1BB] px-1 py-1">
+                        <div class="flex items-center bg-gray-50 rounded-md  px-1 py-1">
                             <button onclick="changeCardQty(this, -1)"
                                 class="w-7 h-7 bg-[#B06D36] text-white rounded-[4px] flex items-center justify-center hover:bg-[#8f5424] transition">
                                 <span class="text-sm font-medium pt-0.5">-</span>
@@ -467,7 +472,7 @@ function renderSavouries(products, container) {
                             </button>
                         </div>
                         <button onclick="quickBuyNow(${p.id}, this)"
-                            class="flex-1 bg-[#B06D36] hover:bg-[#8f5424] text-white font-poppins font-medium text-sm py-2 rounded-md transition shadow-md whitespace-nowrap">
+                            class="flex-1 bg-[#B06D36] hover:bg-[#8f5424] text-white font-poppins font-medium text-sm py-1.5 md:py-2 rounded-md transition shadow-md whitespace-nowrap">
                             Buy Now
                         </button>
                     </div>
@@ -557,7 +562,7 @@ async function loadBakerySection() {
         // Update View All Link
         if (viewAllBtn) {
             viewAllBtn.onclick = () => {
-                window.location.href = `../Shop/Shop.html?category=${bakeryCat.id}`;
+                window.location.href = `../Shop/Shop.html?category_id=${bakeryCat.id}#shopResultsSection`;
             };
         }
 
@@ -624,7 +629,7 @@ function renderBakery(products, container) {
         let weightOptions = '';
         if (variations.length > 0) {
             weightOptions = variations.map((v) => `
-                <option value="${v.id}" data-price="${v.price}">${v.weight} - Rs ${v.price}</option>
+                <option value="${v.id}" data-price="${v.price}">${v.weight} </option>
             `).join('');
         } else {
             weightOptions = '<option>Standard</option>';
@@ -650,9 +655,9 @@ function renderBakery(products, container) {
                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
 
-                <div class="bg-white border border-[#E8D1BB] rounded-[12px] p-4 relative -mt-4 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+                <div class="bg-white border border-[#E8D1BB] rounded-t-[27px] rounded-b-[14px] p-4 relative -mt-8 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
                     <div class="mb-3">
-                        <h3 class="font-poppins font-bold text-lg text-[#3E1C00] leading-tight mb-1 truncate" title="${p.name}">${p.name}</h3>
+                        <h3 class="font-poppins font-bold text-md md:text-lg text-[#3E1C00] leading-tight mb-1 truncate" title="${p.name}">${p.name}</h3>
                         <p class="font-poppins font-medium text-[#B06D36] text-sm product-price-display">Rs : ${displayPrice}</p>
                     </div>
                     <div class="mb-4">
@@ -671,7 +676,7 @@ function renderBakery(products, container) {
                         </div>
                     </div>
                     <div class="flex items-center justify-between gap-3">
-                        <div class="flex items-center bg-gray-50 rounded-md border border-[#E8D1BB] px-1 py-1">
+                        <div class="flex items-center bg-gray-50 rounded-md px-1 py-1">
                             <button onclick="changeCardQty(this, -1)"
                                 class="w-7 h-7 bg-[#B06D36] text-white rounded-[4px] flex items-center justify-center hover:bg-[#8f5424] transition">
                                 <span class="text-sm font-medium pt-0.5">-</span>
@@ -683,7 +688,7 @@ function renderBakery(products, container) {
                             </button>
                         </div>
                         <button onclick="quickBuyNow(${p.id}, this)"
-                            class="flex-1 bg-[#B06D36] hover:bg-[#8f5424] text-white font-poppins font-medium text-sm py-2 rounded-md transition shadow-md whitespace-nowrap">
+                            class="flex-1 bg-[#B06D36] hover:bg-[#8f5424] text-white font-poppins font-medium text-sm py-1.5 md:py-2 rounded-md transition shadow-md whitespace-nowrap">
                             Buy Now
                         </button>
                     </div>

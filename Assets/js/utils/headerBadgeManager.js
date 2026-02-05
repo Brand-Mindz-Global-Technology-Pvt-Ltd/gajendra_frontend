@@ -44,7 +44,7 @@ class HeaderBadgeManager {
     updateCartBadge() {
         const count = cartStateManager.getCount();
         const badges = document.querySelectorAll(this.cartBadgeSelector);
-        
+
         badges.forEach(badge => {
             if (count > 0) {
                 badge.textContent = count > 99 ? '99+' : count;
@@ -61,7 +61,7 @@ class HeaderBadgeManager {
     updateWishlistBadge() {
         const count = wishlistStateManager.getCount();
         const badges = document.querySelectorAll(this.wishlistBadgeSelector);
-        
+
         badges.forEach(badge => {
             if (count > 0) {
                 badge.textContent = count > 99 ? '99+' : count;

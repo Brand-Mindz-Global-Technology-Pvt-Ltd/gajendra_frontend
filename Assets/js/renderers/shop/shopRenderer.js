@@ -16,14 +16,14 @@ const ShopRenderer = {
             const isActive = activeCatIds.includes(String(cat.id));
             const fontBold = isActive ? 'font-bold' : '';
             return `
-                <div class="group mb-4">
-                    <div class="flex items-center gap-3 cursor-pointer mb-2" data-cat-id="${cat.id}">
-                        <div class="w-6 h-6 rounded-full border-2 border-[#8B4513] ${isActive ? 'bg-[#8B4513]' : ''} transition-colors"></div>
-                        <span class="text-lg font-semibold text-[#3E1C00] ${fontBold}">${cat.name}</span>
+                <div class="group mb-3 md:mb-4">
+                    <div class="flex items-center gap-2 md:gap-3 cursor-pointer mb-1.5 md:mb-2" data-cat-id="${cat.id}">
+                        <div class="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 rounded-full border-2 border-[#8B4513] ${isActive ? 'bg-[#8B4513]' : ''} transition-colors"></div>
+                        <span class="text-sm md:text-base lg:text-lg font-semibold text-[#3E1C00] ${fontBold}">${cat.name}</span>
                     </div>
 
-                    <div class="pl-9 space-y-3 relative ${isActive ? '' : 'hidden'}" id="subcat-${cat.id}">
-                        ${isActive ? '<p class="text-sm text-gray-400">Loading...</p>' : ''}
+                    <div class="pl-6 md:pl-7 lg:pl-9 space-y-2 md:space-y-3 relative ${isActive ? '' : 'hidden'}" id="subcat-${cat.id}">
+                        ${isActive ? '<p class="text-xs md:text-sm text-gray-400">Loading...</p>' : ''}
                     </div>
                 </div>
             `;
@@ -43,7 +43,7 @@ const ShopRenderer = {
         if (!subContainer) return;
 
         if (!subcategories || subcategories.length === 0) {
-            subContainer.innerHTML = `<p class="text-sm text-gray-400">No subcategories</p>`;
+            subContainer.innerHTML = `<p class="text-xs md:text-sm text-gray-400">No subcategories</p>`;
             return;
         }
 
@@ -54,9 +54,9 @@ const ShopRenderer = {
             const fontClass = isActive ? "font-bold text-[#3E1C00]" : "text-[#5D3420]";
 
             return `
-                <label class="flex items-center gap-3 cursor-pointer ${fontClass}" data-sub-id="${sub.id}">
-                    <div class="w-5 h-5 rounded-full border-2 border-[#5D3420] ${isActive ? 'bg-[#5D3420]' : ''} transition-colors"></div>
-                    <span class="text-sm">${sub.name}</span>
+                <label class="flex items-center gap-2 md:gap-3 cursor-pointer ${fontClass}" data-sub-id="${sub.id}">
+                    <div class="w-3.5 h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5 rounded-full border-2 border-[#5D3420] ${isActive ? 'bg-[#5D3420]' : ''} transition-colors"></div>
+                    <span class="text-xs md:text-sm">${sub.name}</span>
                 </label>
             `;
         }).join("");
@@ -254,36 +254,45 @@ const ShopRenderer = {
      * Renders pagination
      */
     renderPagination(total, currentPage, limit, onPageClick) {
-        const container = document.querySelector('main .flex.justify-center.items-center.gap-4');
+        // Try to find existing pagination container, or create one if needed
+        let container = document.getElementById('paginationContainer');
+
+        // If no container exists, don't render (will be handled by HTML structure)
         if (!container) return;
 
         const totalPages = Math.ceil(total / limit);
-        if (totalPages <= 1) {
+
+        // Hide pagination if 6 or fewer products (1 page or less)
+        if (total <= 6 || totalPages <= 1) {
             container.innerHTML = "";
+            container.classList.add('hidden');
             return;
         }
 
+        // Show pagination container
+        container.classList.remove('hidden');
+
         let html = `
-            <button class="prev-page text-[#3E1C00] hover:text-[#B06D36] p-2" ${currentPage === 1 ? 'disabled opacity-50' : ''}>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button class="prev-page text-[#3E1C00] hover:text-[#B06D36] p-1.5 md:p-2" ${currentPage === 1 ? 'disabled opacity-50' : ''}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 md:gap-4">
         `;
 
         for (let i = 1; i <= totalPages; i++) {
             if (i === currentPage) {
-                html += `<button class="w-10 h-10 rounded-full bg-[#8B4513] text-white flex items-center justify-center font-medium shadow-md">${i}</button>`;
+                html += `<button class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#8B4513] text-white flex items-center justify-center text-sm md:text-base font-medium shadow-md">${i}</button>`;
             } else {
-                html += `<button class="page-num w-10 h-10 rounded-full text-[#3E1C00] hover:bg-[#FDF5ED] flex items-center justify-center font-medium transition-colors" data-page="${i}">${i}</button>`;
+                html += `<button class="page-num w-8 h-8 md:w-10 md:h-10 rounded-full text-[#3E1C00] hover:bg-[#FDF5ED] flex items-center justify-center text-sm md:text-base font-medium transition-colors" data-page="${i}">${i}</button>`;
             }
         }
 
         html += `
             </div>
-            <button class="next-page text-[#3E1C00] hover:text-[#B06D36] p-2" ${currentPage === totalPages ? 'disabled opacity-50' : ''}>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button class="next-page text-[#3E1C00] hover:text-[#B06D36] p-1.5 md:p-2" ${currentPage === totalPages ? 'disabled opacity-50' : ''}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
@@ -431,7 +440,7 @@ const ShopRenderer = {
             <!-- Navigation Arrows -->
             <div class="flex justify-center gap-4 mt-8">
                 <button id="bestSellerPrev"
-                    class="w-11 h-11 border border-[#B06D36] text-[#B06D36] flex items-center justify-center hover:bg-[#B06D36] hover:text-white transition-colors bg-[#FDF5ED]">
+                    class="w-11 h-11 border border-[#B06D36] text-[#B06D36] flex items-center justify-center hover:bg-[#B06D36] hover:text-white transition-colors bg-[#FDF5ED] shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -439,7 +448,7 @@ const ShopRenderer = {
                     </svg>
                 </button>
                 <button id="bestSellerNext"
-                    class="w-11 h-11 bg-[#B06D36] text-white flex items-center justify-center hover:bg-[#8B4513] transition-colors shadow-md">
+                    class="w-11 h-11 border border-[#B06D36]  text-[#B06D36] flex items-center justify-center hover:bg-[#B06D36] hover:text-white transition-colors  bg-[#FDF5ED] shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

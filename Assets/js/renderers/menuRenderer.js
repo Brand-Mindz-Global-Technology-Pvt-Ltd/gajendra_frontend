@@ -31,18 +31,26 @@ export const MenuRenderer = {
 
             // Helper to check if a link is active
             const currentPath = window.location.pathname.toLowerCase();
-            const currentQuery = window.location.search.toLowerCase();
-            const isActive = (path, categorySlug = null) => {
-                if (categorySlug) {
-                    return currentQuery.includes(`category=${categorySlug.toLowerCase()}`);
+            const params = new URLSearchParams(window.location.search);
+
+            const isActive = (path, categoryId = null) => {
+                if (categoryId) {
+                    return params.get('category_id') === String(categoryId);
                 }
+
                 const normalizedPath = path.replace(/^\.\.\//, '').toLowerCase();
+
+                // If checking for a shop page but no category is active
+                if (normalizedPath.includes('shop/shop.html') && !params.get('category_id')) {
+                    return currentPath.includes('shop/shop.html') || currentPath.includes('shop/singleproduct.html');
+                }
+
                 return currentPath.includes(normalizedPath);
             };
 
             // Helper to generate the link HTML with stable alignment
-            const createLinkHTML = (href, label, path, categorySlug = null, extraClasses = '') => {
-                const active = isActive(path, categorySlug);
+            const createLinkHTML = (href, label, path, categoryId = null, extraClasses = '') => {
+                const active = isActive(path, categoryId);
                 const activeBar = active ? '<span class="absolute bottom-3 left-2 right-2 h-0.5 bg-white"></span>' : '';
                 return `
                     <a href="${href}"
@@ -68,7 +76,7 @@ export const MenuRenderer = {
             container.innerHTML = html;
 
             // Also render Mobile Menu if it exists
-            this.renderMobileMenu(data.menu);
+            this.renderMobileMenu(data.menu, isActive);
 
         } catch (error) {
             console.error('Error rendering menu:', error);
@@ -81,10 +89,21 @@ export const MenuRenderer = {
     createCategoryItem(category, createLinkHTML) {
         // If no subcategories, just a simple link
         if (!category.subcategories || category.subcategories.length === 0) {
-            return createLinkHTML(`../Shop/Shop.html?category=${category.slug}`, category.name.toUpperCase(), `Shop/Shop.html`, category.slug);
+            return createLinkHTML(`../Shop/Shop.html?category_id=${category.id}`, category.name.toUpperCase(), `Shop/Shop.html`, category.id);
         }
 
-        const active = createLinkHTML(`../Shop/Shop.html?category=${category.slug}`, category.name.toUpperCase(), `Shop/Shop.html`, category.slug, 'flex items-center gap-1 cursor-pointer');
+        // Mega Menu Structure
+        const labelWithIcon = `
+            ${category.name.toUpperCase()}
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 9l-7 7-7-7" />
+            </svg>
+        `;
+
+        const activeItem = createLinkHTML(`../Shop/Shop.html?category_id=${category.id}`, labelWithIcon, `Shop/Shop.html`, category.id, 'flex items-center gap-1 cursor-pointer');
 
         // Determine width and grid columns based on subcategory count
         const subCount = category.subcategories.length;
@@ -99,23 +118,11 @@ export const MenuRenderer = {
             gridClass = 'grid-cols-2';
         }
 
-        // Mega Menu Structure
-        // Extracting just the content of the link for the mega menu trigger, but we need the absolute bar
-        const labelWithIcon = `
-            ${category.name.toUpperCase()}
-            <svg xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 9l-7 7-7-7" />
-            </svg>
-        `;
-
         return `
             <div class="relative group">
-                ${createLinkHTML(`../Shop/Shop.html?category=${category.slug}`, labelWithIcon, `Shop/Shop.html`, category.slug, 'flex items-center gap-1 cursor-pointer')}
+                ${activeItem}
                 <!-- Mega Menu -->
-                <div class="absolute top-full left-1/2 -translate-x-1/2 ${widthClass} bg-white rounded-lg shadow-xl p-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 mt-0 border-t-4 border-[#C4703C]">
+                <div class="absolute top-full left-1/2 -translate-x-1/2 ${widthClass} bg-white rounded-lg shadow-xl p-6 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 ease-out z-50 mt-0 border-t-4 border-[#C4703C]">
                     <div class="grid ${gridClass} gap-8 text-left">
                         ${category.subcategories.map(sub => this.createSubcategoryColumn(sub)).join('')}
                     </div>
@@ -158,29 +165,73 @@ export const MenuRenderer = {
     /**
      * Render Mobile Menu
      */
-    renderMobileMenu(menuData) {
+    renderMobileMenu(menuData, isActive) {
         const mobileContainer = document.getElementById('mobile-menu-items');
-        if (!mobileContainer) return; // Silent fail if mobile container is structurally different or missing
+        if (!mobileContainer) return;
+
+        const activeHome = isActive('Home/Home.html');
+        const activeAbout = isActive('About/About.html');
+        const activeContact = isActive('Contact/Contact.html');
 
         let html = `
             <a href="../Home/Home.html"
-               class="text-white text-sm font-medium py-2 border-b-2 border-[#C4703C] inline-block w-fit">HOME</a>
+               class="text-white text-sm font-medium py-2 ${activeHome ? 'border-b-2 border-[#C4703C]' : ''} inline-block w-fit">HOME</a>
         `;
 
         menuData.forEach(cat => {
-            html += `
-                <div>
-                    <a href="../Shop/Shop.html?category=${cat.slug}"
-                        class="text-white text-sm font-medium py-2 hover:text-[#C4703C] flex items-center justify-between group">
+            const hasSubs = cat.subcategories && cat.subcategories.length > 0;
+            const active = isActive('Shop/Shop.html', cat.id);
+
+            if (hasSubs) {
+                html += `
+                    <div class="flex flex-col">
+                        <button onclick="
+                            const content = this.nextElementSibling;
+                            const isHidden = content.classList.contains('max-h-0');
+                            if (isHidden) {
+                                content.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
+                                content.classList.add('max-h-[800px]', 'opacity-100');
+                                this.querySelector('svg').classList.add('rotate-180');
+                            } else {
+                                content.classList.add('max-h-0', 'opacity-0', 'pointer-events-none');
+                                content.classList.remove('max-h-[800px]', 'opacity-100');
+                                this.querySelector('svg').classList.remove('rotate-180');
+                            }
+                        "
+                            class="text-white text-sm font-medium py-2 flex items-center justify-between group ${active ? 'text-[#C4703C] font-bold' : ''}">
+                            ${cat.name.toUpperCase()}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="max-h-0 opacity-0 pointer-events-none overflow-hidden transition-all duration-500 ease-in-out flex flex-col pl-4 gap-2 border-l border-white/10 mt-1 mb-2">
+                             <a href="../Shop/Shop.html?category_id=${cat.id}" class="text-white/80 text-xs py-1 hover:text-white">View All ${cat.name}</a>
+                            ${cat.subcategories.map(sub => `
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-[#C4703C] text-[10px] font-bold uppercase tracking-wider mt-2">${sub.name}</span>
+                                    ${(sub.products || []).slice(0, 5).map(prod => `
+                                        <a href="../Shop/Singleproduct.html?product_id=${prod.id}" class="text-white/70 text-xs py-1 hover:text-white truncate">
+                                            ${prod.name}
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <a href="../Shop/Shop.html?category_id=${cat.id}"
+                        class="text-white text-sm font-medium py-2 ${active ? 'text-[#C4703C] font-bold' : 'hover:text-[#C4703C]'} block">
                         ${cat.name.toUpperCase()}
                     </a>
-                </div>
-            `;
+                `;
+            }
         });
 
         html += `
-            <a href="../About/About.html" class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">ABOUT US</a>
-            <a href="../Contact/Contact.html" class="text-white text-sm font-medium py-2 hover:text-[#C4703C]">CONTACT US</a>
+            <a href="../About/About.html" class="text-white text-sm font-medium py-2 ${activeAbout ? 'border-b-2 border-[#C4703C]' : ''} inline-block w-fit">ABOUT US</a>
+            <a href="../Contact/Contact.html" class="text-white text-sm font-medium py-2 ${activeContact ? 'border-b-2 border-[#C4703C]' : ''} inline-block w-fit">CONTACT US</a>
         `;
 
         mobileContainer.innerHTML = html;

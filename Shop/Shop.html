@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta ame="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -129,6 +129,34 @@
             background-color: #ffffff;
             border: 3px solid #8B4513;
         }
+
+        /* Dropdown & Mobile Menu Animations */
+        .dropdown-animate {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .dropdown-animate.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        #mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #mobile-menu.show {
+            max-height: 800px;
+            opacity: 1;
+            padding-bottom: 1rem;
+        }
     </style>
 
 </head>
@@ -157,25 +185,25 @@
                     <!-- Wishlist -->
                     <button onclick="openWishlist()"
                         class="text-white hover:opacity-80 transition-opacity p-1 relative">
-                        <img src="../Assets/images/wishlist.png" alt="Wishlist" class="h-5 w-5 md:h-6 md:w-6">
+                        <img src="../Assets/images/wishlist.png" alt="Wishlist" class="h-[18px] w-[18px] md:h-6 md:w-6">
                         <span data-wishlist-badge
-                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            class="absolute -top-1 -right-1 bg-red-601 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                     </button>
                     <!-- Cart -->
                     <button onclick="openCart()" class="text-white hover:opacity-80 transition-opacity p-1 relative">
-                        <img src="../Assets/images/cart.png" alt="Cart" class="h-5 w-5 md:h-6 md:w-6">
+                        <img src="../Assets/images/cart.png" alt="Cart" class="h-[18px] w-[18px] md:h-6 md:w-6">
                         <span data-cart-badge
-                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            class="absolute -top-1 -right-1 bg-red-601 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                     </button>
                     <!-- User Dropdown -->
                     <div class="relative">
                         <button id="user-menu-btn" onclick="toggleUserMenu(event)"
                             class="text-white hover:opacity-80 transition-opacity p-1">
-                            <img src="../Assets/images/profile.png" alt="User" class="h-5 w-5 md:h-6 md:w-6">
+                            <img src="../Assets/images/profile.png" alt="User" class="h-[18px] w-[18px] md:h-6 md:w-6">
                         </button>
                         <!-- Dropdown Menu -->
                         <div id="user-dropdown"
-                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            class="dropdown-animate absolute right-0 mt-2 w-40 md:w-48 bg-white rounded-md shadow-lg py-1 z-50 transition-all duration-300">
                             <a href="../Auth/login.html"
                                 class="block px-4 py-2 text-sm text-[#3E1C00] hover:bg-[#FDF5ED] transition-colors">Login</a>
                             <a href="../Auth/register.html"
@@ -187,14 +215,19 @@
                     </div>
 
                     <!-- Mobile Menu Button -->
+                    <!-- Mobile Menu Button -->
                     <button id="mobile-menu-btn" class="md:hidden text-white p-1" onclick="toggleMobileMenu()">
-                        <img src="../Assets/Home/icon-menu.png" alt="Menu" class="h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Navigation -->
-            <nav id="mobile-menu" class="md:hidden hidden pb-4">
+            <nav id="mobile-menu" class="md:hidden">
                 <div id="mobile-menu-items" class="flex flex-col gap-3 pt-2 border-t border-white/20">
                     <!-- Populated by MenuRenderer -->
                 </div>
@@ -203,7 +236,7 @@
     </header>
 
     <!-- SHOP HERO SECTION -->
-    <section class="relative w-full h-[420px] md:h-[500px] lg:h-[560px] overflow-hidden">
+    <section class="relative w-full h-[350px] sm:h-[420px] md:h-[500px] lg:h-[560px] overflow-hidden">
 
         <!-- Background Image -->
         <img src="../Assets/images/shop_banner.webp" alt="Shop Banner"
@@ -213,12 +246,12 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent"></div>
 
         <!-- Content -->
-        <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-10 lg:px-20 pb-10">
-            <h1 class="font-poppins text-white text-3xl md:text-4xl lg:text-[42px] font-semibold mb-2">
+        <div class="relative z-10 h-full flex flex-col justify-end px-4 md:px-10 lg:px-20 pb-6 md:pb-10">
+            <h1 class="font-poppins text-white text-2xl sm:text-[28px] md:text-5xl lg:text-[42px] font-semibold mb-2">
                 Shop
             </h1>
 
-            <p class="font-poppins text-white text-sm md:text-base max-w-xl opacity-90 leading-relaxed">
+            <p class="font-poppins text-white text-xs sm:text-sm md:text-base max-w-xl opacity-90 leading-relaxed">
                 Choose from our freshly prepared sweets, savouries, and bakery products crafted for everyday moments and
                 celebrations.
             </p>
@@ -227,38 +260,42 @@
     </section>
 
     <!-- FILTER AND PRODUCT SECTION -->
-    <section id="shopResultsSection" class="w-full bg-[#FDF5ED] font-poppins py-10 md:py-16">
+    <section id="shopResultsSection" class="w-full bg-[#FDF5ED] font-poppins py-8 md:py-10 lg:py-16">
         <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-10">
+            <div class="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-10">
 
                 <!-- SIDEBAR FILTERS (Left Column) -->
-                <aside class="w-full lg:w-1/4 flex-shrink-0 space-y-8">
+                <aside class="w-full lg:w-1/4 flex-shrink-0 space-y-6 md:space-y-8">
 
                     <!-- Header -->
-                    <div class="border-b border-[#D4B896] pb-4">
-                        <h2 class="text-2xl font-bold text-[#3E1C00]">Filter Options</h2>
+                    <div class="border-b border-[#D4B896] pb-3 md:pb-4">
+                        <h2 class="text-lg md:text-xl font-bold text-[#3E1C00] uppercase tracking-wide">Filter Options
+                        </h2>
                     </div>
 
                     <!-- Categories -->
                     <div>
-                        <h3 class="text-xl font-bold text-[#3E1C00] mb-4">By Categories</h3>
-                        <div class="space-y-4" id="categorySidebar">
+                        <h3 class="text-base md:text-lg font-bold text-[#3E1C00] mb-3 md:mb-4 uppercase tracking-wide">
+                            By Categories</h3>
+                        <div class="space-y-3 md:space-y-4" id="categorySidebar">
 
                         </div>
                     </div>
 
-                    <div class="border-t border-[#D4B896] pt-6"></div>
+                    <div class="border-t border-[#D4B896] pt-4 md:pt-6"></div>
 
                     <!-- Price Filter -->
                     <div>
-                        <h3 class="text-xl font-bold text-[#3E1C00] mb-4">Price</h3>
+                        <h3
+                            class="text-base md:text-lg font-normal text-[#3E1C00] mb-3 md:mb-4 uppercase tracking-wide">
+                            Price</h3>
                         <div class="flex items-center justify-between mb-2">
                             <input type="number" id="minPriceInput"
-                                class="w-20 bg-transparent border border-[#D4B896] text-xs p-1 rounded focus:outline-none"
+                                class="w-16 md:w-20 bg-transparent border border-[#D4B896] text-xs p-1 rounded focus:outline-none"
                                 value="0">
                             <span class="text-[#3E1C00] text-xs">to</span>
                             <input type="number" id="maxPriceInput"
-                                class="w-20 bg-transparent border border-[#D4B896] text-xs p-1 rounded focus:outline-none"
+                                class="w-16 md:w-20 bg-transparent border border-[#D4B896] text-xs p-1 rounded focus:outline-none"
                                 value="5000">
                         </div>
 
@@ -271,20 +308,23 @@
                         </div>
 
                         <button id="applyPriceFilter"
-                            class="mt-2 w-full text-xs bg-[#8B4513] text-white py-2 rounded font-medium hover:bg-[#3E1C00] transition-colors">Apply
-                            Price Filter</button>
+                            class="relative font-poppins bg-gradient-to-br from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-semibold text-xs md:text-sm py-2 md:py-2.5 rounded shadow transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden group w-full mt-3">
+                            <span class="relative z-10">Apply Price Filter</span>
+                        </button>
                     </div>
 
-                    <div class="border-t border-[#D4B896] pt-6"></div>
+                    <div class="border-t border-[#D4B896] pt-4 md:pt-6"></div>
 
                     <!-- Seasonal Product -->
                     <div id="bestSellerSliderSection">
-                        <h3 class="text-xl font-bold text-[#3E1C00] mb-6">Best Seller</h3>
+                        <h3
+                            class="text-base md:text-lg font-normal text-[#3E1C00] mb-4 md:mb-6 uppercase tracking-wide">
+                            Best Seller</h3>
                         <div id="bestSellerSliderContainer">
                             <!-- Dynamic Best Seller Slider will be loaded here -->
-                            <div class="col-span-full text-center py-10">
+                            <div class="col-span-full text-center py-8 md:py-10">
                                 <div
-                                    class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#B06D36]">
+                                    class="inline-block animate-spin rounded-full h-6 w-6 md:h-8 md:w-8 border-t-2 border-b-2 border-[#B06D36]">
                                 </div>
                             </div>
                         </div>
@@ -296,26 +336,26 @@
                 <main class="w-full lg:w-3/4">
 
                     <!-- Top Toolbar -->
-                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                        <p class="text-[#3E1C00]/80 text-sm">Showing 1-12 of 100 results</p>
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-4 md:mb-6 gap-3 md:gap-4">
+                        <p class="text-[#3E1C00]/80 text-xs md:text-sm">Showing 1-12 of 100 results</p>
 
-                        <div class="flex items-center gap-4 w-full md:w-auto">
+                        <div class="flex items-center gap-3 md:gap-4 w-full md:w-auto">
                             <!-- Live Search -->
                             <div class="relative flex-grow md:flex-grow-0 group z-30">
                                 <div
-                                    class="absolute left-4 top-1/2 -translate-y-1/2 text-[#3E1C00] pointer-events-none transition-transform group-focus-within:scale-[1.15]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
+                                    class="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 text-[#3E1C00] pointer-events-none transition-transform group-focus-within:scale-[1.15]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 md:h-4 md:w-4"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
                                 <input type="text" id="shopSearchInput" placeholder="Search products..."
-                                    class="w-full md:w-80 border border-[#642E13]/20 rounded-full py-2.5 pl-11 pr-4 bg-white text-[#3E1C00] text-sm focus:outline-none focus:ring-4 focus:ring-[#642E13]/10 focus:border-[#642E13] transition-all placeholder-[#3E1C00]/40 font-medium shadow-sm">
+                                    class="w-full md:w-80 border border-[#642E13]/20 rounded-full py-2 md:py-2.5 pl-9 md:pl-11 pr-3 md:pr-4 bg-white text-[#3E1C00] text-xs md:text-sm focus:outline-none focus:ring-4 focus:ring-[#642E13]/10 focus:border-[#642E13] transition-all placeholder-[#3E1C00]/40 font-medium shadow-sm">
 
                                 <!-- Search Suggestions Dropdown -->
                                 <div id="searchSuggestions"
-                                    class="hidden absolute left-0 right-0 mt-3 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[100] border border-gray-100/50 overflow-hidden max-h-[300px] overflow-y-auto transform origin-top transition-all duration-300">
+                                    class="hidden absolute left-0 right-0 mt-2 md:mt-3 bg-white rounded-xl md:rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[100] border border-gray-100/50 overflow-hidden max-h-[250px] md:max-h-[300px] overflow-y-auto transform origin-top transition-all duration-300">
                                     <!-- Suggestions will be injected here -->
                                 </div>
                             </div>
@@ -323,68 +363,35 @@
                     </div>
 
                     <!-- Active Filters -->
-                    <div class="flex flex-wrap items-center gap-3 mb-8" id="activeFiltersSection">
-                        <span class="text-[#3E1C00] font-semibold text-lg mr-2">Active Filter</span>
+                    <div class="flex flex-wrap items-center gap-2 md:gap-3 mb-6 md:mb-8" id="activeFiltersSection">
+                        <span class="text-[#3E1C00] font-semibold text-base md:text-lg mr-1 md:mr-2">Active
+                            Filter</span>
 
-                        <div id="activeFiltersContainer" class="flex flex-wrap gap-2">
+                        <div id="activeFiltersContainer" class="flex flex-wrap gap-1.5 md:gap-2">
                             <!-- Dynamic filter tags will be inserted here -->
                         </div>
 
                         <button id="clearAllFilters"
-                            class="text-[#3E1C00] underline text-sm hover:text-[#8B4513] ml-2 hidden">Clear
+                            class="text-[#3E1C00] underline text-xs md:text-sm hover:text-[#8B4513] ml-1 md:ml-2 hidden">Clear
                             all</button>
                     </div>
 
                     <!-- Product Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="productGrid">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6" id="productGrid">
                         <!-- Dynamic content will be loaded here via shop.js -->
-                        <div class="col-span-full text-center py-20">
+                        <div class="col-span-full text-center py-12 md:py-20">
                             <div
-                                class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#B06D36]">
+                                class="inline-block animate-spin rounded-full h-6 w-6 md:h-8 md:w-8 border-t-2 border-b-2 border-[#B06D36]">
                             </div>
-                            <p class="mt-4 text-[#3E1C00] font-medium">Loading products...</p>
+                            <p class="mt-3 md:mt-4 text-[#3E1C00] text-sm md:text-base font-medium">Loading products...
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="flex justify-center items-center gap-4 mt-12 mb-8 font-poppins">
-                        <!-- Previous Button -->
-                        <button class="text-[#3E1C00] hover:text-[#B06D36] p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-
-                        <!-- Page Numbers -->
-                        <div class="flex items-center gap-4">
-                            <!-- Active Page -->
-                            <button
-                                class="w-10 h-10 rounded-full bg-[#8B4513] text-white flex items-center justify-center font-medium shadow-md">1</button>
-
-                            <!-- Other Pages -->
-                            <button
-                                class="w-10 h-10 rounded-full text-[#3E1C00] hover:bg-[#FDF5ED] flex items-center justify-center font-medium transition-colors">2</button>
-                            <button
-                                class="w-10 h-10 rounded-full text-[#3E1C00] hover:bg-[#FDF5ED] flex items-center justify-center font-medium transition-colors">3</button>
-                            <button
-                                class="w-10 h-10 rounded-full text-[#3E1C00] hover:bg-[#FDF5ED] flex items-center justify-center font-medium transition-colors">4</button>
-
-                            <span class="text-[#3E1C00] font-medium tracking-widest">....</span>
-
-                            <button
-                                class="w-10 h-10 rounded-full text-[#3E1C00] hover:bg-[#FDF5ED] flex items-center justify-center font-medium transition-colors">10</button>
-                        </div>
-
-                        <!-- Next Button -->
-                        <button class="text-[#3E1C00] hover:text-[#B06D36] p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
+                    <!-- Pagination Container (Dynamically Populated) -->
+                    <div id="paginationContainer"
+                        class="flex justify-center items-center gap-2 md:gap-4 mt-8 md:mt-12 mb-6 md:mb-8 font-poppins hidden">
+                        <!-- Pagination will be rendered here by JavaScript -->
                     </div>
 
 
@@ -400,14 +407,14 @@
         <img src="https://placehold.co/1600x40" alt="Footer Top Design" class="w-full object-cover" />
 
         <!-- MAIN FOOTER CONTENT -->
-        <div class="max-w-7xl mx-auto px-6 md:px-10 lg:px-16 py-12">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 lg:px-10 xl:px-16 py-8 md:py-12">
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
 
                 <!-- Menus -->
                 <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Menus</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+                    <h3 class="text-[#3E1C00] font-semibold text-base md:text-lg mb-3 md:mb-4">Menus</h3>
+                    <ul class="space-y-1.5 md:space-y-2 text-[#3E1C00]/90 text-xs md:text-sm">
                         <li>Home</li>
                         <li>About us</li>
                         <li>Shop</li>
@@ -417,8 +424,8 @@
 
                 <!-- Savouries -->
                 <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Savouries</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+                    <h3 class="text-[#3E1C00] font-semibold text-base md:text-lg mb-3 md:mb-4">Savouries</h3>
+                    <ul class="space-y-1.5 md:space-y-2 text-[#3E1C00]/90 text-xs md:text-sm">
                         <li>Sev</li>
                         <li>Murugu</li>
                         <li>Mixture</li>
@@ -429,8 +436,8 @@
 
                 <!-- Sweets -->
                 <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Sweets</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+                    <h3 class="text-[#3E1C00] font-semibold text-base md:text-lg mb-3 md:mb-4">Sweets</h3>
+                    <ul class="space-y-1.5 md:space-y-2 text-[#3E1C00]/90 text-xs md:text-sm">
                         <li>Soan papdi</li>
                         <li>Laddu</li>
                         <li>Kaaju Sweets</li>
@@ -445,8 +452,8 @@
 
                 <!-- My Account -->
                 <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">My Account</h3>
-                    <ul class="space-y-2 text-[#3E1C00]/90 text-sm">
+                    <h3 class="text-[#3E1C00] font-semibold text-base md:text-lg mb-3 md:mb-4">My Account</h3>
+                    <ul class="space-y-1.5 md:space-y-2 text-[#3E1C00]/90 text-xs md:text-sm">
                         <li>Wishlist</li>
                         <li>My Order</li>
                         <li>Profile</li>
@@ -455,22 +462,22 @@
 
                 <!-- Contact Us -->
                 <div>
-                    <h3 class="text-[#3E1C00] font-semibold text-lg mb-4">Contact Us</h3>
+                    <h3 class="text-[#3E1C00] font-semibold text-base md:text-lg mb-3 md:mb-4">Contact Us</h3>
 
-                    <div class="flex items-start space-x-3 mb-3">
-                        <span class="text-[#B06D36] text-lg">📍</span>
-                        <p class="text-[#3E1C00]/90 text-sm">
+                    <div class="flex items-start space-x-2 md:space-x-3 mb-2 md:mb-3">
+                        <span class="text-[#B06D36] text-base md:text-lg">📍</span>
+                        <p class="text-[#3E1C00]/90 text-xs md:text-sm">
                             11/200 xxx, yy, Thirunelveli,<br>Tamilnadu
                         </p>
                     </div>
 
-                    <div class="flex items-center space-x-3 mb-4">
-                        <span class="text-[#B06D36] text-lg">📞</span>
-                        <p class="text-[#3E1C00]/90 text-sm">1234567890</p>
+                    <div class="flex items-center space-x-2 md:space-x-3 mb-3 md:mb-4">
+                        <span class="text-[#B06D36] text-base md:text-lg">📞</span>
+                        <p class="text-[#3E1C00]/90 text-xs md:text-sm">1234567890</p>
                     </div>
 
                     <!-- Social Icons -->
-                    <div class="flex items-center space-x-4 text-[#3E1C00] text-xl">
+                    <div class="flex items-center space-x-3 md:space-x-4 text-[#3E1C00] text-lg md:text-xl">
                         <a href="#"><i class="fa-brands fa-instagram text-pink-600"></i></a>
                         <a href="#"><i class="fa-brands fa-facebook text-blue-700"></i></a>
                         <a href="#"><i class="fa-brands fa-youtube text-red-600"></i></a>
@@ -480,10 +487,10 @@
             </div>
 
             <!-- LINE DIVIDER -->
-            <div class="w-full h-px bg-[#9a7a5a]/40 mt-10"></div>
+            <div class="w-full h-px bg-[#9a7a5a]/40 mt-6 md:mt-10"></div>
 
             <!-- COPYRIGHT -->
-            <p class="text-center text-[#3E1C00]/80 text-sm mt-4">
+            <p class="text-center text-[#3E1C00]/80 text-xs md:text-sm mt-3 md:mt-4">
                 Copyright © 2025 Gajendra vilas. All rights reserved.
             </p>
 

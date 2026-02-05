@@ -33,8 +33,8 @@ const BestSellerRenderer = {
             }
 
             return `
-                <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full">
-                    <div class="bg-transparent rounded-lg overflow-hidden h-full flex flex-col relative group">
+                <div class="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3 h-full snap-center snap-always">
+                    <div class="bg-transparent  overflow-hidden h-full flex flex-col relative group">
                         
                         <!-- Best Seller Triangle Tag (Top Left) -->
                         <div class="absolute top-0 left-0 w-28 h-28 z-10 pointer-events-none" 
@@ -57,16 +57,17 @@ const BestSellerRenderer = {
                         <!-- Content -->
                         <div class="pt-5 flex-grow flex flex-col">
                             <div class="mb-4">
-                                <h3 class="font-poppins font-semibold text-2xl text-white mb-1 truncate">${p.name}</h3>
+                                <h3 class="font-poppins font-normal text-xl md:text-2xl text-white mb-1 truncate">${p.name}</h3>
                                 <div class="flex text-[#F59E0B] text-base mb-2">
                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                                 </div>
-                                <p class="font-poppins text-white font-medium text-xl">Rs : ${displayPrice}</p>
+                                <p class="font-poppins text-white font-medium text-lg md:text-xl">Rs : ${displayPrice}</p>
                             </div>
                             
                             <button onclick="window.location.href='/Shop/Singleproduct.html?product_id=${p.id}'"
-                                class="w-full bg-[#B96A29] hover:bg-[#a05a22] text-white font-poppins font-medium py-2 transition-colors uppercase text-lg tracking-wider shadow-lg mt-auto">
-                                BUY NOW
+                                class="relative w-full font-poppins bg-gradient-to-br from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-medium py-1.5 md:py-2 uppercase text-lg tracking-wider shadow-[0_0_30px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_rgba(0,0,0,0.7)] transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden group mt-auto">
+                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                                <span class="relative z-10">BUY NOW</span>
                             </button>
                         </div>
                     </div>

@@ -84,7 +84,7 @@ export const HeaderInitializer = {
             const dropdown = document.getElementById("user-dropdown");
             console.log("HeaderInitializer: Toggling user menu...", dropdown);
             if (dropdown) {
-                dropdown.classList.toggle("hidden");
+                dropdown.classList.toggle("show");
             }
         };
 
@@ -95,7 +95,7 @@ export const HeaderInitializer = {
             const header = document.querySelector('header');
             console.log("HeaderInitializer: Toggling mobile menu...", menu);
             if (menu) {
-                menu.classList.toggle('hidden');
+                menu.classList.toggle('show');
                 if (header) {
                     header.classList.toggle('is-mobile-open');
                 }
@@ -120,15 +120,15 @@ export const HeaderInitializer = {
             const userDropdown = document.getElementById("user-dropdown");
             const userBtn = document.getElementById("user-menu-btn");
             if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
-                userDropdown.classList.add("hidden");
+                userDropdown.classList.remove("show");
             }
 
             // Close Mobile Menu if clicking outside header
             const mobileMenu = document.getElementById('mobile-menu');
             const mobileBtn = document.getElementById('mobile-menu-btn');
             const header = document.querySelector('header');
-            if (mobileMenu && !header.contains(e.target) && !mobileMenu.classList.contains('hidden')) {
-                // mobileMenu.classList.add('hidden'); // Optional: usually mobile menus occupy full width or have specific overlay
+            if (mobileMenu && !header.contains(e.target) && mobileMenu.classList.contains('show')) {
+                // mobileMenu.classList.remove('show');
             }
         });
     },

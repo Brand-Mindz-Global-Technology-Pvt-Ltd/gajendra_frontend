@@ -60,21 +60,20 @@ const HomeProductRenderer = {
                 <img src="${productImage}" alt="${product.name}"
                     class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-md shadow-lg"
                     onerror="this.src='https://placehold.co/150?text=Product'">
-                <div class="flex flex-col items-start gap-4">
-                    <h3 class="font-poppins text-white text-xl md:text-2xl font-medium line-clamp-1 max-w-[200px]">
+                <div class="flex flex-col items-start gap-2">
+                    <h3 class="font-poppins text-white text-lg md:text-2xl font-medium line-clamp-1 max-w-[200px]">
                         ${product.name}
                     </h3>
-                     <!-- Optional: Price display could be added here if desired -->
-                     <!-- <p class="text-white/80">Rs. ${price}</p> -->
                      
-                    <button onclick="window.location.href='/Shop/Singleproduct.html?product_id=${product.id}'"
-                        class="relative font-poppins bg-gradient-to-br rounded-[10px] from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-semibold text-sm md:text-base py-2.5 md:py-3 px-5 md:px-7 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden group">
+                     
+                    <button onclick="window.location.href='/Shop/Shop.html?category_id=${product.category_id}#shopResultsSection'"
+                        class="relative font-poppins bg-gradient-to-br rounded-[10px] from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-normal text-sm md:text-base py-2 md:py-3 px-4 md:px-7 shadow-lg hover:shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 transform hover:-translate-y-0.5 overflow-hidden group">
 
                         <!-- Shine Effect -->
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
 
                         <!-- Button Text -->
-                        <span class="relative z-10 tracking-wide">Shop Now</span>
+                        <span class="relative z-10 px-6 tracking-wide">Shop Now</span>
                     </button>
                 </div>
             </div>

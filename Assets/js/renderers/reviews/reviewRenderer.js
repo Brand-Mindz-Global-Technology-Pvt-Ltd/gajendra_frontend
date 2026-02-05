@@ -14,14 +14,14 @@ export const ReviewRenderer = {
             const iconClass = star >= 1 ? 'fas fa-star' : 'far fa-star';
 
             return `
-                <div class="flex items-center gap-4 text-sm">
-                    <div class="flex text-[#FBBF24] w-24">
+                <div class="flex items-center gap-2 md:gap-4 text-xs md:text-sm">
+                    <div class="flex text-[#FBBF24] w-16 md:w-24">
                         ${this.renderStars(star)}
                     </div>
-                    <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="flex-1 h-2 md:h-3 bg-gray-200 rounded-full overflow-hidden">
                         <div class="h-full bg-[#8B4513] transition-all duration-500" style="width: ${percentage}%"></div>
                     </div>
-                    <span class="text-[#3E1C00] w-8 text-right">${Math.round(percentage)}%</span>
+                    <span class="text-[#3E1C00] w-8 md:w-10 text-right">${Math.round(percentage)}%</span>
                 </div>
             `;
         }).join('');
@@ -41,7 +41,7 @@ export const ReviewRenderer = {
 
         // Verified Purchase Badge
         const verifiedBadge = review.is_verified_purchase
-            ? `<span class="ml-2 text-green-600 text-xs bg-green-50 px-2 py-0.5 rounded-full border border-green-100 flex items-center gap-1"><i class="fas fa-check-circle"></i> Verified Purchase</span>`
+            ? `<span class="ml-1 md:ml-2 text-green-600 text-[10px] md:text-xs bg-green-50 px-1.5 md:px-2 py-0.5 rounded-full border border-green-100 inline-flex items-center gap-1"><i class="fas fa-check-circle text-[8px] md:text-xs"></i> <span class="hidden sm:inline">Verified Purchase</span></span>`
             : '';
 
         // Action Buttons (Edit/Delete)
@@ -52,7 +52,7 @@ export const ReviewRenderer = {
             const safeProductName = String(productName).replace(/'/g, "\\'");
 
             actionButtons = `
-                <div class="flex gap-3 mt-3 text-sm font-medium">
+                <div class="flex gap-2 md:gap-3 mt-2 md:mt-3 text-xs md:text-sm font-medium">
                     <button onclick="ReviewPopupManager.openEdit(${review.id}, ${review.product_id}, ${review.rating}, '${safeText}', '${safePhoto}', '${safeProductName}', '${productImage}')" 
                         class="text-[#3E1C00] hover:underline flex items-center gap-1">
                         <i class="fas fa-edit"></i> Edit
@@ -69,41 +69,41 @@ export const ReviewRenderer = {
         let contentHtml = '';
         if (review.photo) {
             contentHtml = `
-                <div class="flex gap-4 mt-3">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 md:mt-3">
                     <div class="shrink-0">
-                        <img src="${review.photo}" alt="Review Image" class="w-24 h-24 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity" onclick="window.open('${review.photo}', '_blank')">
+                        <img src="${review.photo}" alt="Review Image" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-cover rounded-lg border border-gray-200 cursor-pointer hover:opacity-90 transition-opacity" onclick="window.open('${review.photo}', '_blank')">
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-[#3E1C00] leading-relaxed opacity-90 text-sm md:text-base break-words">${review.review_text || ''}</p>
+                        <p class="text-[#3E1C00] leading-relaxed opacity-90 text-xs sm:text-sm md:text-base break-words">${review.review_text || ''}</p>
                     </div>
                 </div>
             `;
         } else {
             contentHtml = `
-                <div class="mt-2 text-sm md:text-base">
-                    <p class="text-[#3E1C00] leading-relaxed opacity-90 break-words">${review.review_text || ''}</p>
+                <div class="mt-1.5 md:mt-2">
+                    <p class="text-[#3E1C00] leading-relaxed opacity-90 text-xs sm:text-sm md:text-base break-words">${review.review_text || ''}</p>
                 </div>
             `;
         }
 
         return `
-            <div class="mb-8 border-b border-[#D4B896]/30 pb-8 last:border-0 last:mb-0 last:pb-0 group">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-full bg-[#3E1C00] text-white flex items-center justify-center font-bold text-xl flex-shrink-0">
+            <div class="mb-6 md:mb-8 border-b border-[#D4B896]/30 pb-6 md:pb-8 last:border-0 last:mb-0 last:pb-0 group">
+                <div class="flex items-start gap-2.5 sm:gap-3 md:gap-4">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#3E1C00] text-white flex items-center justify-center font-bold text-base sm:text-lg md:text-xl flex-shrink-0">
                         ${review.user_name ? review.user_name.charAt(0).toUpperCase() : 'U'}
                     </div>
                     <div class="flex-1 min-w-0">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
-                            <div>
-                                <h4 class="font-bold text-[#3E1C00] flex items-center">
+                        <div class="flex flex-col gap-1 mb-1">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="font-bold text-[#3E1C00] text-sm sm:text-base flex items-center flex-wrap gap-1">
                                     ${review.user_name || 'Anonymous'}
                                     ${verifiedBadge}
                                 </h4>
-                                <div class="flex text-[#FBBF24] text-xs my-1">
-                                    ${this.renderStars(review.rating)}
-                                </div>
+                                <span class="text-[10px] sm:text-xs text-gray-500 whitespace-nowrap flex-shrink-0">${date}</span>
                             </div>
-                            <span class="text-xs text-gray-500">${date}</span>
+                            <div class="flex text-[#FBBF24] text-xs sm:text-sm">
+                                ${this.renderStars(review.rating)}
+                            </div>
                         </div>
                         
                         ${contentHtml}

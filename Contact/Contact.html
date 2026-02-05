@@ -38,6 +38,34 @@
                 height: 96px !important;
             }
         }
+
+        /* Dropdown & Mobile Menu Animations */
+        .dropdown-animate {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .dropdown-animate.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        #mobile-menu {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #mobile-menu.show {
+            max-height: 800px;
+            opacity: 1;
+            padding-bottom: 1rem;
+        }
     </style>
 </head>
 
@@ -65,25 +93,25 @@
                     <!-- Wishlist -->
                     <button onclick="openWishlist()"
                         class="text-white hover:opacity-80 transition-opacity p-1 relative">
-                        <img src="../Assets/images/wishlist.png" alt="Wishlist" class="h-5 w-5 md:h-6 md:w-6">
+                        <img src="../Assets/images/wishlist.png" alt="Wishlist" class="h-[18px] w-[18px] md:h-6 md:w-6">
                         <span data-wishlist-badge
-                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            class="absolute -top-1 -right-1 bg-red-601 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                     </button>
                     <!-- Cart -->
                     <button onclick="openCart()" class="text-white hover:opacity-80 transition-opacity p-1 relative">
-                        <img src="../Assets/images/cart.png" alt="Cart" class="h-5 w-5 md:h-6 md:w-6">
+                        <img src="../Assets/images/cart.png" alt="Cart" class="h-[18px] w-[18px] md:h-6 md:w-6">
                         <span data-cart-badge
-                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                            class="absolute -top-1 -right-1 bg-red-601 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
                     </button>
                     <!-- User Dropdown -->
                     <div class="relative">
                         <button id="user-menu-btn" onclick="toggleUserMenu(event)"
                             class="text-white hover:opacity-80 transition-opacity p-1">
-                            <img src="../Assets/images/profile.png" alt="User" class="h-5 w-5 md:h-6 md:w-6">
+                            <img src="../Assets/images/profile.png" alt="User" class="h-[18px] w-[18px] md:h-6 md:w-6">
                         </button>
                         <!-- Dropdown Menu -->
                         <div id="user-dropdown"
-                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            class="dropdown-animate absolute right-0 mt-2 w-40 md:w-48 bg-white rounded-md shadow-lg py-1 z-50 transition-all duration-300">
                             <a href="../Auth/login.html"
                                 class="block px-4 py-2 text-sm text-[#3E1C00] hover:bg-[#FDF5ED] transition-colors">Login</a>
                             <a href="../Auth/register.html"
@@ -96,13 +124,17 @@
 
                     <!-- Mobile Menu Button -->
                     <button id="mobile-menu-btn" class="md:hidden text-white p-1" onclick="toggleMobileMenu()">
-                        <img src="../Assets/Home/icon-menu.png" alt="Menu" class="h-6 w-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-[22px] w-[22px]" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
                     </button>
                 </div>
             </div>
 
             <!-- Mobile Navigation -->
-            <nav id="mobile-menu" class="md:hidden hidden pb-4">
+            <nav id="mobile-menu" class="md:hidden">
                 <div id="mobile-menu-items" class="flex flex-col gap-3 pt-2 border-t border-white/20">
                     <!-- Populated by MenuRenderer -->
                 </div>
@@ -111,18 +143,18 @@
     </header>
 
     <!-- CONTACT US HERO SECTION -->
-    <section class="relative w-full h-[420px] md:h-[500px] lg:h-[560px] overflow-hidden">
+    <section class="relative w-full h-[420px] md:h-[500px] lg:h-[720px] overflow-hidden">
 
         <!-- Background Image -->
         <img src="../Assets/images/contact_banner.webp" alt="Contact Us Banner"
-            class="absolute inset-0 w-full h-full object-cover object-center">
+            class="absolute inset-0 w-full h-full object-cover object-[85%_center] mt-9 md:mt-0  md:object-center">
 
         <!-- Bottom Left Gradient Overlay (same design style as home page) -->
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/50 to-transparent"></div>
 
         <!-- Content -->
         <div class="relative z-10 h-full flex flex-col justify-end px-6 md:px-10 lg:px-20 pb-10">
-            <h1 class="font-poppins text-white text-3xl md:text-4xl lg:text-[42px] font-semibold mb-2">
+            <h1 class="font-poppins text-white text-[28px] md:text-5xl lg:text-[42px] font-semibold mb-2">
                 Contact Us
             </h1>
 
@@ -133,77 +165,76 @@
     </section>
 
     <!-- CONTACT FORM SECTION -->
-    <section class="relative w-full py-16 md:py-20 lg:py-24 bg-[#FDF5ED] font-poppins overflow-hidden">
+    <section class="relative w-full py-16 px-4 md:px-10 lg:px-20 bg-[#F8E2D0] font-poppins overflow-hidden">
 
         <!-- Top Right Decorative Pattern -->
         <div class="absolute top-0 right-[-50px] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/images/right-pattern.png"
-                onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
-                class="w-full h-full object-contain opacity-60">
+            <img src="../Assets/images/right-pattern.png" alt="Decorative Pattern"
+                class="w-full h-full object-contain ">
         </div>
 
         <!-- Bottom Left Decorative Pattern -->
         <div class="absolute bottom-0 left-[-50px] w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 pointer-events-none">
-            <img src="../Assets/images/left-pattern.png"
-                onerror="this.src='https://placehold.co/300x300/FDF5ED/C4967A?text='" alt="Decorative Pattern"
-                class="w-full h-full object-contain opacity-60">
+            <img src="../Assets/images/left-pattern.png" alt="Decorative Pattern" class="w-full h-full object-contain ">
         </div>
 
-        <div class="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 lg:px-16">
+        <div class="relative z-10 max-w-[1400px] mx-auto px-4 md:px-10 lg:px-16">
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                 <!-- LEFT COLUMN - Content (Vertically Centered) -->
                 <div class="flex flex-col justify-center space-y-12">
                     <!-- Heading -->
                     <div>
-                        <h2 class="text-2xl md:text-3xl lg:text-4xl font-medium text-[#8B4513] mb-8"
-                            style="line-height: 52px;">
+                        <h2 class="text-2xl md:text-4xl font-normal text-[#00000] mb-4 md:mb-8 uppercase tracking-wide">
                             Get in Touch with Us
                         </h2>
-                        <p class="text-[#3E1C00]/70 text-sm md:text-base max-w-md mb-8" style="line-height: 32px;">
+                        <p
+                            class="text-[#0000]/70 text-sm md:text-base text-justify font-medium   mb-8 md:mb-12 leading-relaxed md:leading-[32px]">
                             Every customer matters to us. Write to us for support, feedback, or special orders — we’ll
                             respond with care and attention.
                         </p>
                     </div>
 
                     <!-- Contact Info Grid -->
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-6 mb-8">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 mb-8">
                         <!-- Call us -->
-                        <div class="flex items-start gap-3">
-                            <img src="../Assets/images/phone_logo.png" alt="Phone" class="w-8 h-8 flex-shrink-0 mt-1" />
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-1">Call us</h4>
-                                <p class="text-[#3E1C00]/70 text-sm">+91 9159025623</p>
+                        <div>
+                            <h4 class="text-[#642E13] font-semibold text-sm mb-2 tracking-tight">Call us</h4>
+                            <div class="flex items-center gap-2">
+                                <img src="../Assets/images/phone_logo.png" alt="Phone" class="w-8 h-8 flex-shrink-0" />
+                                <p class="text-[#00000] text-sm whitespace-nowrap">+91 9159025623</p>
                             </div>
                         </div>
 
                         <!-- Address -->
-                        <div class="flex items-start gap-3">
-                            <img src="../Assets/images/location_logo.png" alt="Location"
-                                class="w-8 h-8 flex-shrink-0 mt-1" />
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-1">Address</h4>
-                                <p class="text-[#3E1C00]/70 text-sm">40P, Keela Kadai St, Sivagami Puram, Virudhunagar,
-                                    Tamil Nadu 626001
+                        <div>
+                            <h4 class="text-[#642E13] font-semibold text-sm mb-2 tracking-tight">Address</h4>
+                            <div class="flex items-center gap-2">
+                                <img src="../Assets/images/location_logo.png" alt="Location"
+                                    class="w-8 h-8 flex-shrink-0" />
+                                <p class="text-[#00000] text-sm leading-relaxed ">40P, Keela Kadai St, Sivagami
+                                    Puram, Virudhunagar,
+                                    Tamil Nadu 626001</p>
                             </div>
                         </div>
 
                         <!-- Email -->
-                        <div class="flex items-start gap-3">
-                            <img src="../Assets/images/mail_logo.png" alt="Email" class="w-8 h-8 flex-shrink-0 mt-1" />
-                            <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-1">Email</h4>
-                                <p class="text-[#3E1C00]/70 text-sm">sales.gajendravilas@gmail.com</p>
+                        <div>
+                            <h4 class="text-[#642E13] font-semibold text-sm mb-2 tracking-tight">Email</h4>
+                            <div class="flex items-center gap-2 ">
+                                <img src="../Assets/images/mail_logo.png" alt="Email" class="w-8 h-8 flex-shrink-0" />
+                                <p class="text-[#00000] text-sm break-all">sales.gajendravilas@gmail.com</p>
                             </div>
                         </div>
 
                         <!-- Social Media -->
-                        <div class="flex items-start gap-3">
+                        <div class="flex items-start gap-4">
 
                             <div>
-                                <h4 class="text-[#3E1C00] font-semibold text-sm mb-2">Social media</h4>
-                                <div class="flex items-center gap-3">
+                                <h4 class="text-[#642E13] font-semibold text-sm mb-3  tracking-tight">Social
+                                    media</h4>
+                                <div class="flex items-center gap-4">
                                     <!-- Instagram -->
                                     <a href="#"
                                         class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center">
@@ -239,48 +270,54 @@
 
                 <!-- RIGHT COLUMN - Form -->
                 <div class="bg-white shadow-lg p-6 md:p-8 lg:p-10">
-                    <h3 class="text-xl md:text-2xl font-semibold text-[#3E1C00] mb-6">Send the message</h3>
+                    <h3 class="text-xl md:text-2xl font-semibold text-[#642E13] mb-6 uppercase tracking-wide">Send the
+                        message</h3>
 
                     <form id="contactForm" class="space-y-5">
                         <!-- Name -->
                         <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Name</label>
+                            <label class="block text-[#642E13] text-sm font-medium mb-2">Name</label>
                             <input id="contactName" type="text" placeholder="Enter your name"
                                 class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
                         </div>
 
                         <!-- Phone Number -->
                         <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Phone Number</label>
+                            <label class="block text-[#642E13] text-sm font-medium mb-2">Phone Number</label>
                             <input id="contactPhone" type="tel" placeholder="Enter your phone number"
                                 class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
                         </div>
 
                         <!-- Email -->
                         <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Email</label>
+                            <label class="block text-[#642E13] text-sm font-medium mb-2">Email</label>
                             <input id="contactEmail" type="email" placeholder="Enter your Email"
                                 class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
                         </div>
 
                         <!-- City -->
                         <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">City</label>
+                            <label class="block text-[#642E13] text-sm font-medium mb-2">City</label>
                             <input id="contactCity" type="text" placeholder="Enter your city"
                                 class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors">
                         </div>
 
                         <!-- Message -->
                         <div>
-                            <label class="block text-[#3E1C00] text-sm font-medium mb-2">Message</label>
+                            <label class="block text-[#642E13] text-sm font-medium mb-2">Message</label>
                             <textarea id="contactMessage" rows="4" placeholder="Write your message here ...."
                                 class="w-full px-4 py-3 border border-[#D4B896] rounded-lg text-sm text-[#3E1C00] placeholder-[#3E1C00]/50 focus:outline-none focus:border-[#5D3420] transition-colors resize-none"></textarea>
                         </div>
 
                         <!-- Submit Button -->
                         <button type="submit"
-                            class="w-full bg-[#5D3420] text-white py-3 px-6 rounded-lg font-medium text-base hover:bg-[#4a2a1a] transition-colors shadow-md">
-                            SEND
+                            class="relative font-poppins bg-gradient-to-br from-[#B06D36] via-[#C4703C] to-[#B06D36] hover:from-[#9a5e2e] hover:via-[#B06D36] hover:to-[#9a5e2e] text-white font-semibold text-base md:text-lg py-4 px-6 rounded-[12px] shadow-[0_10px_30px_rgba(176,109,54,0.3)] hover:shadow-[0_15px_40px_rgba(176,109,54,0.4)] transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0 overflow-hidden group w-full">
+                            <!-- Shine Effect on Hover -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700">
+                            </div>
+                            <!-- Button Text -->
+                            <span class="relative z-10 px-4 md:px-10 md:tracking-[0.1em] uppercase">SEND MESSAGE</span>
                         </button>
                     </form>
                 </div>
@@ -294,7 +331,7 @@
     <!-- MAP SECTION -->
     <section class="relative w-full font-poppins">
         <!-- Map Container - Full Width -->
-        <div class="relative w-full h-[350px] md:h-[400px] lg:h-[450px]">
+        <div class="relative w-full h-[280px] md:h-[400px] lg:h-[450px]">
 
             <!-- Map Info Card Overlay - Positioned on Right -->
             <!-- <div
@@ -338,7 +375,7 @@
                 <!-- ADD YOUR GOOGLE MAPS IFRAME CODE HERE -->
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7868.221136503625!2d77.94587269357908!3d9.585736900000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b012dcc8efd2593%3A0xfa797f5925ada45c!2sGajendra%20Vilas%20%E2%80%93%20Raja%20Sweets%20%26%20Bakery!5e0!3m2!1sen!2sin!4v1769765296293!5m2!1sen!2sin"
-                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
 

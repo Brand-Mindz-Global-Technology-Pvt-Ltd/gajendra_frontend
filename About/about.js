@@ -32,25 +32,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const totalCards = originalCards.length;
     let currentIndex = 0;
-    const autoScrollDuration = 4000; // 4 seconds per card
-    const progressInterval = 50; // Update progress every 50ms
+    const autoScrollDuration = 4000;
+    const progressInterval = 50;
     let progressTimer = null;
     let scrollTimer = null;
     let currentProgress = 0;
 
-    // Tailwind classes for different card positions
     const cardClasses = {
         center: {
-            add: ['scale-100', 'opacity-100', 'blur-none', 'z-10'],
-            remove: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', 'translate-x-[70%]', '-translate-x-[70%]']
+            add: ['scale-100', 'opacity-100', 'z-10'],
+            remove: ['scale-90', 'opacity-70', 'z-[5]', 'translate-x-[35%]', '-translate-x-[35%]']
         },
         left: {
-            add: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', 'translate-x-[70%]'],
-            remove: ['scale-100', 'opacity-100', 'blur-none', 'z-10', '-translate-x-[70%]']
+            add: ['scale-90', 'opacity-70', 'z-[5]', 'translate-x-[35%]'],
+            remove: ['scale-100', 'opacity-100', 'z-10', '-translate-x-[35%]']
         },
         right: {
-            add: ['scale-[0.9]', 'opacity-60', 'blur-[3px]', 'z-[5]', '-translate-x-[70%]'],
-            remove: ['scale-100', 'opacity-100', 'blur-none', 'z-10', 'translate-x-[70%]']
+            add: ['scale-90', 'opacity-70', 'z-[5]', '-translate-x-[35%]'],
+            remove: ['scale-100', 'opacity-100', 'z-10', 'translate-x-[35%]']
         }
     };
 
@@ -59,15 +58,31 @@ document.addEventListener('DOMContentLoaded', function () {
         return ((index % totalCards) + totalCards) % totalCards;
     }
 
-    // Update which cards are visible and their positions
     function updateVisibleCards() {
         carouselContainer.innerHTML = '';
 
-        // We only show 3 cards: previous, current, next (with wrapping for infinite loop)
+        const isMobile = window.innerWidth < 640;
+
+        if (isMobile) {
+            // ✅ MOBILE: show only ONE card
+            const cardClone = originalCards[currentIndex].cloneNode(true);
+
+            cardClone.className = originalCards[currentIndex].className;
+            cardClone.classList.add('scale-100', 'opacity-100', 'z-10');
+
+            cardClone.addEventListener('click', () => {
+                goToCard(currentIndex);
+            });
+
+            carouselContainer.appendChild(cardClone);
+            updateProgressBars();
+            return;
+        }
+
+        // ✅ DESKTOP: show 3 cards
         const prevIndex = getWrappedIndex(currentIndex - 1);
         const nextIndex = getWrappedIndex(currentIndex + 1);
 
-        // Create card elements
         const positions = [
             { index: prevIndex, position: 'left' },
             { index: currentIndex, position: 'center' },
@@ -76,29 +91,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
         positions.forEach(({ index, position }) => {
             const cardClone = originalCards[index].cloneNode(true);
-            cardClone.setAttribute('data-position', position);
+
+            cardClone.className = originalCards[index].className;
             cardClone.setAttribute('data-original-index', index);
 
-            // Remove all position classes first
             cardClone.classList.remove(
-                'scale-100', 'scale-[0.9]',
-                'opacity-100', 'opacity-60',
-                'blur-none', 'blur-[3px]',
-                'z-10', 'z-[5]',
-                'translate-x-[70%]', '-translate-x-[70%]'
+                ...cardClasses.center.add, ...cardClasses.left.add, ...cardClasses.right.add,
+                ...cardClasses.center.remove, ...cardClasses.left.remove, ...cardClasses.right.remove
             );
 
-            // Add base transition classes
-            cardClone.classList.add('transition-all', 'duration-500', 'ease-out', 'flex-shrink-0');
-
-            // Apply position-based Tailwind classes
             const classes = cardClasses[position];
             classes.add.forEach(cls => cardClone.classList.add(cls));
+
+            cardClone.addEventListener('mouseenter', () => {
+                clearInterval(progressTimer);
+                clearTimeout(scrollTimer);
+            });
+
+            cardClone.addEventListener('mouseleave', () => {
+                animateProgress();
+                startAutoScroll();
+            });
+
+            // click → make center
+            cardClone.addEventListener('click', () => {
+                goToCard(index);
+            });
 
             carouselContainer.appendChild(cardClone);
         });
 
-        // Update progress bar states
         updateProgressBars();
     }
 
@@ -109,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (index < currentIndex) {
                 fill.style.width = '100%';
             } else if (index === currentIndex) {
-                // Current - will be animated
                 fill.style.width = '0%';
             } else {
                 fill.style.width = '0%';
@@ -121,16 +142,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function animateProgress() {
         currentProgress = 0;
         const fill = progressBars[currentIndex].querySelector('.progress-fill');
-
         clearInterval(progressTimer);
-
         progressTimer = setInterval(() => {
             currentProgress += (progressInterval / autoScrollDuration) * 100;
-            fill.style.width = `${Math.min(currentProgress, 100)}%`;
-
-            if (currentProgress >= 100) {
-                clearInterval(progressTimer);
-            }
+            if (fill) fill.style.width = `${Math.min(currentProgress, 100)}%`;
+            if (currentProgress >= 100) clearInterval(progressTimer);
         }, progressInterval);
     }
 
@@ -138,99 +154,54 @@ document.addEventListener('DOMContentLoaded', function () {
     function goToCard(index) {
         clearInterval(progressTimer);
         clearTimeout(scrollTimer);
-
-        // Handle wrapping for infinite loop
         currentIndex = getWrappedIndex(index);
-
-        // If we've completed a full loop, reset progress bars
         if (index >= totalCards) {
             progressBars.forEach(bar => {
-                bar.querySelector('.progress-fill').style.width = '0%';
+                const fill = bar.querySelector('.progress-fill');
+                if (fill) fill.style.width = '0%';
             });
         }
-
         updateVisibleCards();
         animateProgress();
         startAutoScroll();
     }
 
     // Next card
-    function nextCard() {
-        goToCard(currentIndex + 1);
-    }
+    function nextCard() { goToCard(currentIndex + 1); }
 
     // Previous card
-    function prevCard() {
-        goToCard(currentIndex - 1);
-    }
+    function prevCard() { goToCard(currentIndex - 1); }
 
     // Start auto-scroll
     function startAutoScroll() {
         clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-            nextCard();
-        }, autoScrollDuration);
+        scrollTimer = setTimeout(() => { nextCard(); }, autoScrollDuration);
     }
 
     // Handle progress bar clicks
-    progressBars.forEach((bar, index) => {
-        bar.addEventListener('click', () => {
-            goToCard(index);
-        });
-    });
+    progressBars.forEach((bar, index) => { bar.addEventListener('click', () => { goToCard(index); }); });
 
     // Pause on hover
-    carouselContainer.addEventListener('mouseenter', () => {
-        clearInterval(progressTimer);
-        clearTimeout(scrollTimer);
-    });
-
-    carouselContainer.addEventListener('mouseleave', () => {
-        animateProgress();
-        startAutoScroll();
-    });
+    carouselContainer.addEventListener('mouseenter', () => { clearInterval(progressTimer); clearTimeout(scrollTimer); });
+    carouselContainer.addEventListener('mouseleave', () => { animateProgress(); startAutoScroll(); });
 
     // Touch support for mobile
     let touchStartX = 0;
     let touchEndX = 0;
-
-    carouselContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        clearInterval(progressTimer);
-        clearTimeout(scrollTimer);
-    }, { passive: true });
-
+    carouselContainer.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; clearInterval(progressTimer); clearTimeout(scrollTimer); }, { passive: true });
     carouselContainer.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-        const swipeThreshold = 50;
         const diff = touchStartX - touchEndX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Swipe left - next card
-                nextCard();
-            } else {
-                // Swipe right - previous card
-                prevCard();
-            }
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) nextCard(); else prevCard();
         } else {
-            animateProgress();
-            startAutoScroll();
+            animateProgress(); startAutoScroll();
         }
-    }
+    }, { passive: true });
 
     // Handle window resize
     let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            updateVisibleCards();
-        }, 100);
-    });
+    window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { updateVisibleCards(); }, 100); });
 
     // Initialize
     updateVisibleCards();

@@ -16,7 +16,7 @@ class ShopController {
             min_price: null,
             max_price: null,
             page: 1,
-            limit: 9,
+            limit: 6,
             total: 0
         };
 
@@ -164,16 +164,7 @@ class ShopController {
             applyPriceBtn.addEventListener('click', () => this.handlePriceFiltering());
         }
 
-        // Mobile Menu toggle (Refactor to use existing dropdown logic if any, but MenuRenderer handles mobile menu render)
-        // The toggle visibility still needs to be handled
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (mobileMenuBtn && mobileMenu) {
-            mobileMenuBtn.removeAttribute('onclick');
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
+
     }
 
     parseUrlParams() {
@@ -321,7 +312,7 @@ class ShopController {
         // This aligns with: "category only don't show" and "deselect all = show all".
         const params = {
             ...this.state,
-            category_id: null, // Always ignore category-level filtering for product grid
+            category_id: this.state.subcategory_id.length > 0 ? null : (this.state.category_id.length > 0 ? this.state.category_id : null),
             subcategory_id: this.state.subcategory_id.length > 0 ? this.state.subcategory_id : null
         };
 
@@ -586,7 +577,7 @@ class ShopController {
         if (!userId) {
             if (window.showToast) window.showToast("Please login to use wishlist", "error");
             else alert("Please login to use wishlist");
-             window.location.href = '../Auth/login.html';
+            window.location.href = '../Auth/login.html';
             return;
         }
 
